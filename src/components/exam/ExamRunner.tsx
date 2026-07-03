@@ -103,9 +103,19 @@ export function ExamRunner({
     })).filter((s) => s.questions.length > 0);
   }, [questions]);
 
-  const current = sections[sectionIdx];
+  const current = sections[sectionIdx] ?? sections[0];
   const answeredCount = Object.keys(answers).length;
   const total = questions.length;
+
+  // Savunma: soru bankası boşsa çökme yerine bilgi göster
+  if (!current || total === 0) {
+    return (
+      <p className="mx-auto max-w-lg rounded-card border border-hairline bg-surface p-6 text-center text-sm text-ink-secondary">
+        Sınav soruları yüklenemedi. Lütfen sayfayı yenile veya öğretmenine haber
+        ver.
+      </p>
+    );
+  }
 
   const choose = (qid: number, idx: number) => {
     setAnswers((prev) => ({ ...prev, [String(qid)]: idx }));
@@ -221,8 +231,8 @@ export function ExamRunner({
 
   return (
     <div>
-      {/* Üst bilgi çubuğu */}
-      <div className="sticky top-0 z-20 -mx-4 mb-6 border-b border-hairline bg-plane/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
+      {/* Üst bilgi çubuğu — mobilde uygulama başlığının (≈61px) altına oturur */}
+      <div className="sticky top-[61px] z-20 -mx-4 mb-6 border-b border-hairline bg-plane/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:top-0 lg:-mx-10 lg:px-10">
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 text-[13px] tabular-nums text-ink-secondary">
@@ -252,7 +262,7 @@ export function ExamRunner({
         <div className="mx-auto mt-2 h-1.5 max-w-3xl overflow-hidden rounded-full bg-navy-100">
           <div
             className="h-full rounded-full bg-navy-700 transition-[width]"
-            style={{ width: `${(answeredCount / total) * 100}%` }}
+            style={{ width: `${total > 0 ? (answeredCount / total) * 100 : 0}%` }}
           />
         </div>
       </div>

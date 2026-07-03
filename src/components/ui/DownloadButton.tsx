@@ -25,7 +25,10 @@ export function DownloadButton({
             setError(null);
             const res = await getDownloadUrl(path);
             if (res.ok && res.data) {
-              window.open(res.data.url, '_blank', 'noopener');
+              // window.open kullanıcı jestinden kopuk çağrıldığında Safari
+              // engeller; imzalı URL indirme (attachment) başlığı taşıdığı
+              // için aynı sekmede gezinmek sayfayı değiştirmez.
+              window.location.href = res.data.url;
             } else {
               setError(res.message ?? 'İndirilemedi.');
             }

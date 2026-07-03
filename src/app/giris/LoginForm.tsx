@@ -7,7 +7,13 @@ import { FormMessage } from '@/components/ui/FormMessage';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import type { ActionResult } from '@/lib/types';
 
-export function LoginForm({ initialMessage }: { initialMessage?: string }) {
+export function LoginForm({
+  initialMessage,
+  next,
+}: {
+  initialMessage?: string;
+  next?: string;
+}) {
   const [state, formAction] = useActionState<ActionResult, FormData>(
     async (_prev, formData) => signIn(formData),
     { ok: false, message: initialMessage }
@@ -15,6 +21,7 @@ export function LoginForm({ initialMessage }: { initialMessage?: string }) {
 
   return (
     <form action={formAction} className="mt-8 space-y-5">
+      {next ? <input type="hidden" name="next" value={next} /> : null}
       <FieldGroup>
         <Label htmlFor="email">E-posta</Label>
         <Input

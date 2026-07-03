@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, CalendarClock, Inbox } from 'lucide-react';
 import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
-import { formatDateTime, relativeDays } from '@/lib/utils';
+import { formatDateTime, relativeDays, submissionOf } from '@/lib/utils';
 import type { AssignmentWithSubmission, Profile } from '@/lib/types';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
@@ -36,7 +36,7 @@ export default async function AssignmentDetailPage({
   const assignment = data as AssignmentWithSubmission | null;
   if (!assignment) notFound();
 
-  const submission = assignment.submissions?.[0] ?? null;
+  const submission = submissionOf(assignment);
 
   const { data: studentData } = await supabase
     .from('profiles')

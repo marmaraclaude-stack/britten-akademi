@@ -76,9 +76,27 @@ export async function saveAttemptAnswers(
   }
 
   const supabase = await createClient();
+
+  // Sunucudaki cevapların ÜZERİNE birleştir (başka bir sekmedeki eski
+  // otokayıt, yeni cevapları ezmesin)
+  const { data: existing } = await supabase
+    .from('test_attempts')
+    .select('answers')
+    .eq('id', attemptId)
+    .eq('student_id', student.id)
+    .is('completed_at', null)
+    .maybeSingle();
+
+  if (!existing) return { ok: false, message: 'Sınav oturumu bulunamadı.' };
+
+  const merged = {
+    ...((existing.answers ?? {}) as Record<string, number>),
+    ...clean,
+  };
+
   const { error } = await supabase
     .from('test_attempts')
-    .update({ answers: clean })
+    .update({ answers: merged })
     .eq('id', attemptId)
     .eq('student_id', student.id)
     .is('completed_at', null);
@@ -107,20 +125,43 @@ export async function submitAttempt(
   // Deneme bu öğrenciye ait ve hâlâ açık mı?
   const { data: attempt } = await supabase
     .from('test_attempts')
-    .select('id, student_id, completed_at, started_at')
+    .select('id, student_id, completed_at, started_at, answers, score, cefr_result')
     .eq('id', attemptId)
     .eq('student_id', student.id)
-    .single();
+    .maybeSingle();
 
   if (!attempt) return { ok: false, message: 'Sınav oturumu bulunamadı.' };
-  if (attempt.completed_at)
+
+  // Deneme puanlanmış ama profil güncellemesi yarıda kalmışsa kendini onar:
+  // profili tamamla ve kayıtlı sonucu döndür (öğrenci sıkışıp kalmasın).
+  if (attempt.completed_at) {
+    if (attempt.score !== null && attempt.cefr_result) {
+      const admin = createAdminClient();
+      await admin
+        .from('profiles')
+        .update({ placement_completed: true, cefr_level: attempt.cefr_result })
+        .eq('id', student.id);
+      revalidatePath('/', 'layout');
+      return {
+        ok: true,
+        data: {
+          score: attempt.score as number,
+          cefr: attempt.cefr_result as CefrLevel,
+          answered: Object.keys(
+            (attempt.answers ?? {}) as Record<string, number>
+          ).length,
+        },
+      };
+    }
     return { ok: false, message: 'Bu sınav zaten tamamlanmış.' };
+  }
 
   const questions = await getExamQuestionsWithAnswers();
   if (questions.length === 0)
     return { ok: false, message: 'Sınav soruları yüklenemedi. Lütfen öğretmeninize haber verin.' };
 
-  // Cevapları temizle ve puanla
+  // Cevapları temizle, sunucudaki kayıtla birleştir ve puanla
+  // (eski bir sekmeden gönderim, diğer oturumun cevaplarını silmesin)
   const clean: Record<string, number> = {};
   for (const [k, v] of Object.entries(answers)) {
     const id = Number(k);
@@ -128,8 +169,12 @@ export async function submitAttempt(
       clean[String(id)] = v;
     }
   }
+  const mergedAnswers = {
+    ...((attempt.answers ?? {}) as Record<string, number>),
+    ...clean,
+  };
 
-  const graded = gradeAttempt(questions, clean);
+  const graded = gradeAttempt(questions, mergedAnswers);
   const duration =
     Number.isFinite(durationSeconds) && durationSeconds > 0
       ? Math.min(Math.round(durationSeconds), 24 * 60 * 60)
@@ -139,7 +184,7 @@ export async function submitAttempt(
   const { error: attemptErr } = await admin
     .from('test_attempts')
     .update({
-      answers: clean,
+      answers: mergedAnswers,
       completed_at: new Date().toISOString(),
       score: graded.score,
       cefr_result: graded.cefr,

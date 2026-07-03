@@ -26,6 +26,7 @@ import {
   formatTime,
   formatWeekday,
   relativeDays,
+  submissionOf,
   truncate,
 } from '@/lib/utils';
 import type {
@@ -86,7 +87,7 @@ export default async function StudentDashboardPage() {
     ) ?? null;
 
   const openAssignments = assignments
-    .filter((a) => (a.submissions ?? []).length === 0)
+    .filter((a) => !submissionOf(a))
     .sort((a, b) => {
       if (!a.due_at && !b.due_at) return 0;
       if (!a.due_at) return 1;
@@ -95,25 +96,35 @@ export default async function StudentDashboardPage() {
     });
 
   const grades = assignments
-    .flatMap((a) => a.submissions ?? [])
-    .filter((s) => s.grade !== null)
+    .map((a) => submissionOf(a))
+    .filter((s): s is NonNullable<typeof s> => s !== null && s.grade !== null)
     .map((s) => s.grade as number);
   const avgGrade =
     grades.length > 0
       ? Math.round(grades.reduce((sum, g) => sum + g, 0) / grades.length)
       : null;
 
+  // Kalan ders: her paket kendi içinde sıfırın altına düşmeyecek şekilde
+  // hesaplanır (öğretmen detay ve ilerleme sayfalarıyla aynı formül)
+  const usedByPackage = new Map<string, number>();
+  for (const l of completedLessons) {
+    if (l.package_id) {
+      usedByPackage.set(l.package_id, (usedByPackage.get(l.package_id) ?? 0) + 1);
+    }
+  }
+  const packageLeft = packages.reduce(
+    (sum, p) => sum + Math.max(0, p.total_lessons - (usedByPackage.get(p.id) ?? 0)),
+    0
+  );
   const packageTotal = packages.reduce((sum, p) => sum + p.total_lessons, 0);
-  const packageUsed = completedLessons.filter((l) => l.package_id !== null).length;
-  const packageLeft = Math.max(0, packageTotal - packageUsed);
 
   const firstName = profile.full_name.trim().split(/\s+/)[0] ?? profile.full_name;
   const nextRel = nextLesson ? relativeDays(nextLesson.starts_at) : null;
   const heroLine = nextLesson
     ? nextRel === 'bugün'
-      ? `Bugün ${formatTime(nextLesson.starts_at)}'da dersin var — görüşmek üzere!`
+      ? `Bugün saat ${formatTime(nextLesson.starts_at)} — dersin var, görüşmek üzere!`
       : nextRel === 'yarın'
-        ? `Yarın ${formatTime(nextLesson.starts_at)}'da dersin var. Hazırlıklı gel!`
+        ? `Yarın saat ${formatTime(nextLesson.starts_at)} — dersin var. Hazırlıklı gel!`
         : `Sıradaki dersin ${formatDate(nextLesson.starts_at)}, saat ${formatTime(nextLesson.starts_at)}.`
     : 'İngilizce yolculuğunda her adım değerli. Bugün de bir şeyler öğrenmeye ne dersin?';
 
@@ -295,7 +306,11 @@ export default async function StudentDashboardPage() {
                 <EmptyState
                   icon={ClipboardList}
                   title="Bekleyen ödevin yok"
-                  description="Tüm ödevlerin teslim edilmiş durumda — harikasın! Yeni ödevler burada görünecek."
+                  description={
+                    assignments.length > 0
+                      ? 'Tüm ödevlerin teslim edilmiş durumda — harikasın! Yeni ödevler burada görünecek.'
+                      : 'Öğretmenin ödev verdiğinde burada görünecek.'
+                  }
                 />
               </div>
             )}

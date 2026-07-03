@@ -46,32 +46,50 @@ export async function updateSession(request: NextRequest) {
   const role = (user?.user_metadata?.role as string | undefined) ?? 'student';
   const home = role === 'teacher' ? '/ogretmen' : '/ogrenci';
 
+  // Yönlendirme yanıtları, tazelenen oturum çerezlerini de taşımalı;
+  // aksi hâlde döndürülen token kaybolur ve kullanıcı düşebilir.
+  const redirectWithCookies = (url: URL) => {
+    const res = NextResponse.redirect(url);
+    supabaseResponse.cookies
+      .getAll()
+      .forEach((cookie) => res.cookies.set(cookie));
+    return res;
+  };
+
   if (!user && (wantsTeacher || wantsStudent)) {
     const url = request.nextUrl.clone();
     url.pathname = '/giris';
+    url.search = '';
     url.searchParams.set('next', path);
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url);
   }
 
   if (user && isAuthPage) {
+    // Derin bağlantıyı koru: ?next= geçerli ve role uygunsa oraya dön
+    const next = request.nextUrl.searchParams.get('next');
+    const validNext =
+      next &&
+      next.startsWith('/') &&
+      !next.startsWith('//') &&
+      next.startsWith(home);
     const url = request.nextUrl.clone();
-    url.pathname = home;
+    url.pathname = validNext ? next : home;
     url.search = '';
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url);
   }
 
   if (user && wantsTeacher && role !== 'teacher') {
     const url = request.nextUrl.clone();
     url.pathname = '/ogrenci';
     url.search = '';
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url);
   }
 
   if (user && wantsStudent && role === 'teacher') {
     const url = request.nextUrl.clone();
     url.pathname = '/ogretmen';
     url.search = '';
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url);
   }
 
   return supabaseResponse;

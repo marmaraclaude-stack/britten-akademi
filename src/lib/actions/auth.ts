@@ -45,7 +45,14 @@ export async function signIn(formData: FormData): Promise<ActionResult> {
   }
 
   revalidatePath('/', 'layout');
-  redirect(profile?.role === 'teacher' ? '/ogretmen' : '/ogrenci');
+
+  // Derin bağlantı desteği: giriş öncesi hedeflenen sayfaya dön
+  // (yalnızca site içi ve role uygun yollar kabul edilir)
+  const home = profile?.role === 'teacher' ? '/ogretmen' : '/ogrenci';
+  const next = String(formData.get('next') ?? '');
+  const validNext =
+    next.startsWith('/') && !next.startsWith('//') && next.startsWith(home);
+  redirect(validNext ? next : home);
 }
 
 export async function signOut(): Promise<void> {

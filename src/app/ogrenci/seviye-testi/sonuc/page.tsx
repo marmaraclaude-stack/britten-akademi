@@ -96,8 +96,9 @@ export default async function PlacementResultPage() {
           icon={ListChecks}
         />
         <Stat
-          label="Sınav süresi"
+          label="Toplam süre"
           value={minutes ? `${minutes} dk` : '—'}
+          sub="İlk başlangıçtan bitirmeye kadar"
           icon={Clock}
         />
         <Stat

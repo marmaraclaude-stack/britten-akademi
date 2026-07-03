@@ -17,7 +17,8 @@ import {
   relativeDays,
   truncate,
 } from '@/lib/utils';
-import type { AssignmentWithSubmission, Submission } from '@/lib/types';
+import { submissionOf } from '@/lib/utils';
+import type { AssignmentWithSubmission } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { SkillBadge } from '@/components/ui/DomainBadges';
@@ -25,10 +26,6 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { PageHeader } from '@/components/ui/PageHeader';
 
 export const metadata: Metadata = { title: 'Ödevlerim' };
-
-function submissionOf(a: AssignmentWithSubmission): Submission | null {
-  return a.submissions?.[0] ?? null;
-}
 
 function GroupHeading({ title, count }: { title: string; count: number }) {
   return (

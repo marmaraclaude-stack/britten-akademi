@@ -18,6 +18,7 @@ import {
   formatDate,
   formatDateTime,
   SECTION_LABELS,
+  submissionOf,
 } from '@/lib/utils';
 import type {
   AssignmentWithSubmission,
@@ -221,7 +222,7 @@ export default async function StudentDetailPage({
                         {minutes ? (
                           <span className="inline-flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5" aria-hidden />
-                            {minutes} dakika sürdü
+                            toplam {minutes} dk (ilk başlangıçtan)
                           </span>
                         ) : null}
                       </div>
@@ -414,7 +415,7 @@ export default async function StudentDetailPage({
             ) : (
               <ul className="divide-y divide-hairline">
                 {recentAssignments.map((a) => {
-                  const submission = a.submissions?.[0] ?? null;
+                  const submission = submissionOf(a);
                   return (
                     <li key={a.id}>
                       <Link

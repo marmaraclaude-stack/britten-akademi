@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { MessageSquare, UserPlus } from 'lucide-react';
 import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
@@ -69,9 +70,17 @@ export default async function TeacherMessagesPage({
     return { student: s, thread, unread, last };
   });
 
+  // Seçim her zaman URL'den okunur; parametre yoksa varsayılanı hesaplayıp
+  // URL'yi kanonikleştiririz. Böylece her sunucu yenilemesinde (20 sn'lik
+  // mesaj yoklaması dâhil) açık konuşma sabit kalır ve taslak yanlış
+  // öğrenciye gitmez.
   const validParam = students.some((s) => s.id === ogrenci) ? ogrenci : undefined;
-  const selectedId =
-    validParam ?? threads.find((t) => t.unread > 0)?.student.id ?? students[0].id;
+  if (!validParam) {
+    const defaultId =
+      threads.find((t) => t.unread > 0)?.student.id ?? students[0].id;
+    redirect(`/ogretmen/mesajlar?ogrenci=${defaultId}`);
+  }
+  const selectedId = validParam;
 
   const selected = threads.find((t) => t.student.id === selectedId)!;
 
@@ -148,6 +157,7 @@ export default async function TeacherMessagesPage({
             <LevelBadge level={selected.student.cefr_level} />
           </div>
           <MessageThread
+            key={selected.student.id}
             meId={profile.id}
             otherId={selected.student.id}
             otherName={selected.student.full_name}

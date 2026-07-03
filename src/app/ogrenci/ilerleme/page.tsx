@@ -12,7 +12,7 @@ import {
 import { requireStudent } from '@/lib/auth';
 import { ensurePlacementDone } from '@/lib/placement-gate';
 import { createClient } from '@/lib/supabase/server';
-import { CEFR_DESCRIPTIONS, SKILL_LABELS } from '@/lib/utils';
+import { CEFR_DESCRIPTIONS, SKILL_LABELS, submissionOf } from '@/lib/utils';
 import type {
   AssignmentWithSubmission,
   Lesson,
@@ -63,15 +63,12 @@ export default async function StudentProgressPage() {
 
   // Notlanan teslimler (beceri bilgisiyle)
   const graded = assignments
-    .flatMap((a) =>
-      (a.submissions ?? [])
-        .filter((s) => s.grade !== null && s.graded_at !== null)
-        .map((s) => ({
-          skill: a.skill,
-          grade: s.grade as number,
-          gradedAt: s.graded_at as string,
-        }))
-    )
+    .flatMap((a) => {
+      const s = submissionOf(a);
+      return s && s.grade !== null && s.graded_at !== null
+        ? [{ skill: a.skill, grade: s.grade, gradedAt: s.graded_at }]
+        : [];
+    })
     .sort((x, y) => x.gradedAt.localeCompare(y.gradedAt));
 
   const trendPoints = graded.map((g) => ({ date: g.gradedAt, value: g.grade }));

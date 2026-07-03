@@ -29,6 +29,12 @@ export function Modal({
   return (
     <dialog
       ref={ref}
+      onCancel={(e) => {
+        // ESC dialogu kendi başına kapatmasın; kararı React (onClose) versin.
+        // Böylece "gönderiliyor" gibi kilitli durumlarda modal açık kalır.
+        e.preventDefault();
+        onClose();
+      }}
       onClose={onClose}
       onClick={(e) => {
         // Dış alana tıklayınca kapat

@@ -366,6 +366,11 @@ create policy "messages_insert" on public.messages for insert to authenticated
 create policy "messages_mark_read" on public.messages for update to authenticated
   using (recipient_id = auth.uid()) with check (recipient_id = auth.uid());
 
+-- Alıcı yalnızca read_at kolonunu güncelleyebilir; gövde/gönderen değiştirilemez
+-- (kolon bazlı yetki, üstteki RLS politikasıyla birlikte çalışır)
+revoke update on public.messages from authenticated;
+grant update (read_at) on public.messages to authenticated;
+
 -- student_notes: yalnızca öğretmen
 create policy "student_notes_teacher_all" on public.student_notes for all to authenticated
   using (public.is_teacher()) with check (public.is_teacher());

@@ -86,8 +86,14 @@ export interface Submission {
   graded_at: string | null;
 }
 
+/**
+ * PostgREST, submissions.assignment_id üzerindeki UNIQUE kısıtı nedeniyle
+ * `assignments -> submissions` gömmesini bire-bir ilişki sayar ve dizi DEĞİL
+ * tek nesne (veya null) döndürür. Her iki olasılığa karşı güvenli okumak için
+ * daima utils'teki submissionOf() yardımcı fonksiyonunu kullanın.
+ */
 export type AssignmentWithSubmission = Assignment & {
-  submissions: Submission[] | null;
+  submissions: Submission | Submission[] | null;
 };
 
 export interface Material {

@@ -16,6 +16,22 @@ export default async function PlacementTestPage() {
     createClient(),
   ]);
 
+  // Soru bankası henüz yüklenmemişse öğrenciyi çökmeye değil bilgiye götür
+  if (questions.length === 0) {
+    return (
+      <div className="mx-auto max-w-lg rounded-card border border-hairline bg-surface p-8 text-center shadow-card">
+        <h1 className="text-xl font-semibold text-ink">
+          Sınav henüz hazırlanıyor
+        </h1>
+        <p className="mt-2 text-sm leading-6 text-ink-secondary">
+          Seviye tespit sınavının soruları henüz sisteme yüklenmemiş. Lütfen
+          öğretmenine haber ver; sorular yüklendiğinde bu sayfadan sınava
+          başlayabileceksin.
+        </p>
+      </div>
+    );
+  }
+
   const { data: openAttempt } = await supabase
     .from('test_attempts')
     .select('id')

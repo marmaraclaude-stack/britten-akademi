@@ -26,9 +26,9 @@ const FEATURES = [
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ durum?: string }>;
+  searchParams: Promise<{ durum?: string; next?: string }>;
 }) {
-  const { durum } = await searchParams;
+  const { durum, next } = await searchParams;
 
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.1fr_1fr]">
@@ -84,6 +84,7 @@ export default async function LoginPage({
             unuttuysan öğretmeninle iletişime geç.
           </p>
           <LoginForm
+            next={next}
             initialMessage={
               durum === 'pasif'
                 ? 'Hesabınız şu anda pasif. Lütfen öğretmeninizle iletişime geçin.'

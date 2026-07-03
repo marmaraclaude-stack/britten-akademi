@@ -17,14 +17,15 @@ export default async function StudentMessagesPage() {
   ensurePlacementDone(profile);
 
   const supabase = await createClient();
+  // Öğrencinin ihtiyacı yalnızca ad ve kimlik; iletişim kolonları çekilmez
   const { data: teacherData } = await supabase
     .from('profiles')
-    .select('*')
+    .select('id, full_name')
     .eq('role', 'teacher')
     .limit(1)
     .maybeSingle();
 
-  const teacher = (teacherData ?? null) as Profile | null;
+  const teacher = (teacherData ?? null) as Pick<Profile, 'id' | 'full_name'> | null;
 
   if (!teacher) {
     return (

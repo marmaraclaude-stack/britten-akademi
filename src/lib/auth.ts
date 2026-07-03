@@ -35,7 +35,9 @@ export async function requireStudent(): Promise<Profile> {
   const { profile } = await getSessionProfile();
   if (!profile) redirect('/giris');
   if (profile.role !== 'student') redirect('/ogretmen');
-  if (!profile.is_active) redirect('/giris?durum=pasif');
+  // Pasif öğrenciyi /giris'e göndermek middleware ile döngü yaratır
+  // (oturum hâlâ canlı); korumasız özel sayfaya yönlendirilir.
+  if (!profile.is_active) redirect('/hesap-askida');
   return profile;
 }
 

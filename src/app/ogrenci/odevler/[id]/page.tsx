@@ -5,7 +5,7 @@ import { ArrowLeft, CalendarClock, CheckCircle2 } from 'lucide-react';
 import { requireStudent } from '@/lib/auth';
 import { ensurePlacementDone } from '@/lib/placement-gate';
 import { createClient } from '@/lib/supabase/server';
-import { cn, formatDateTime, relativeDays } from '@/lib/utils';
+import { cn, formatDateTime, relativeDays, submissionOf } from '@/lib/utils';
 import type { AssignmentWithSubmission } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
@@ -34,7 +34,7 @@ export default async function AssignmentDetailPage({
   const assignment = data as AssignmentWithSubmission | null;
   if (!assignment || assignment.student_id !== profile.id) notFound();
 
-  const submission = assignment.submissions?.[0] ?? null;
+  const submission = submissionOf(assignment);
   const isGraded = Boolean(submission?.graded_at);
   const overdue = assignment.due_at
     ? new Date(assignment.due_at).getTime() < Date.now() && !submission

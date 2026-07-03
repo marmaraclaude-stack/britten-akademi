@@ -1,4 +1,23 @@
-import type { CefrLevel, LessonStatus, MaterialKind, Skill, TestSection } from './types';
+import type {
+  CefrLevel,
+  LessonStatus,
+  MaterialKind,
+  Skill,
+  Submission,
+  TestSection,
+} from './types';
+
+/**
+ * `select('*, submissions(*)')` gömmesinden teslimi güvenle çıkarır.
+ * PostgREST bire-bir ilişkide tek nesne, aksi hâlde dizi döndürebilir.
+ */
+export function submissionOf(a: {
+  submissions: Submission | Submission[] | null;
+}): Submission | null {
+  const s = a.submissions;
+  if (!s) return null;
+  return Array.isArray(s) ? (s[0] ?? null) : s;
+}
 
 /** Basit sınıf birleştirici */
 export function cn(...classes: Array<string | false | null | undefined>) {
@@ -55,9 +74,16 @@ export function dayKeyIstanbul(iso: string | Date) {
 }
 
 export function relativeDays(iso: string): string {
-  const target = new Date(iso).getTime();
-  const now = Date.now();
-  const diffDays = Math.round((target - now) / (1000 * 60 * 60 * 24));
+  // Ham milisaniye farkı değil, İstanbul TAKVİM GÜNÜ farkı:
+  // 23:00'te "yarın 01:00" dersi gerçekten "yarın"dır.
+  const dayMs = 24 * 60 * 60 * 1000;
+  const toUtcDay = (key: string) => {
+    const [y, m, d] = key.split('-').map(Number);
+    return Date.UTC(y, m - 1, d);
+  };
+  const diffDays = Math.round(
+    (toUtcDay(dayKeyIstanbul(iso)) - toUtcDay(dayKeyIstanbul(new Date()))) / dayMs
+  );
   if (diffDays === 0) return 'bugün';
   if (diffDays === 1) return 'yarın';
   if (diffDays === -1) return 'dün';

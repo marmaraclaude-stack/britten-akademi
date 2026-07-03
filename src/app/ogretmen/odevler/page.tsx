@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ChevronRight, ClipboardList, Plus } from 'lucide-react';
 import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
-import { cn, formatDateTime } from '@/lib/utils';
+import { cn, formatDateTime, submissionOf } from '@/lib/utils';
 import type { AssignmentWithSubmission, Profile } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardHeader } from '@/components/ui/Card';
@@ -24,7 +24,7 @@ function AssignmentRows({
   return (
     <ul className="divide-y divide-hairline">
       {assignments.map((a) => {
-        const submission = a.submissions?.[0] ?? null;
+        const submission = submissionOf(a);
         const overdue =
           !submission && a.due_at !== null && new Date(a.due_at).getTime() < now;
         return (
@@ -87,13 +87,15 @@ export default async function AssignmentsPage() {
   const students = (studentsRes.data ?? []) as Pick<Profile, 'id' | 'full_name'>[];
   const nameById = new Map(students.map((s) => [s.id, s.full_name]));
 
-  const waiting = assignments.filter((a) => !a.submissions?.length);
-  const toGrade = assignments.filter(
-    (a) => a.submissions?.length && a.submissions[0].graded_at === null
-  );
-  const done = assignments.filter(
-    (a) => a.submissions?.length && a.submissions[0].graded_at !== null
-  );
+  const waiting = assignments.filter((a) => !submissionOf(a));
+  const toGrade = assignments.filter((a) => {
+    const s = submissionOf(a);
+    return s && s.graded_at === null;
+  });
+  const done = assignments.filter((a) => {
+    const s = submissionOf(a);
+    return s && s.graded_at !== null;
+  });
 
   const newButton = (
     <Link

@@ -25,12 +25,20 @@ export function MessageThread({
   const [pending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Gelen okunmamışları okundu yap; yenilerini periyodik çek
+  // Yeni mesajları periyodik çek
   useEffect(() => {
-    markThreadRead(otherId);
     const t = setInterval(() => router.refresh(), 20000);
     return () => clearInterval(t);
-  }, [otherId, router]);
+  }, [router]);
+
+  // Gelen okunmamışları okundu yap — konuşma açıkken gelenler dâhil
+  // (son okunmamış gelen mesajın id'si değiştikçe yeniden tetiklenir)
+  const lastIncomingUnreadId =
+    [...messages].reverse().find((m) => m.sender_id === otherId && !m.read_at)?.id ??
+    null;
+  useEffect(() => {
+    if (lastIncomingUnreadId) markThreadRead(otherId);
+  }, [lastIncomingUnreadId, otherId]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ block: 'end' });
@@ -56,7 +64,7 @@ export function MessageThread({
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
         {messages.length === 0 ? (
           <p className="pt-16 text-center text-sm text-ink-muted">
-            {otherName} ile henüz mesajlaşmadınız. İlk mesajı gönderin.
+            Henüz mesaj yok. İlk mesajı göndererek sohbeti başlat.
           </p>
         ) : (
           messages.map((m) => {
@@ -101,6 +109,7 @@ export function MessageThread({
               }
             }}
             rows={2}
+            aria-label={`${otherName} adlı kişiye mesaj`}
             placeholder={`${otherName} adlı kişiye mesaj yaz…`}
             className="w-full resize-none rounded-xl border border-hairline bg-white px-3 py-2.5 text-sm focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200"
           />
