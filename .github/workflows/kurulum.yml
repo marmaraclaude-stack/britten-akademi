@@ -199,6 +199,20 @@ jobs:
           } >> "$GITHUB_ENV"
           echo "anon + service_role anahtarları alındı."
 
+      - name: Öğretmen giriş testi
+        run: |
+          set -euo pipefail
+          RESP=$(jq -n --arg e "$T_EMAIL" --arg p "$T_PASS" '{email:($e|ascii_downcase), password:$p}' \
+            | curl -sS -X POST -H "apikey: $SB_ANON" -H 'Content-Type: application/json' \
+                -d @- "$SB_URL/auth/v1/token?grant_type=password")
+          TOKEN=$(jq -r '.access_token // empty' <<<"$RESP")
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Öğretmen girişi BAŞARISIZ: $(jq -r '.error_description // .msg // .error // "bilinmeyen hata"' <<<"$RESP")"
+            exit 1
+          fi
+          echo "::add-mask::$TOKEN"
+          echo "Öğretmen girişi doğrulandı (e-posta + şifre ile access token alındı)."
+
       - name: Vercel projesi ve ortam değişkenleri
         run: |
           set -euo pipefail
