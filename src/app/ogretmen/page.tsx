@@ -263,7 +263,7 @@ export default async function TeacherDashboardPage() {
       </div>
 
       {/* Hızlı işlemler */}
-      <p className="mb-3 mt-8 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+      <p className="mb-3 mt-8 text-[13px] font-semibold text-ink-secondary">
         Hızlı işlemler
       </p>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -462,7 +462,7 @@ export default async function TeacherDashboardPage() {
           />
           <CardBody className="grid gap-6 md:grid-cols-2">
             <div>
-              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-2 text-[13px] font-semibold text-ink-secondary">
                 Sınavı bekleyenler
               </p>
               {waitingPlacement.length === 0 ? (
@@ -489,7 +489,7 @@ export default async function TeacherDashboardPage() {
               )}
             </div>
             <div>
-              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-2 text-[13px] font-semibold text-ink-secondary">
                 Son tamamlanan sınavlar
               </p>
               {attempts.length === 0 ? (

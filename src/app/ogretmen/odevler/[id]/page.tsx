@@ -108,7 +108,7 @@ export default async function AssignmentDetailPage({
 
           {assignment.kind === 'html' && assignment.html_content ? (
             <div>
-              <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-1.5 text-[13px] font-semibold text-ink-secondary">
                 HTML ödev önizlemesi
               </p>
               <HtmlViewer
@@ -122,7 +122,7 @@ export default async function AssignmentDetailPage({
 
           {assignment.attachment_path && assignment.attachment_name ? (
             <div>
-              <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-1.5 text-[13px] font-semibold text-ink-secondary">
                 Ödev eki
               </p>
               <DownloadButton
@@ -163,7 +163,7 @@ export default async function AssignmentDetailPage({
 
               {submission.attachment_path && submission.attachment_name ? (
                 <div>
-                  <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                  <p className="mb-1.5 text-[13px] font-semibold text-ink-secondary">
                     Teslim eki
                   </p>
                   <DownloadButton
@@ -174,7 +174,7 @@ export default async function AssignmentDetailPage({
               ) : null}
 
               <div className="border-t border-hairline pt-5">
-                <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                   {submission.graded_at ? 'Notu güncelle' : 'Notla'}
                 </p>
                 <GradeForm

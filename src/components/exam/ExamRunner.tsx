@@ -211,7 +211,7 @@ export function ExamRunner({
           return (
             <div key={p.ref}>
               <article className="rounded-card border border-brand-200 bg-brand-50/60 p-5">
-                <p className="text-[12px] font-semibold uppercase tracking-wide text-brand-500">
+                <p className="text-[13px] font-semibold text-brand-600">
                   Okuma Parçası
                 </p>
                 <h3 className="mt-1 text-[15px] font-semibold text-ink">{p.title}</h3>

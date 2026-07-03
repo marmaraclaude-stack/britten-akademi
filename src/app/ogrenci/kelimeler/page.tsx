@@ -178,7 +178,7 @@ export default async function DailyWordsPage() {
                     >
                       {w.word}
                     </span>
-                    <span className="text-[11px] uppercase tracking-wide text-ink-muted">
+                    <span className="text-[12px] text-ink-muted">
                       {w.type}
                     </span>
                     <span className="text-[12px] tabular-nums text-ink-muted">

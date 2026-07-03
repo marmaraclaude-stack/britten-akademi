@@ -202,7 +202,7 @@ export function WordTrainer({
         <div className="grid gap-0 p-6 sm:p-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10">
           {/* Kelime */}
           <div className="flex flex-col items-center justify-center rounded-card bg-brand-950 p-8 text-center text-white">
-            <p className="text-[12px] font-medium uppercase tracking-[0.18em] text-brand-300">
+            <p className="text-[13px] font-medium text-brand-200">
               Bu kelimenin anlamı hangisi?
             </p>
             <p className="mt-3 break-words text-4xl font-semibold tracking-tight">

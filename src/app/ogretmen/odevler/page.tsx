@@ -238,13 +238,13 @@ export default async function AssignmentsPage() {
                 <table className="w-full min-w-[720px] text-sm">
                   <thead>
                     <tr className="border-b border-hairline bg-plane/60 text-left">
-                      <th className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                      <th className="px-5 py-2.5 text-[13px] font-semibold text-ink-secondary">
                         Öğrenci
                       </th>
                       {SKILLS.map((sk) => (
                         <th
                           key={sk}
-                          className="px-2 py-2.5 text-center text-[12px] font-semibold uppercase tracking-wider text-ink-muted"
+                          className="px-2 py-2.5 text-center text-[13px] font-semibold text-ink-secondary"
                         >
                           {SKILL_LABELS[sk]}
                         </th>
@@ -360,7 +360,7 @@ export default async function AssignmentsPage() {
               <div>
                 {waitingOverdue.length > 0 ? (
                   <>
-                    <p className="border-b border-hairline bg-accent-50/60 px-5 py-2 text-[12px] font-semibold uppercase tracking-wider text-accent-800">
+                    <p className="border-b border-hairline bg-accent-50/60 px-5 py-2 text-[13px] font-semibold text-accent-800">
                       Gecikenler
                     </p>
                     <AssignmentRows
@@ -371,7 +371,7 @@ export default async function AssignmentsPage() {
                 ) : null}
                 {waitingToday.length > 0 ? (
                   <>
-                    <p className="border-b border-t border-hairline bg-brand-50/60 px-5 py-2 text-[12px] font-semibold uppercase tracking-wider text-brand-800">
+                    <p className="border-b border-t border-hairline bg-brand-50/60 px-5 py-2 text-[13px] font-semibold text-brand-800">
                       Bugün
                     </p>
                     <AssignmentRows assignments={waitingToday} nameById={nameById} />
@@ -379,7 +379,7 @@ export default async function AssignmentsPage() {
                 ) : null}
                 {waitingRest.length > 0 ? (
                   <>
-                    <p className="border-b border-t border-hairline bg-plane px-5 py-2 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                    <p className="border-b border-t border-hairline bg-plane px-5 py-2 text-[13px] font-semibold text-ink-secondary">
                       Daha sonra
                     </p>
                     <AssignmentRows assignments={waitingRest} nameById={nameById} />

@@ -176,7 +176,7 @@ export function NewAssignmentForm({
               value={html}
               onChange={(e) => setHtml(e.target.value)}
               placeholder={HTML_PLACEHOLDER}
-              className="font-mono text-[13px] leading-5"
+              className="text-[13px] leading-6"
               spellCheck={false}
             />
             <div className="hidden overflow-hidden rounded-lg border border-hairline xl:block">

@@ -528,7 +528,7 @@ export function MonthCalendar({
             {WEEKDAYS.map((d) => (
               <div
                 key={d}
-                className="px-2 py-2 text-center text-[12px] font-medium uppercase tracking-wide text-ink-muted"
+                className="px-2 py-2 text-center text-[12px] font-medium text-ink-muted"
               >
                 {d}
               </div>

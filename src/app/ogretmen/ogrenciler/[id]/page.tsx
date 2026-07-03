@@ -233,7 +233,7 @@ export default async function StudentDetailPage({
                   <div className="grid gap-6 md:grid-cols-2">
                     {sectionRows.length > 0 ? (
                       <div>
-                        <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                        <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                           Bölümlere göre
                         </p>
                         <BarBreakdown rows={sectionRows} />
@@ -241,7 +241,7 @@ export default async function StudentDetailPage({
                     ) : null}
                     {levelRows.length > 0 ? (
                       <div>
-                        <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                        <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                           Zorluk seviyesine göre
                         </p>
                         <BarBreakdown rows={levelRows} />
@@ -374,7 +374,7 @@ export default async function StudentDetailPage({
               )}
 
               <div className="border-t border-hairline pt-4">
-                <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                   Yeni paket tanımla
                 </p>
                 <AddPackageForm studentId={student.id} />
