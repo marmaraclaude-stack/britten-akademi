@@ -475,6 +475,7 @@ export default async function StudentDetailPage({
                   full_name: student.full_name,
                   phone: student.phone,
                   cefr_level: student.cefr_level,
+                  color: student.color,
                 }}
               />
             </CardBody>

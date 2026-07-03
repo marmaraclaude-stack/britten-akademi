@@ -27,6 +27,8 @@ export interface Profile {
   full_name: string;
   email: string;
   phone: string | null;
+  /** Ogretmenin verdigi takvim rengi (hex), null = varsayilan */
+  color: string | null;
   cefr_level: CefrLevel | null;
   placement_completed: boolean;
   is_active: boolean;

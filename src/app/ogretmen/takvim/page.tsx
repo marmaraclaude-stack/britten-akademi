@@ -10,6 +10,7 @@ export const metadata: Metadata = { title: 'Takvim' };
 interface StudentRow {
   id: string;
   full_name: string;
+  color: string | null;
 }
 interface PackageRow {
   id: string;
@@ -25,7 +26,7 @@ export default async function TeacherCalendarPage() {
     supabase.from('lessons').select('*').order('starts_at'),
     supabase
       .from('profiles')
-      .select('id, full_name')
+      .select('id, full_name, color')
       .eq('role', 'student')
       .order('full_name'),
     supabase.from('packages').select('id, student_id, name'),
@@ -35,10 +36,11 @@ export default async function TeacherCalendarPage() {
   const students = (studentsRes.data ?? []) as StudentRow[];
   const packages = (packagesRes.data ?? []) as PackageRow[];
 
-  const nameById = new Map(students.map((s) => [s.id, s.full_name]));
+  const byId = new Map(students.map((s) => [s.id, s]));
   const calendarLessons: CalendarLesson[] = lessons.map((l) => ({
     ...l,
-    student_name: nameById.get(l.student_id),
+    student_name: byId.get(l.student_id)?.full_name,
+    student_color: byId.get(l.student_id)?.color ?? null,
   }));
 
   return (

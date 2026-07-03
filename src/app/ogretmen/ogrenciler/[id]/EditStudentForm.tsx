@@ -1,9 +1,10 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Check } from 'lucide-react';
 import { updateStudent } from '@/lib/actions/students';
-import { CEFR_LABELS } from '@/lib/utils';
+import { CEFR_LABELS, cn, STUDENT_COLORS } from '@/lib/utils';
 import type { ActionResult, CefrLevel } from '@/lib/types';
 import { FieldGroup, Input, Label, Select } from '@/components/ui/Field';
 import { FormMessage } from '@/components/ui/FormMessage';
@@ -19,9 +20,11 @@ export function EditStudentForm({
     full_name: string;
     phone: string | null;
     cefr_level: CefrLevel | null;
+    color: string | null;
   };
 }) {
   const router = useRouter();
+  const [color, setColor] = useState(student.color ?? '');
   const [state, formAction] = useActionState<ActionResult, FormData>(
     async (_prev, formData) => {
       const res = await updateStudent(student.id, formData);
@@ -63,6 +66,49 @@ export function EditStudentForm({
             </option>
           ))}
         </Select>
+      </FieldGroup>
+
+      <FieldGroup>
+        <Label hint="(takvimde bu öğrencinin dersleri bu renkle görünür)">
+          Takvim rengi
+        </Label>
+        <input type="hidden" name="color" value={color} />
+        <div className="flex flex-wrap items-center gap-2">
+          {STUDENT_COLORS.map((c) => {
+            const active = color === c.value;
+            return (
+              <button
+                key={c.value}
+                type="button"
+                title={c.label}
+                aria-pressed={active}
+                onClick={() => setColor(active ? '' : c.value)}
+                className={cn(
+                  'flex h-8 w-8 items-center justify-center rounded-full transition-transform',
+                  active
+                    ? 'scale-110 ring-2 ring-ink ring-offset-2'
+                    : 'hover:scale-110'
+                )}
+                style={{ backgroundColor: c.value }}
+              >
+                {active ? (
+                  <Check className="h-4 w-4 text-white" aria-hidden />
+                ) : null}
+              </button>
+            );
+          })}
+          {color ? (
+            <button
+              type="button"
+              onClick={() => setColor('')}
+              className="text-[12px] font-medium text-ink-muted hover:text-ink"
+            >
+              Rengi kaldır
+            </button>
+          ) : (
+            <span className="text-[12px] text-ink-muted">Renk seçilmedi</span>
+          )}
+        </div>
       </FieldGroup>
 
       <FormMessage ok={state.ok} message={state.message} />

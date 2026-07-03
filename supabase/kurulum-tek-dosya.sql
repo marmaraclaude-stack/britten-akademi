@@ -2,7 +2,7 @@
 -- BRİTTEN AKADEMİ; TEK DOSYA KURULUM
 -- Yeni Supabase projenizde SQL Editor'e bu dosyanın TAMAMINI
 -- yapıştırıp bir kez çalıştırın (şema + RLS + 100 soruluk sınav
--- + HTML ödev ve günlük kelime desteği).
+-- + HTML ödev, günlük kelime ve öğrenci rengi desteği).
 -- Ardından öğretmen hesabınız için supabase/seed_teacher.sql.example
 -- dosyasını düzenleyip çalıştırın.
 -- ============================================================
@@ -591,3 +591,11 @@ create policy "vocab_student_insert" on public.vocab_progress for insert to auth
 drop policy if exists "vocab_student_update" on public.vocab_progress;
 create policy "vocab_student_update" on public.vocab_progress for update to authenticated
   using (student_id = auth.uid()) with check (student_id = auth.uid());
+
+-- ============================================================
+-- 0004: Ogrenci rengi (ogretmen takviminde ders rozetleri icin)
+-- Idempotenttir; mevcut kurulumlara guvenle uygulanabilir.
+-- ============================================================
+
+alter table public.profiles
+  add column if not exists color text;

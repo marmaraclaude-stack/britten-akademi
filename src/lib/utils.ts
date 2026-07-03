@@ -91,6 +91,21 @@ export function relativeDays(iso: string): string {
   return `${Math.abs(diffDays)} gün önce`;
 }
 
+// ---- Öğrenci takvim renkleri (öğretmen atar) ----
+
+export const STUDENT_COLORS: Array<{ value: string; label: string }> = [
+  { value: '#2456dd', label: 'Mavi' },
+  { value: '#dc2626', label: 'Kırmızı' },
+  { value: '#059669', label: 'Yeşil' },
+  { value: '#d97706', label: 'Turuncu' },
+  { value: '#7c3aed', label: 'Mor' },
+  { value: '#db2777', label: 'Pembe' },
+  { value: '#0891b2', label: 'Camgöbeği' },
+  { value: '#4d7c0f', label: 'Zeytin' },
+  { value: '#4338ca', label: 'Çivit' },
+  { value: '#78350f', label: 'Kahve' },
+];
+
 // ---- Etiketler (Türkçe) ----
 
 export const SKILL_LABELS: Record<Skill, string> = {

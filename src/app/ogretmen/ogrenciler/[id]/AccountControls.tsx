@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { KeyRound, RotateCcw, UserCheck, UserX } from 'lucide-react';
+import { KeyRound, RotateCcw, Trash2, TriangleAlert, UserCheck, UserX } from 'lucide-react';
 import {
+  deleteStudent,
   resetPlacement,
   resetStudentPassword,
   setStudentActive,
@@ -29,6 +30,8 @@ export function AccountControls({
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [pwOpen, setPwOpen] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState('');
 
   const run = (action: () => Promise<{ ok: boolean; message?: string }>) => {
     startTransition(async () => {
@@ -36,6 +39,20 @@ export function AccountControls({
       const res = await action();
       setMessage({ ok: res.ok, text: res.message ?? (res.ok ? 'İşlem tamamlandı.' : 'İşlem başarısız.') });
       if (res.ok) router.refresh();
+    });
+  };
+
+  const submitDelete = () => {
+    startTransition(async () => {
+      setMessage(null);
+      const res = await deleteStudent(studentId);
+      if (res.ok) {
+        router.push('/ogretmen/ogrenciler');
+        router.refresh();
+      } else {
+        setMessage({ ok: false, text: res.message ?? 'Silinemedi.' });
+        setDeleteOpen(false);
+      }
     });
   };
 
@@ -112,7 +129,70 @@ export function AccountControls({
         </Button>
       </div>
 
+      <div className="border-t border-hairline pt-3">
+        <Button
+          size="sm"
+          variant="danger"
+          disabled={pending}
+          onClick={() => {
+            setConfirmText('');
+            setDeleteOpen(true);
+          }}
+        >
+          <Trash2 className="h-3.5 w-3.5" aria-hidden />
+          Öğrenciyi Kalıcı Olarak Sil
+        </Button>
+      </div>
+
       {message ? <FormMessage ok={message.ok} message={message.text} /> : null}
+
+      <Modal
+        open={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        title="Öğrenciyi kalıcı olarak sil"
+        description="Bu işlem geri alınamaz."
+      >
+        <div className="space-y-4">
+          <div className="flex items-start gap-3 rounded-lg border border-accent-200 bg-accent-50 px-4 py-3">
+            <TriangleAlert
+              className="mt-0.5 h-4 w-4 shrink-0 text-accent-600"
+              aria-hidden
+            />
+            <p className="text-[13px] leading-6 text-accent-900">
+              <strong>{fullName}</strong> hesabı ve tüm verileri silinecek:
+              dersler, ödevler ve teslimler, sınav sonucu, mesajlar, günlük
+              kelime ilerlemesi ve notlarınız. Girişi geçici olarak kapatmak
+              istiyorsanız bunun yerine <strong>Hesabı Pasifleştir</strong>{' '}
+              seçeneğini kullanın.
+            </p>
+          </div>
+          <FieldGroup>
+            <Label htmlFor="ac-delete-confirm">
+              Onaylamak için <strong>SİL</strong> yazın
+            </Label>
+            <Input
+              id="ac-delete-confirm"
+              value={confirmText}
+              onChange={(e) => setConfirmText(e.target.value)}
+              placeholder="SİL"
+              autoComplete="off"
+            />
+          </FieldGroup>
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setDeleteOpen(false)}>
+              Vazgeç
+            </Button>
+            <Button
+              variant="accent"
+              disabled={pending || confirmText.trim().toLocaleUpperCase('tr-TR') !== 'SİL'}
+              onClick={submitDelete}
+            >
+              <Trash2 className="h-4 w-4" aria-hidden />
+              Kalıcı Olarak Sil
+            </Button>
+          </div>
+        </div>
+      </Modal>
 
       <Modal open={pwOpen} onClose={() => setPwOpen(false)} title="Şifre sıfırla">
         <div className="space-y-4">

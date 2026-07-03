@@ -30,11 +30,16 @@ import { FormMessage } from '@/components/ui/FormMessage';
 import { LessonStatusBadge } from '@/components/ui/DomainBadges';
 import { Modal } from '@/components/ui/Modal';
 
-export type CalendarLesson = Lesson & { student_name?: string };
+export type CalendarLesson = Lesson & {
+  student_name?: string;
+  /** Ogretmen takviminde ders rozetinin rengi (hex) */
+  student_color?: string | null;
+};
 
 interface StudentOption {
   id: string;
   full_name: string;
+  color?: string | null;
 }
 interface PackageOption {
   id: string;
@@ -538,6 +543,9 @@ export function MonthCalendar({
             {cells.map((cell, i) => {
               const dayLessons = byDay.get(cell.key) ?? [];
               const isToday = cell.key === todayKey;
+              const hasActiveLesson = dayLessons.some(
+                (l) => l.status !== 'cancelled'
+              );
               return (
                 <div
                   key={cell.key}
@@ -545,7 +553,9 @@ export function MonthCalendar({
                     'min-h-[96px] border-hairline p-1.5',
                     i % 7 !== 6 && 'border-r',
                     i < 35 && 'border-b',
-                    !cell.inMonth && 'bg-plane/60'
+                    !cell.inMonth && 'bg-plane/60',
+                    // Ogrenci gorunumu: ders olan gunler hafif mavi
+                    !canEdit && cell.inMonth && hasActiveLesson && 'bg-brand-50'
                   )}
                 >
                   <div className="flex items-center justify-between">
@@ -573,28 +583,44 @@ export function MonthCalendar({
                     ) : null}
                   </div>
                   <div className="mt-1 space-y-1">
-                    {dayLessons.slice(0, 3).map((l) => (
-                      <button
-                        key={l.id}
-                        type="button"
-                        onClick={() => setSelected(l)}
-                        className={cn(
-                          'flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-[11.5px] font-medium transition-colors',
-                          l.status === 'cancelled'
-                            ? 'bg-plane text-ink-muted line-through'
-                            : 'bg-brand-100/80 text-brand-900 hover:bg-brand-200'
-                        )}
-                      >
-                        <span
-                          aria-hidden
-                          className={cn('h-1.5 w-1.5 shrink-0 rounded-full', statusDot(l.status))}
-                        />
-                        <span className="truncate">
-                          {formatTime(l.starts_at)}
-                          {l.student_name ? ` · ${l.student_name.split(' ')[0]}` : ''}
-                        </span>
-                      </button>
-                    ))}
+                    {dayLessons.slice(0, 3).map((l) => {
+                      const cancelled = l.status === 'cancelled';
+                      const tint = !cancelled ? l.student_color : null;
+                      return (
+                        <button
+                          key={l.id}
+                          type="button"
+                          onClick={() => setSelected(l)}
+                          className={cn(
+                            'flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-[11.5px] font-medium transition-opacity',
+                            cancelled
+                              ? 'bg-plane text-ink-muted line-through'
+                              : tint
+                                ? 'hover:opacity-80'
+                                : 'bg-brand-100/80 text-brand-900 hover:bg-brand-200'
+                          )}
+                          style={
+                            tint
+                              ? { backgroundColor: `${tint}1f`, color: tint }
+                              : undefined
+                          }
+                        >
+                          <span
+                            aria-hidden
+                            className={cn(
+                              'h-1.5 w-1.5 shrink-0 rounded-full',
+                              statusDot(l.status)
+                            )}
+                          />
+                          <span className="truncate">
+                            {formatTime(l.starts_at)}
+                            {l.student_name
+                              ? ` · ${l.student_name.split(' ')[0]}`
+                              : ''}
+                          </span>
+                        </button>
+                      );
+                    })}
                     {dayLessons.length > 3 ? (
                       <p className="px-1.5 text-[11px] text-ink-muted">
                         +{dayLessons.length - 3} ders daha
@@ -617,6 +643,24 @@ export function MonthCalendar({
           </span>
         ))}
       </div>
+
+      {/* Öğrenci renk lejantı (öğretmen görünümü) */}
+      {canEdit && students.some((st) => st.color) ? (
+        <div className="mt-2 flex flex-wrap gap-4 text-[12px] text-ink-secondary">
+          {students
+            .filter((st) => st.color)
+            .map((st) => (
+              <span key={st.id} className="inline-flex items-center gap-1.5">
+                <span
+                  aria-hidden
+                  className="h-2.5 w-2.5 rounded-sm"
+                  style={{ backgroundColor: st.color ?? undefined }}
+                />
+                {st.full_name}
+              </span>
+            ))}
+        </div>
+      ) : null}
 
       {/* Detay */}
       <Modal
