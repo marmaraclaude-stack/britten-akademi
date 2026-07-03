@@ -1,0 +1,48 @@
+-- ============================================================
+-- Öğretmen hesabı oluşturma (bir kez çalıştırılır)
+-- Supabase Dashboard > SQL Editor'e yapıştırıp
+-- E-POSTA, ŞİFRE ve AD SOYAD alanlarını değiştirerek çalıştırın.
+--
+-- Not: public.profiles satırı, auth.users tetikleyicisi tarafından
+-- (role = teacher olarak) otomatik oluşturulur.
+-- ============================================================
+
+do $$
+declare
+  uid uuid := gen_random_uuid();
+  teacher_email text := 'ogretmen@ornek.com';   -- DEĞİŞTİRİN
+  teacher_password text := 'GucluBirSifre-123'; -- DEĞİŞTİRİN
+  teacher_name text := 'Ad Soyad';              -- DEĞİŞTİRİN
+begin
+  insert into auth.users (
+    instance_id, id, aud, role, email, encrypted_password,
+    email_confirmed_at, raw_app_meta_data, raw_user_meta_data,
+    created_at, updated_at
+  ) values (
+    '00000000-0000-0000-0000-000000000000',
+    uid,
+    'authenticated',
+    'authenticated',
+    teacher_email,
+    crypt(teacher_password, gen_salt('bf')),
+    now(),
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    jsonb_build_object('role', 'teacher', 'full_name', teacher_name),
+    now(),
+    now()
+  );
+
+  insert into auth.identities (
+    id, user_id, provider_id, provider, identity_data,
+    last_sign_in_at, created_at, updated_at
+  ) values (
+    gen_random_uuid(),
+    uid,
+    uid::text,
+    'email',
+    jsonb_build_object('sub', uid::text, 'email', teacher_email, 'email_verified', true),
+    now(),
+    now(),
+    now()
+  );
+end $$;

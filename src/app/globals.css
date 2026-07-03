@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-plane text-ink antialiased;
+}
+
+/* İnce, göze batmayan kaydırma çubukları */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c3c2b7 transparent;
+}
+
+/* Öğrencinin gördüğü zengin metin içeriği (materyal notları) */
+.prose-brit {
+  @apply text-[15px] leading-7 text-ink-secondary;
+}
+.prose-brit h1,
+.prose-brit h2,
+.prose-brit h3 {
+  @apply font-semibold text-ink mt-6 mb-2;
+}
+.prose-brit h1 { @apply text-xl; }
+.prose-brit h2 { @apply text-lg; }
+.prose-brit p { @apply my-3; }
+.prose-brit ul { @apply list-disc pl-6 my-3; }
+.prose-brit ol { @apply list-decimal pl-6 my-3; }
+.prose-brit a { @apply text-navy-600 underline; }
+.prose-brit strong { @apply text-ink font-semibold; }

@@ -1,0 +1,1530 @@
+{
+  "passages": [
+    {
+      "ref": "P1",
+      "level": "A2",
+      "title": "Notice: Greenhill Sports Centre",
+      "text": "The main hall at Greenhill Sports Centre will be closed on Monday 14 August because workers are repairing its roof. The swimming pool and the café will stay open as usual, from 7 a.m. to 9 p.m. If you have a fitness class on Monday, do not worry — your teacher will move it to Tuesday at the same time. Members do not need to pay again. For more information, please call the front desk or visit our website. We are sorry for any problems this causes."
+    },
+    {
+      "ref": "P2",
+      "level": "B1",
+      "title": "Repair Cafés: Fixing More Than Machines",
+      "text": "When Sara's toaster stopped working last year, she almost threw it away. Instead, a neighbour told her about a repair café — a free monthly event where volunteers help people mend broken household items. Sara took her toaster along, and twenty minutes later it was working again.\n\nThe first repair café opened in Amsterdam in 2009, and the idea has since spread to more than thirty countries. Visitors bring anything from lamps and bicycles to torn clothes, and skilled volunteers show them how to fix things themselves rather than doing everything for them. Organisers say the events reduce waste, but many visitors value the social side just as much. 'People stay for coffee and a chat,' says one volunteer. 'Some come every month, even when nothing at home is broken.' Sara now helps at the café herself, teaching others how to do simple repairs."
+    },
+    {
+      "ref": "P3",
+      "level": "B2",
+      "title": "In Praise of Darkness",
+      "text": "Artificial light has transformed human life so completely that genuine darkness is now, for most city dwellers, little more than a memory. Streets, car parks and office towers blaze through the night, and satellite images show the glow spreading year by year. Convenient as this is, I would argue that we have paid too little attention to what it costs us.\n\nThe consequences for wildlife are well documented: migrating birds are drawn off course by illuminated buildings, and insects, whose numbers are already collapsing, cluster around lamps until they die of exhaustion. Human health suffers too. Our bodies rely on darkness to produce melatonin, the hormone that regulates sleep, and studies repeatedly link night-time light exposure to poor rest.\n\nNone of this means we should switch off every streetlamp; safety matters, and nobody wants unlit roads. But much of our lighting is simply wasteful — empty offices lit until dawn, advertising screens burning at 3 a.m. Cities such as Tucson have dimmed their street lighting with no measurable rise in accidents or crime. Darkness, in short, is not an enemy to be conquered but a resource we should learn to value again."
+    },
+    {
+      "ref": "P4",
+      "level": "C1",
+      "title": "The Unexpected Uses of Boredom",
+      "text": "That boredom should need defenders at all is a peculiarly modern development. For most of history, tedium was simply a condition of existence, endured rather than examined; today it is treated as a malfunction, to be eliminated the instant it threatens to arise. The smartphone has proved a remarkably efficient instrument for this purpose, filling every idle interval — the queue, the commute, the minute before a meeting begins — with a stream of frictionless distraction.\n\nYet a growing body of psychological research suggests that this apparent victory may be a hollow one. Boredom, it turns out, is not an absence of mental activity but a signal: an uncomfortable prompt that our current situation lacks meaning and that we might profitably seek something better. Participants in one series of studies who were assigned deliberately monotonous tasks subsequently produced more original ideas than control groups, as though their minds, deprived of stimulation, had begun to generate their own. To anaesthetise boredom the moment it appears may therefore be to silence a messenger bearing useful, if unwelcome, news.\n\nNone of this amounts to a nostalgic plea for dullness. The claim, rather, is that a tolerance for unstimulated time is a capacity — one that atrophies without use, and whose loss we have accepted with scarcely a murmur. A society that cannot bear to be bored is, in the end, a society that cannot bear to be alone with its own thoughts."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "My name ___ Anna.",
+      "options": [
+        "am",
+        "is",
+        "are",
+        "be"
+      ],
+      "answer_index": 1,
+      "explanation": "Özne üçüncü tekil şahıs olduğu için 'to be' fiilinin doğru hali 'is'tir."
+    },
+    {
+      "id": 2,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "She ___ in a hospital.",
+      "options": [
+        "works",
+        "work",
+        "working",
+        "is work"
+      ],
+      "answer_index": 0,
+      "explanation": "Geniş zamanda üçüncü tekil şahıs (she) öznesinden sonra fiile -s eklenir: 'works'."
+    },
+    {
+      "id": 3,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "There ___ two big windows in my bedroom.",
+      "options": [
+        "is",
+        "am",
+        "be",
+        "are"
+      ],
+      "answer_index": 3,
+      "explanation": "Çoğul isimlerle (two big windows) 'there are' yapısı kullanılır."
+    },
+    {
+      "id": 4,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "The film starts ___ eight o'clock.",
+      "options": [
+        "in",
+        "on",
+        "at",
+        "of"
+      ],
+      "answer_index": 2,
+      "explanation": "Saatlerden bahsederken 'at' edatı kullanılır: at eight o'clock."
+    },
+    {
+      "id": 5,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "They live in ___ old house near the river.",
+      "options": [
+        "a",
+        "any",
+        "much",
+        "an"
+      ],
+      "answer_index": 3,
+      "explanation": "Sesli harfle başlayan kelimeden ('old') önce 'an' artikeli kullanılır."
+    },
+    {
+      "id": 6,
+      "section": "grammar",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "___ you like green tea?",
+      "options": [
+        "Are",
+        "Does",
+        "Do",
+        "Is"
+      ],
+      "answer_index": 2,
+      "explanation": "Geniş zaman sorularında 'you' öznesiyle 'do' yardımcı fiili kullanılır."
+    },
+    {
+      "id": 7,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Last night we ___ a really interesting film.",
+      "options": [
+        "saw",
+        "sees",
+        "see",
+        "seen"
+      ],
+      "answer_index": 0,
+      "explanation": "'Last night' geçmiş zamanı gösterir; 'see' fiilinin ikinci hali 'saw'dur."
+    },
+    {
+      "id": 8,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Listen! Someone ___ the piano upstairs.",
+      "options": [
+        "plays",
+        "is playing",
+        "play",
+        "playing"
+      ],
+      "answer_index": 1,
+      "explanation": "'Listen!' şu anda olan bir eylemi gösterir; şimdiki zaman (present continuous) 'is playing' kullanılır."
+    },
+    {
+      "id": 9,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "This exercise is ___ than the last one.",
+      "options": [
+        "easy",
+        "more easy",
+        "easiest",
+        "easier"
+      ],
+      "answer_index": 3,
+      "explanation": "Kısa sıfatların karşılaştırma hali '-er' eki ve 'than' ile yapılır: easier than."
+    },
+    {
+      "id": 10,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Hurry up! We haven't got ___ time.",
+      "options": [
+        "many",
+        "a few",
+        "lots",
+        "much"
+      ],
+      "answer_index": 3,
+      "explanation": "'Time' sayılamayan bir isimdir; olumsuz cümlelerde 'much' kullanılır."
+    },
+    {
+      "id": 11,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Look at those dark clouds — it ___ rain.",
+      "options": [
+        "will to",
+        "goes to",
+        "is going to",
+        "going"
+      ],
+      "answer_index": 2,
+      "explanation": "Görünen kanıta dayalı tahminlerde 'be going to' yapısı kullanılır."
+    },
+    {
+      "id": 12,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Visitors ___ touch the paintings in this museum.",
+      "options": [
+        "mustn't",
+        "don't must",
+        "must to",
+        "not must"
+      ],
+      "answer_index": 0,
+      "explanation": "Yasakları ifade etmek için 'mustn't' kullanılır; 'must' yardımcı fiil olduğu için 'don't' almaz ve 'to' ile kullanılmaz."
+    },
+    {
+      "id": 13,
+      "section": "grammar",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Water boils if you ___ it to 100 degrees.",
+      "options": [
+        "will heat",
+        "heated",
+        "heating",
+        "heat"
+      ],
+      "answer_index": 3,
+      "explanation": "Genel doğrularda (zero conditional) if'li bölümde geniş zaman kullanılır: if you heat."
+    },
+    {
+      "id": 14,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "They ___ in the same flat since 2019.",
+      "options": [
+        "have lived",
+        "live",
+        "lived",
+        "are living"
+      ],
+      "answer_index": 0,
+      "explanation": "'Since 2019' geçmişte başlayıp hâlâ devam eden eylemi gösterir; present perfect (have lived) gerekir."
+    },
+    {
+      "id": 15,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "If it ___ tomorrow, we'll cancel the picnic.",
+      "options": [
+        "rains",
+        "will rain",
+        "rained",
+        "would rain"
+      ],
+      "answer_index": 0,
+      "explanation": "Birinci tip koşul cümlesinde (first conditional) if'ten sonra geniş zaman kullanılır: if it rains."
+    },
+    {
+      "id": 16,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "What would you do if you ___ a wallet full of money in the street?",
+      "options": [
+        "find",
+        "will find",
+        "found",
+        "would find"
+      ],
+      "answer_index": 2,
+      "explanation": "İkinci tip koşul cümlesinde (second conditional) if'ten sonra geçmiş zaman kullanılır: if you found."
+    },
+    {
+      "id": 17,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "This castle ___ more than five hundred years ago.",
+      "options": [
+        "built",
+        "is built",
+        "has been built",
+        "was built"
+      ],
+      "answer_index": 3,
+      "explanation": "Özne eylemi yapan değil, eylemden etkilenendir; 'ago' ile geçmiş zaman edilgen yapı 'was built' gerekir."
+    },
+    {
+      "id": 18,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "The doctor ___ treated my grandfather has just retired.",
+      "options": [
+        "which",
+        "whose",
+        "what",
+        "who"
+      ],
+      "answer_index": 3,
+      "explanation": "İnsanları niteleyen sıfat cümleciklerinde özne konumunda 'who' kullanılır."
+    },
+    {
+      "id": 19,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "I ___ dinner when the lights suddenly went out.",
+      "options": [
+        "was cooking",
+        "cooked",
+        "am cooking",
+        "have cooked"
+      ],
+      "answer_index": 0,
+      "explanation": "Geçmişte devam ederken başka bir eylemle kesilen olay için past continuous (was cooking) kullanılır."
+    },
+    {
+      "id": 20,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "You ___ pay to visit the gallery — entry is completely free.",
+      "options": [
+        "mustn't",
+        "don't have to",
+        "can't",
+        "shouldn't"
+      ],
+      "answer_index": 1,
+      "explanation": "Zorunluluk olmadığını anlatmak için 'don't have to' kullanılır; 'mustn't' yasak bildirir."
+    },
+    {
+      "id": 21,
+      "section": "grammar",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "My brother doesn't mind ___ early on weekdays.",
+      "options": [
+        "to get up",
+        "get up",
+        "getting up",
+        "to getting up"
+      ],
+      "answer_index": 2,
+      "explanation": "'Mind' fiilinden sonra fiil -ing (gerund) hâlinde gelir: mind getting up."
+    },
+    {
+      "id": 22,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "Sara would have passed the exam if she ___ a little harder.",
+      "options": [
+        "studied",
+        "had studied",
+        "would study",
+        "has studied"
+      ],
+      "answer_index": 1,
+      "explanation": "Üçüncü tip koşul cümlesinde (third conditional) if'li bölümde past perfect kullanılır: if she had studied."
+    },
+    {
+      "id": 23,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "Elif said that she ___ the documents the following day.",
+      "options": [
+        "will send",
+        "sends",
+        "would send",
+        "has sent"
+      ],
+      "answer_index": 2,
+      "explanation": "Dolaylı anlatımda (reported speech) 'said' geçmiş zaman olduğundan 'will', 'would'a dönüşür; 'the following day' bu kaymayı zorunlu kılar."
+    },
+    {
+      "id": 24,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "I wish I ___ more attention during yesterday's lecture.",
+      "options": [
+        "paid",
+        "had paid",
+        "would pay",
+        "have paid"
+      ],
+      "answer_index": 1,
+      "explanation": "Geçmişe yönelik pişmanlıklarda 'wish' + past perfect kullanılır: wish I had paid."
+    },
+    {
+      "id": 25,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "We're having our kitchen ___ at the moment, so we're eating out a lot.",
+      "options": [
+        "redecorate",
+        "redecorating",
+        "to redecorate",
+        "redecorated"
+      ],
+      "answer_index": 3,
+      "explanation": "Ettirgen yapıda (have something done) nesneden sonra fiilin üçüncü hali gelir: having our kitchen redecorated."
+    },
+    {
+      "id": 26,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "Tom ___ have received my email — otherwise he would have replied by now.",
+      "options": [
+        "can't",
+        "mustn't",
+        "shouldn't",
+        "won't"
+      ],
+      "answer_index": 0,
+      "explanation": "Geçmişe dair güçlü olumsuz çıkarım 'can't have + V3' ile yapılır; 'mustn't' bu anlamda kullanılmaz."
+    },
+    {
+      "id": 27,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "By the time you arrive, I ___ all the packing.",
+      "options": [
+        "will have finished",
+        "will finish",
+        "am finishing",
+        "have finished"
+      ],
+      "answer_index": 0,
+      "explanation": "'By the time' ile gelecekte belli bir andan önce tamamlanacak eylem için future perfect (will have finished) kullanılır."
+    },
+    {
+      "id": 28,
+      "section": "grammar",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "That's the author ___ latest novel won several international prizes.",
+      "options": [
+        "who's",
+        "which",
+        "whose",
+        "whom"
+      ],
+      "answer_index": 2,
+      "explanation": "Aitlik bildiren sıfat cümleciklerinde 'whose' kullanılır: yazarın (kendisine ait) romanı."
+    },
+    {
+      "id": 29,
+      "section": "grammar",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "If she ___ the job offer in Berlin last year, she would be living abroad now.",
+      "options": [
+        "accepted",
+        "would accept",
+        "had accepted",
+        "was accepting"
+      ],
+      "answer_index": 2,
+      "explanation": "Karma koşul cümlesi (mixed conditional): geçmişteki koşul için past perfect (had accepted), şimdiki sonuç için 'would be living' kullanılır."
+    },
+    {
+      "id": 30,
+      "section": "grammar",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "Hardly ___ the meeting when the fire alarm went off.",
+      "options": [
+        "we had started",
+        "had we started",
+        "did we start",
+        "we started"
+      ],
+      "answer_index": 1,
+      "explanation": "'Hardly ... when' yapısı cümle başında devrik yapı (inversion) ve past perfect gerektirir: Hardly had we started."
+    },
+    {
+      "id": 31,
+      "section": "grammar",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "The committee demanded that every candidate ___ a full background check before the interview stage.",
+      "options": [
+        "to undergo",
+        "undergoing",
+        "would undergo",
+        "undergo"
+      ],
+      "answer_index": 3,
+      "explanation": "'demand that' gibi talep/gereklilik bildiren fiillerden sonra gelen that-yan cümlesinde mandative subjunctive kullanılır; yani özne ne olursa olsun fiil yalın halde kalır: 'demanded that every candidate undergo'. Orijinal maddedeki 'insisted' fiili hem talep hem de iddia (bir olguyu öne sürme) anlamı taşıdığından 'underwent' seçeneği de savunulabilir hale geliyordu; fiil yalnızca talep anlamı taşıyan 'demanded' ile değiştirildi ve 'underwent' seçeneği çıkarıldı. Çeldiriciler artık açıkça yanlıştır: 'to undergo' ve 'undergoing' that-yan cümlesi çekimli (finite) bir fiil gerektirdiği için kullanılamaz; 'would undergo' ise 'demand that' yapısından sonra standart İngilizcede kabul edilmez (İngiliz İngilizcesinde ancak 'should undergo' mümkün olurdu, o da seçenekler arasında değildir). Böylece tek doğru yanıt 'undergo' olur."
+    },
+    {
+      "id": 32,
+      "section": "grammar",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "You ___ prepared so much food — most of the guests didn't come.",
+      "options": [
+        "mustn't have",
+        "needn't have",
+        "couldn't have",
+        "may not have"
+      ],
+      "answer_index": 1,
+      "explanation": "Yapılmış ama gereksiz olduğu anlaşılan eylemler için 'needn't have + V3' kullanılır: hazırlamana gerek yoktu."
+    },
+    {
+      "id": 33,
+      "section": "grammar",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "We regret ___ you that the position has already been filled.",
+      "options": [
+        "informing",
+        "to inform",
+        "inform",
+        "to informing"
+      ],
+      "answer_index": 1,
+      "explanation": "Resmî bir kötü haber verirken 'regret + to infinitive' kullanılır; 'regret + -ing' ise geçmişteki bir eylemden duyulan pişmanlığı bildirir."
+    },
+    {
+      "id": 34,
+      "section": "grammar",
+      "level": "C2",
+      "passage_ref": null,
+      "question": "Under no circumstances ___ allowed to open the train doors themselves.",
+      "options": [
+        "passengers are",
+        "are passengers",
+        "do passengers",
+        "passengers were"
+      ],
+      "answer_index": 1,
+      "explanation": "Cümle 'Under no circumstances' gibi olumsuz bir zarf öbeğiyle başladığında devrik yapı (inversion) zorunludur: are passengers allowed."
+    },
+    {
+      "id": 35,
+      "section": "grammar",
+      "level": "C2",
+      "passage_ref": null,
+      "question": "___ as it may seem, the committee has never once met in person.",
+      "options": [
+        "Strange",
+        "Strangely",
+        "However",
+        "Despite"
+      ],
+      "answer_index": 0,
+      "explanation": "'Sıfat + as + özne + may seem' kalıbı 'her ne kadar ... görünse de' anlamı verir; bu yapıda zarf değil sıfat kullanılır: Strange as it may seem."
+    },
+    {
+      "id": 36,
+      "section": "grammar",
+      "level": "C2",
+      "passage_ref": null,
+      "question": "But for the goalkeeper's brilliant save, the team ___ the match.",
+      "options": [
+        "would lose",
+        "had lost",
+        "would have lost",
+        "lost"
+      ],
+      "answer_index": 2,
+      "explanation": "'But for' gizli bir üçüncü tip koşul bildirir ('... olmasaydı'); ana cümlede 'would have + V3' gerekir."
+    },
+    {
+      "id": 37,
+      "section": "vocabulary",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "She drinks a glass of ___ with her breakfast every day.",
+      "options": [
+        "bread",
+        "milk",
+        "cheese",
+        "rice"
+      ],
+      "answer_index": 1,
+      "explanation": "'Milk' (süt) seçenekler arasında içilebilen tek şeydir; 'a glass of milk' bir bardak süt demektir."
+    },
+    {
+      "id": 38,
+      "section": "vocabulary",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "My mother's husband is my ___.",
+      "options": [
+        "sister",
+        "aunt",
+        "father",
+        "daughter"
+      ],
+      "answer_index": 2,
+      "explanation": "'Father' baba demektir; annenin eşi kişinin babasıdır."
+    },
+    {
+      "id": 39,
+      "section": "vocabulary",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "We ___ TV together in the evening.",
+      "options": [
+        "watch",
+        "read",
+        "listen",
+        "look"
+      ],
+      "answer_index": 0,
+      "explanation": "İngilizcede televizyon için 'watch' (izlemek) fiili kullanılır: 'watch TV'."
+    },
+    {
+      "id": 40,
+      "section": "vocabulary",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "It is very cold in here. Please close the ___.",
+      "options": [
+        "floor",
+        "rain",
+        "sun",
+        "window"
+      ],
+      "answer_index": 3,
+      "explanation": "'Window' pencere demektir; soğukta kapatılabilen tek seçenek penceredir."
+    },
+    {
+      "id": 41,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Last summer we stayed in a small ___ near the sea.",
+      "options": [
+        "ticket",
+        "hotel",
+        "suitcase",
+        "kitchen"
+      ],
+      "answer_index": 1,
+      "explanation": "'Hotel' (otel) tatilde konaklanan yerdir; 'ticket', 'suitcase' ve 'kitchen' bu cümleye anlamca uymaz."
+    },
+    {
+      "id": 42,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "In the sentence 'The cake she made was very tasty', the word 'tasty' is closest in meaning to ___.",
+      "options": [
+        "fresh",
+        "cheap",
+        "delicious",
+        "ready"
+      ],
+      "answer_index": 2,
+      "explanation": "'Tasty' (lezzetli) kelimesinin en yakın eş anlamlısı 'delicious'tır."
+    },
+    {
+      "id": 43,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Hurry up! The plane ___ off at seven o'clock.",
+      "options": [
+        "takes",
+        "gives",
+        "makes",
+        "does"
+      ],
+      "answer_index": 0,
+      "explanation": "'Take off' uçağın kalkması anlamına gelen deyimsel fiildir (phrasal verb)."
+    },
+    {
+      "id": 44,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Every evening, Tom ___ his homework before dinner.",
+      "options": [
+        "makes",
+        "writes",
+        "does",
+        "works"
+      ],
+      "answer_index": 2,
+      "explanation": "İngilizcede ödev yapmak 'do homework' kalıbıyla ifade edilir; 'make homework' yanlıştır."
+    },
+    {
+      "id": 45,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "My aunt is a nurse; she works in a busy ___.",
+      "options": [
+        "library",
+        "restaurant",
+        "cinema",
+        "hospital"
+      ],
+      "answer_index": 3,
+      "explanation": "'Nurse' (hemşire) hastanede, yani 'hospital'da çalışır."
+    },
+    {
+      "id": 46,
+      "section": "vocabulary",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "Elif feels ___ because her best friend is moving to another country.",
+      "options": [
+        "hungry",
+        "sad",
+        "thirsty",
+        "busy"
+      ],
+      "answer_index": 1,
+      "explanation": "'Sad' üzgün demektir; en yakın arkadaşının taşınması kişiyi üzen bir durumdur."
+    },
+    {
+      "id": 47,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "They decided to ___ off the meeting until everyone could attend.",
+      "options": [
+        "take",
+        "get",
+        "put",
+        "bring"
+      ],
+      "answer_index": 2,
+      "explanation": "'Put off' ertelemek anlamındaki deyimsel fiildir; toplantı ileri bir tarihe ertelenmiştir."
+    },
+    {
+      "id": 48,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "If you don't ___ attention in class, you'll miss important information.",
+      "options": [
+        "give",
+        "pay",
+        "spend",
+        "keep"
+      ],
+      "answer_index": 1,
+      "explanation": "İngilizcede dikkat etmek 'pay attention' eşdizimiyle (collocation) söylenir."
+    },
+    {
+      "id": 49,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "In the sentence 'Our company plans to purchase fifty new laptops next month', the word 'purchase' is closest in meaning to ___.",
+      "options": [
+        "rent",
+        "repair",
+        "deliver",
+        "buy"
+      ],
+      "answer_index": 3,
+      "explanation": "'Purchase' satın almak demektir; en yakın eş anlamlısı 'buy'dır."
+    },
+    {
+      "id": 50,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "Air ___ in large cities can cause serious breathing problems.",
+      "options": [
+        "pollution",
+        "litter",
+        "recycling",
+        "climate"
+      ],
+      "answer_index": 0,
+      "explanation": "'Air pollution' hava kirliliği demektir ve solunum sorunlarına yol açar; diğer kelimeler 'air' ile bu anlamda kullanılmaz."
+    },
+    {
+      "id": 51,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "After working a twelve-hour shift, Maria was absolutely ___.",
+      "options": [
+        "comfortable",
+        "energetic",
+        "exhausted",
+        "cheerful"
+      ],
+      "answer_index": 2,
+      "explanation": "'Exhausted' bitkin, çok yorgun demektir; uzun bir vardiyadan sonra hissedilen duygu budur."
+    },
+    {
+      "id": 52,
+      "section": "vocabulary",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "Don't forget to ___ your phone before the journey — the battery is nearly dead.",
+      "options": [
+        "fill",
+        "charge",
+        "feed",
+        "refresh"
+      ],
+      "answer_index": 1,
+      "explanation": "'Charge' telefonu/pili şarj etmek anlamına gelir; pil bittiğinde telefon şarj edilir."
+    },
+    {
+      "id": 53,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "In the sentence 'The city council implemented a new recycling scheme last year', the word 'implemented' is closest in meaning to ___.",
+      "options": [
+        "looked into",
+        "carried out",
+        "called off",
+        "ran into"
+      ],
+      "answer_index": 1,
+      "explanation": "'Implement' uygulamak, hayata geçirmek demektir; en yakın karşılığı 'carry out' ifadesidir."
+    },
+    {
+      "id": 54,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "Several doctors have ___ concerns about the side effects of the new treatment.",
+      "options": [
+        "lifted",
+        "grown",
+        "raised",
+        "risen"
+      ],
+      "answer_index": 2,
+      "explanation": "Endişe dile getirmek İngilizcede 'raise concerns' kalıbıyla söylenir; 'rise' geçişsiz bir fiildir ve bu eşdizimde kullanılmaz."
+    },
+    {
+      "id": 55,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "On her doctor's advice, Susan finally ___ up smoking after twenty years.",
+      "options": [
+        "gave",
+        "took",
+        "cut",
+        "put"
+      ],
+      "answer_index": 0,
+      "explanation": "'Give up' bir alışkanlığı bırakmak demektir; 'take up' ise başlamak anlamına geldiği için bağlama uymaz."
+    },
+    {
+      "id": 56,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "The two airlines are expected to ___ next year, forming the largest carrier in Europe.",
+      "options": [
+        "blend",
+        "melt",
+        "merge",
+        "attach"
+      ],
+      "answer_index": 2,
+      "explanation": "'Merge' şirketlerin birleşmesi anlamında kullanılan iş İngilizcesi terimidir; diğer fiiller bu bağlamda kullanılmaz."
+    },
+    {
+      "id": 57,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "Many rare species are now on the ___ of extinction owing to deforestation.",
+      "options": [
+        "tip",
+        "border",
+        "foot",
+        "brink"
+      ],
+      "answer_index": 3,
+      "explanation": "'On the brink of extinction' yok olmanın eşiğinde demektir; bu kalıpta doğru kelime 'brink'tir."
+    },
+    {
+      "id": 58,
+      "section": "vocabulary",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "In the sentence 'A number of employees were reluctant to share their opinions during the survey', the word 'reluctant' is closest in meaning to ___.",
+      "options": [
+        "unable",
+        "unwilling",
+        "careless",
+        "dishonest"
+      ],
+      "answer_index": 1,
+      "explanation": "'Reluctant' isteksiz, gönülsüz demektir; en yakın eş anlamlısı 'unwilling'dir."
+    },
+    {
+      "id": 59,
+      "section": "vocabulary",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "The property deal fell ___ at the last minute when the investors withdrew their support.",
+      "options": [
+        "out",
+        "through",
+        "off",
+        "down"
+      ],
+      "answer_index": 1,
+      "explanation": "'Fall through' bir plan veya anlaşmanın suya düşmesi, gerçekleşmemesi anlamındaki deyimsel fiildir."
+    },
+    {
+      "id": 60,
+      "section": "vocabulary",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "The latest findings ___ serious doubt on the widely accepted theory.",
+      "options": [
+        "cast",
+        "drop",
+        "lay",
+        "push"
+      ],
+      "answer_index": 0,
+      "explanation": "'Cast doubt on' bir şeyi şüpheye düşürmek anlamındaki kalıplaşmış eşdizimdir; diğer fiiller 'doubt' ile bu kalıbı oluşturmaz."
+    },
+    {
+      "id": 61,
+      "section": "vocabulary",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "In the sentence 'There was a tacit understanding among the staff that the subject would never be mentioned again', the word 'tacit' is closest in meaning to ___.",
+      "options": [
+        "formal",
+        "temporary",
+        "unspoken",
+        "reluctant"
+      ],
+      "answer_index": 2,
+      "explanation": "'Tacit' açıkça dile getirilmeyen, örtük demektir; en yakın karşılığı 'unspoken'dır."
+    },
+    {
+      "id": 62,
+      "section": "vocabulary",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "Whenever something goes wrong in the department, the supervisor simply passes the buck. The idiom 'pass the buck' means ___.",
+      "options": [
+        "to postpone a decision indefinitely",
+        "to spend money carelessly",
+        "to praise employees publicly",
+        "to shift responsibility onto someone else"
+      ],
+      "answer_index": 3,
+      "explanation": "'Pass the buck' sorumluluğu başkasının üzerine atmak anlamına gelen bir deyimdir."
+    },
+    {
+      "id": 63,
+      "section": "vocabulary",
+      "level": "C2",
+      "passage_ref": null,
+      "question": "By launching its product a month early, the firm stole a march on its competitors. The idiom 'steal a march on' means ___.",
+      "options": [
+        "to gain an advantage by acting sooner than others",
+        "to copy a rival's ideas secretly",
+        "to suffer an unexpected financial loss",
+        "to form a temporary business alliance"
+      ],
+      "answer_index": 0,
+      "explanation": "'Steal a march on someone' birinden önce davranarak avantaj elde etmek anlamındaki deyimdir."
+    },
+    {
+      "id": 64,
+      "section": "vocabulary",
+      "level": "C2",
+      "passage_ref": null,
+      "question": "Her prose is marked by a deliberate ___ — she never says a word more than is strictly necessary.",
+      "options": [
+        "verbosity",
+        "exuberance",
+        "reticence",
+        "candour"
+      ],
+      "answer_index": 2,
+      "explanation": "'Reticence' ketumluk, az ve ölçülü konuşma demektir; cümledeki 'gerekenden fazlasını söylememe' tanımına yalnızca bu kelime uyar."
+    },
+    {
+      "id": 65,
+      "section": "usage",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "A: How are you?\nB: ___, thank you. And you?",
+      "options": [
+        "I'm Tom",
+        "I'm fine",
+        "Yes, please",
+        "Good night"
+      ],
+      "answer_index": 1,
+      "explanation": "Hâl hatır soran 'How are you?' sorusuna 'I'm fine, thank you.' diye cevap verilir."
+    },
+    {
+      "id": 66,
+      "section": "usage",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "A: ___ is this T-shirt?\nB: It's ten pounds.",
+      "options": [
+        "How many",
+        "How old",
+        "How much",
+        "What colour"
+      ],
+      "answer_index": 2,
+      "explanation": "Fiyat sorarken 'How much is...?' kullanılır; 'How many' yalnızca sayılabilir çoğul isimlerle gelir."
+    },
+    {
+      "id": 67,
+      "section": "usage",
+      "level": "A1",
+      "passage_ref": null,
+      "question": "A: Nice to meet you.\nB: ___",
+      "options": [
+        "Nice to meet you too.",
+        "You're welcome.",
+        "I'm twelve years old.",
+        "Yes, it is."
+      ],
+      "answer_index": 0,
+      "explanation": "'Nice to meet you.' (Tanıştığımıza memnun oldum) ifadesine doğal karşılık 'Nice to meet you too.' olur."
+    },
+    {
+      "id": 68,
+      "section": "usage",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "A: Are you ready to order?\nB: Yes, ___ have the chicken salad, please.",
+      "options": [
+        "I'm",
+        "I've",
+        "I did",
+        "I'll"
+      ],
+      "answer_index": 3,
+      "explanation": "Restoranda sipariş verirken anlık karar bildiren 'will' ile 'I'll have...' kalıbı kullanılır."
+    },
+    {
+      "id": 69,
+      "section": "usage",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "A: Excuse me, how do I ___ to the bus station?\nB: Turn right at the traffic lights. It's next to the bank.",
+      "options": [
+        "arrive",
+        "get",
+        "reach",
+        "make"
+      ],
+      "answer_index": 1,
+      "explanation": "Yol tarifi sorarken 'How do I get to...?' kalıbı kullanılır; 'arrive' ve 'reach' bu yapıda 'to' ile kullanılmaz."
+    },
+    {
+      "id": 70,
+      "section": "usage",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "A: Hello, could I speak to Mrs Green, please?\nB: ___, please. I'll put you through.",
+      "options": [
+        "Hold off",
+        "Hold out",
+        "Hold on",
+        "Hold up"
+      ],
+      "answer_index": 2,
+      "explanation": "Telefonda karşıdakinden hatta beklemesini istemek için 'Hold on, please.' denir."
+    },
+    {
+      "id": 71,
+      "section": "usage",
+      "level": "A2",
+      "passage_ref": null,
+      "question": "A: These boxes are really heavy!\nB: ___ I help you carry them?",
+      "options": [
+        "Do",
+        "Shall",
+        "Would",
+        "Am"
+      ],
+      "answer_index": 1,
+      "explanation": "Yardım teklif ederken 'Shall I...?' yapısı kullanılır."
+    },
+    {
+      "id": 72,
+      "section": "usage",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "A: I'm really sorry I missed your birthday dinner.\nB: ___ These things happen.",
+      "options": [
+        "You're welcome.",
+        "That's a shame.",
+        "It serves you right.",
+        "Don't worry about it."
+      ],
+      "answer_index": 3,
+      "explanation": "Bir özrü kabul ederken 'Don't worry about it.' (Dert etme, önemli değil) denir; 'You're welcome' teşekkürlere verilen yanıttır."
+    },
+    {
+      "id": 73,
+      "section": "usage",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "A: Shall we meet outside the cinema at seven?\nB: ___ See you there.",
+      "options": [
+        "That works for me.",
+        "It's on me.",
+        "I couldn't agree less.",
+        "Make yourself at home."
+      ],
+      "answer_index": 0,
+      "explanation": "Bir buluşma önerisini kabul etmek için 'That works for me.' (Bana uyar) denir."
+    },
+    {
+      "id": 74,
+      "section": "usage",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "A: I'm afraid Ms Adams is away from her desk at the moment.\nB: No problem — could I ___ a message for her?",
+      "options": [
+        "say",
+        "put",
+        "leave",
+        "let"
+      ],
+      "answer_index": 2,
+      "explanation": "'Mesaj bırakmak' anlamındaki kalıp eşdizim 'leave a message'tır."
+    },
+    {
+      "id": 75,
+      "section": "usage",
+      "level": "B1",
+      "passage_ref": null,
+      "question": "A: In my opinion, the new shopping centre has ruined the town.\nB: ___ It brings a lot of jobs to the area, though.",
+      "options": [
+        "Whatever you say.",
+        "That's rubbish.",
+        "I see your point.",
+        "You must be joking."
+      ],
+      "answer_index": 2,
+      "explanation": "Kibarca karşı görüş bildirmeden önce 'I see your point.' (Ne demek istediğinizi anlıyorum) denir; diğer seçenekler kaba kaçar."
+    },
+    {
+      "id": 76,
+      "section": "usage",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "A: Would you mind if I opened the window?\nB: ___ It's quite warm in here anyway.",
+      "options": [
+        "Never mind.",
+        "Not at all.",
+        "Yes, I would.",
+        "You're welcome."
+      ],
+      "answer_index": 1,
+      "explanation": "'Would you mind...?' sorusuna izin vermek için 'Not at all.' denir; 'yes' ile başlayan yanıt itiraz anlamı taşır."
+    },
+    {
+      "id": 77,
+      "section": "usage",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "A: Good afternoon, madam. ___?\nB: Yes, please. I'm looking for a gift for my nephew.",
+      "options": [
+        "What do you want",
+        "What's up",
+        "Do you buy something",
+        "May I help you"
+      ],
+      "answer_index": 3,
+      "explanation": "Mağazada müşteriye resmi ve kibar hitap 'May I help you?' şeklindedir; diğer seçenekler kaba veya fazla samimidir."
+    },
+    {
+      "id": 78,
+      "section": "usage",
+      "level": "B2",
+      "passage_ref": null,
+      "question": "A: I don't think the new timetable is fair on part-time staff.\nB: ___ It puts them at a real disadvantage.",
+      "options": [
+        "So do I.",
+        "Neither am I.",
+        "I don't, too.",
+        "Neither do I."
+      ],
+      "answer_index": 3,
+      "explanation": "Olumsuz bir cümleye katılırken 'Neither + yardımcı fiil + özne' kullanılır; 'don't think' ile uyumlu yardımcı fiil 'do' olduğundan doğru yanıt 'Neither do I.' olur."
+    },
+    {
+      "id": 79,
+      "section": "usage",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "A: ___ you could possibly send me the final figures before Friday?\nB: Of course — I'll email them over first thing tomorrow.",
+      "options": [
+        "I was wondered if",
+        "I'm wondering that",
+        "I was wondering if",
+        "I wonder you whether"
+      ],
+      "answer_index": 2,
+      "explanation": "Çok kibar ve dolaylı ricalarda 'I was wondering if you could...' kalıbı kullanılır; geçmiş sürekli yapı ifadeyi yumuşatır."
+    },
+    {
+      "id": 80,
+      "section": "usage",
+      "level": "C1",
+      "passage_ref": null,
+      "question": "A: I know it's a big decision, but we do need your answer today.\nB: I appreciate that, but I'd rather ___ and let you know in the morning, if that's all right.",
+      "options": [
+        "sleep it off",
+        "sleep on it",
+        "sleep it over",
+        "sleep in it"
+      ],
+      "answer_index": 1,
+      "explanation": "'Sleep on it' bir karar hakkında bir gece düşünmek demektir; 'sleep it off' ise yorgunluğu veya içkinin etkisini uyuyarak atmak anlamına gelir."
+    },
+    {
+      "id": 81,
+      "section": "reading",
+      "level": "A2",
+      "passage_ref": "P1",
+      "question": "What is this notice mainly about?",
+      "options": [
+        "New prices for fitness classes",
+        "A change at the sports centre for one day",
+        "The opening of a new swimming pool",
+        "A job advertisement for builders"
+      ],
+      "answer_index": 1,
+      "explanation": "Duyuru, 14 Ağustos Pazartesi günü ana salonun kapanması ve derslerin taşınması gibi tek günlük bir değişikliği bildiriyor. Diğer seçenekler metinde yer almıyor."
+    },
+    {
+      "id": 82,
+      "section": "reading",
+      "level": "A2",
+      "passage_ref": "P1",
+      "question": "According to the notice, what time does the swimming pool close?",
+      "options": [
+        "At 7 a.m.",
+        "At 7 p.m.",
+        "At 9 p.m.",
+        "At 9 a.m."
+      ],
+      "answer_index": 2,
+      "explanation": "Metinde havuzun 'from 7 a.m. to 9 p.m.' açık kalacağı yazıyor; yani akşam 9'da kapanıyor."
+    },
+    {
+      "id": 83,
+      "section": "reading",
+      "level": "A2",
+      "passage_ref": "P1",
+      "question": "What can we understand about Monday's fitness classes?",
+      "options": [
+        "They will take place on Tuesday instead.",
+        "They are cancelled for the whole month.",
+        "Students must pay extra to join them.",
+        "They will be held in the café."
+      ],
+      "answer_index": 0,
+      "explanation": "'Your teacher will move it to Tuesday at the same time' cümlesi derslerin salı gününe alınacağını gösteriyor."
+    },
+    {
+      "id": 84,
+      "section": "reading",
+      "level": "A2",
+      "passage_ref": "P1",
+      "question": "The word 'repairing' in the notice is closest in meaning to ___.",
+      "options": [
+        "cleaning",
+        "painting",
+        "selling",
+        "fixing"
+      ],
+      "answer_index": 3,
+      "explanation": "'Repair' fiili 'tamir etmek' anlamına gelir; en yakın eş anlamlısı 'fix' fiilidir."
+    },
+    {
+      "id": 85,
+      "section": "reading",
+      "level": "A2",
+      "passage_ref": "P1",
+      "question": "How can people get more information?",
+      "options": [
+        "By asking their fitness teacher",
+        "By calling the front desk",
+        "By visiting the main hall",
+        "By sending a letter"
+      ],
+      "answer_index": 1,
+      "explanation": "Duyurunun sonunda 'please call the front desk or visit our website' deniyor; doğru cevap ön bankoyu aramaktır."
+    },
+    {
+      "id": 86,
+      "section": "reading",
+      "level": "B1",
+      "passage_ref": "P2",
+      "question": "What is the article mainly about?",
+      "options": [
+        "Events where volunteers help people repair their own belongings",
+        "The history of coffee shops in Amsterdam",
+        "A new shop that sells cheap toasters",
+        "The dangers of broken electrical goods"
+      ],
+      "answer_index": 0,
+      "explanation": "Makalenin ana konusu, gönüllülerin insanlara eşyalarını tamir etmeyi öğrettiği 'repair café' etkinlikleridir."
+    },
+    {
+      "id": 87,
+      "section": "reading",
+      "level": "B1",
+      "passage_ref": "P2",
+      "question": "Where did the first repair café open?",
+      "options": [
+        "In Sara's home town",
+        "In a furniture factory",
+        "In thirty different countries at the same time",
+        "In Amsterdam"
+      ],
+      "answer_index": 3,
+      "explanation": "Metinde ilk repair café'nin 2009'da Amsterdam'da açıldığı açıkça belirtiliyor."
+    },
+    {
+      "id": 88,
+      "section": "reading",
+      "level": "B1",
+      "passage_ref": "P2",
+      "question": "What can we infer about the volunteers at repair cafés?",
+      "options": [
+        "They repair everything while visitors simply watch.",
+        "They want visitors to learn how to make repairs themselves.",
+        "They are paid a salary by the government.",
+        "They only accept electrical items."
+      ],
+      "answer_index": 1,
+      "explanation": "'Show them how to fix things themselves rather than doing everything for them' ifadesi, amacın ziyaretçilere beceri kazandırmak olduğunu gösterir."
+    },
+    {
+      "id": 89,
+      "section": "reading",
+      "level": "B1",
+      "passage_ref": "P2",
+      "question": "The word 'mend' in the article is closest in meaning to ___.",
+      "options": [
+        "replace",
+        "throw away",
+        "repair",
+        "borrow"
+      ],
+      "answer_index": 2,
+      "explanation": "'Mend' fiili 'onarmak, tamir etmek' demektir; en yakın karşılığı 'repair'dir."
+    },
+    {
+      "id": 90,
+      "section": "reading",
+      "level": "B1",
+      "passage_ref": "P2",
+      "question": "Why do some people go to the café even when nothing at home is broken?",
+      "options": [
+        "They enjoy the coffee and the company.",
+        "They want to sell their old items.",
+        "They have to attend every month as members.",
+        "They are looking for paid work."
+      ],
+      "answer_index": 0,
+      "explanation": "Gönüllünün 'People stay for coffee and a chat' sözü, bazı ziyaretçilerin sosyal ortam için geldiğini gösteriyor."
+    },
+    {
+      "id": 91,
+      "section": "reading",
+      "level": "B2",
+      "passage_ref": "P3",
+      "question": "Which statement best expresses the writer's main argument?",
+      "options": [
+        "Streetlights should be switched off completely to protect wildlife.",
+        "Satellite images have made cities look brighter than they really are.",
+        "Artificial light brings real costs, so unnecessary lighting should be reduced.",
+        "Wildlife has adapted successfully to brightly lit cities."
+      ],
+      "answer_index": 2,
+      "explanation": "Yazar, yapay ışığın doğaya ve sağlığa verdiği zararları sıralayıp gereksiz aydınlatmanın azaltılmasını savunuyor; bu, metnin ana fikridir."
+    },
+    {
+      "id": 92,
+      "section": "reading",
+      "level": "B2",
+      "passage_ref": "P3",
+      "question": "What happened after Tucson dimmed its street lighting?",
+      "options": [
+        "There was no measurable rise in accidents or crime.",
+        "Crime increased slightly in the city centre.",
+        "Residents demanded brighter lamps.",
+        "Traffic accidents fell by half."
+      ],
+      "answer_index": 0,
+      "explanation": "Metne göre Tucson ışıkları kıstığında kaza veya suç oranlarında ölçülebilir bir artış olmamıştır."
+    },
+    {
+      "id": 93,
+      "section": "reading",
+      "level": "B2",
+      "passage_ref": "P3",
+      "question": "What can be inferred about the writer's view of lighting for safety?",
+      "options": [
+        "The writer believes fears about unlit roads are exaggerated.",
+        "The writer thinks safety lighting causes most light pollution.",
+        "The writer would prefer cities to remove all streetlamps.",
+        "The writer accepts that a certain amount of lighting is necessary."
+      ],
+      "answer_index": 3,
+      "explanation": "'Safety matters, and nobody wants unlit roads' cümlesi, yazarın belli bir miktar aydınlatmayı gerekli gördüğünü ima eder."
+    },
+    {
+      "id": 94,
+      "section": "reading",
+      "level": "B2",
+      "passage_ref": "P3",
+      "question": "The word 'blaze' in the passage is closest in meaning to ___.",
+      "options": [
+        "fade slowly",
+        "shine intensely",
+        "stand empty",
+        "cool down"
+      ],
+      "answer_index": 1,
+      "explanation": "'Blaze' fiili 'güçlü ve parlak şekilde ışık saçmak' anlamına gelir; en yakın karşılığı 'shine intensely'dir."
+    },
+    {
+      "id": 95,
+      "section": "reading",
+      "level": "B2",
+      "passage_ref": "P3",
+      "question": "What is the writer's main purpose in this article?",
+      "options": [
+        "To describe the history of street lighting",
+        "To advertise energy-efficient lamps",
+        "To persuade readers to value natural darkness and cut wasteful lighting",
+        "To warn drivers about dangerous roads in Tucson"
+      ],
+      "answer_index": 2,
+      "explanation": "'I would argue' gibi ifadeler ve sunulan önerilerle bu bir ikna amaçlı fikir yazısıdır; amaç okuru karanlığın değerine ikna etmektir."
+    },
+    {
+      "id": 96,
+      "section": "reading",
+      "level": "C1",
+      "passage_ref": "P4",
+      "question": "Which of the following best summarises the central claim of the passage?",
+      "options": [
+        "Modern life was more meaningful when it was more monotonous.",
+        "Psychological research has failed to explain the causes of boredom.",
+        "Smartphones should be prohibited in public spaces such as queues.",
+        "Boredom performs a useful function, and eliminating it instantly carries a hidden cost."
+      ],
+      "answer_index": 3,
+      "explanation": "Yazının tezi, can sıkıntısının anlamlı bir sinyal olduğu ve onu anında bastırmanın gizli bir bedeli bulunduğudur. Diğer seçenekler metinde savunulmuyor; yazar nostaljik olmadığını da açıkça belirtiyor."
+    },
+    {
+      "id": 97,
+      "section": "reading",
+      "level": "C1",
+      "passage_ref": "P4",
+      "question": "According to the passage, participants who were given deliberately monotonous tasks ___.",
+      "options": [
+        "abandoned the tasks earlier than the control groups",
+        "went on to produce more original ideas than the control groups",
+        "reported higher levels of anxiety afterwards",
+        "completed the tasks more accurately than expected"
+      ],
+      "answer_index": 1,
+      "explanation": "Metinde bu katılımcıların kontrol gruplarına göre 'more original ideas' ürettiği açıkça belirtiliyor."
+    },
+    {
+      "id": 98,
+      "section": "reading",
+      "level": "C1",
+      "passage_ref": "P4",
+      "question": "By describing the elimination of boredom as an 'apparent victory', the writer implies that ___.",
+      "options": [
+        "the achievement is superficial and may actually amount to a loss",
+        "the battle against boredom has not yet been won",
+        "smartphone designers deserve credit for their efficiency",
+        "psychologists disagree about whether boredom exists"
+      ],
+      "answer_index": 0,
+      "explanation": "'Apparent victory ... may be a hollow one' ifadesi, zaferin görünüşte kaldığını ve aslında bir kayıp olabileceğini ima eder."
+    },
+    {
+      "id": 99,
+      "section": "reading",
+      "level": "C1",
+      "passage_ref": "P4",
+      "question": "The word 'atrophies' in the passage is closest in meaning to ___.",
+      "options": [
+        "expands rapidly",
+        "becomes painful",
+        "gradually weakens",
+        "stays the same"
+      ],
+      "answer_index": 2,
+      "explanation": "'Atrophy', bir yetinin kullanılmadığı için zamanla zayıflaması/körelmesi demektir; 'gradually weakens' en yakın anlamdır."
+    },
+    {
+      "id": 100,
+      "section": "reading",
+      "level": "C1",
+      "passage_ref": "P4",
+      "question": "The writer's attitude towards filling every idle moment with digital distraction is best described as ___.",
+      "options": [
+        "openly enthusiastic",
+        "entirely neutral",
+        "bitterly nostalgic for the past",
+        "sceptical and quietly disapproving"
+      ],
+      "answer_index": 3,
+      "explanation": "'Frictionless distraction' ve 'hollow victory' gibi ifadeler eleştirel bir kuşku taşır; yazar ayrıca nostaljik olmadığını açıkça söylediği için doğru tutum 'sceptical and quietly disapproving'dir."
+    }
+  ]
+}
