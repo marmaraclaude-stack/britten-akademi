@@ -21,17 +21,44 @@ export default async function NewMaterialPage() {
   const students = (data ?? []) as { id: string; full_name: string }[];
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader
         title="Yeni Materyal"
         description="İnteraktif HTML sayfası, bağlantı, dosya veya not paylaşın."
       />
-      <Card>
-        <CardHeader title="Materyal bilgileri" />
-        <CardBody>
-          <MaterialForm students={students} onSubmitAction="create" />
-        </CardBody>
-      </Card>
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <Card>
+          <CardHeader title="Materyal bilgileri" />
+          <CardBody>
+            <MaterialForm students={students} onSubmitAction="create" />
+          </CardBody>
+        </Card>
+        <Card>
+          <CardHeader title="İpuçları" />
+          <CardBody>
+            <ul className="space-y-3 text-[13px] leading-6 text-ink-secondary">
+              <li>
+                <strong className="text-ink">İnteraktif içerik</strong> öğrencide
+                güvenli bir çerçevede açılır; script kullanabilirsiniz.
+              </li>
+              <li>
+                <strong className="text-ink">{'{{ogrenci_adi}}'}</strong> ve{' '}
+                <strong className="text-ink">{'{{seviye}}'}</strong> değişkenleri
+                her öğrenci için otomatik kişiselleştirilir.
+              </li>
+              <li>
+                Bir öğrenciye özel materyaller yalnızca o öğrencinin panelinde
+                görünür; <strong className="text-ink">Tüm öğrenciler</strong>{' '}
+                seçimi herkese açar.
+              </li>
+              <li>
+                <strong className="text-ink">Taslak</strong> durumundaki
+                materyaller öğrenciye görünmez; hazır olunca yayımlayın.
+              </li>
+            </ul>
+          </CardBody>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -111,7 +111,7 @@ export interface PlacementResult {
   answered: number;
 }
 
-/** Öğrenci: sınavı bitirir — puanlama sunucuda, service-role ile yapılır. */
+/** Öğrenci: sınavı bitirir; puanlama sunucuda, service-role ile yapılır. */
 export async function submitAttempt(
   attemptId: string,
   answers: Record<string, number>,

@@ -1,7 +1,7 @@
 import { formatDateShort } from '@/lib/utils';
 
 /**
- * Not gelişim çizgisi (0-100) — tek seri, SVG.
+ * Not gelişim çizgisi (0-100); tek seri, SVG.
  * dataviz kuralları: 2px çizgi, ≥8px işaret hedefi, kesikli olmayan ince
  * ızgara, seçici doğrudan etiket (ilk/son), tek seri olduğu için lejant yok.
  */

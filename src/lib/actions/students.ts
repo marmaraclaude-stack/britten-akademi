@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { actionProfile } from '@/lib/auth';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
+import { STUDENT_COLORS } from '@/lib/utils';
 import type { ActionResult, CefrLevel } from '@/lib/types';
 
 const CEFR_VALUES: CefrLevel[] = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -125,10 +126,13 @@ export async function updateStudent(
   const fullName = String(formData.get('full_name') ?? '').trim();
   const phone = String(formData.get('phone') ?? '').trim();
   const cefr = String(formData.get('cefr_level') ?? '').trim();
+  const color = String(formData.get('color') ?? '').trim();
 
   if (!fullName) return { ok: false, message: 'Ad soyad zorunludur.' };
   if (cefr && !CEFR_VALUES.includes(cefr as CefrLevel))
     return { ok: false, message: 'Geçersiz seviye.' };
+  if (color && !STUDENT_COLORS.some((c) => c.value === color))
+    return { ok: false, message: 'Geçersiz renk.' };
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -137,6 +141,7 @@ export async function updateStudent(
       full_name: fullName,
       phone: phone || null,
       cefr_level: cefr ? (cefr as CefrLevel) : null,
+      color: color || null,
     })
     .eq('id', studentId)
     .eq('role', 'student');
@@ -151,6 +156,34 @@ export async function updateStudent(
 
   revalidatePath('/ogretmen', 'layout');
   return { ok: true, message: 'Öğrenci bilgileri güncellendi.' };
+}
+
+/**
+ * Öğretmen: öğrenciyi KALICI olarak siler.
+ * Auth kullanıcısı silinir; profil ve tüm bağlı veriler (dersler, ödevler,
+ * teslimler, mesajlar, sınav denemeleri, kelime ilerlemesi) cascade ile gider.
+ */
+export async function deleteStudent(studentId: string): Promise<ActionResult> {
+  const teacher = await actionProfile('teacher');
+  if (!teacher) return { ok: false, message: 'Bu işlem için yetkiniz yok.' };
+
+  const admin = createAdminClient();
+  const { data: target } = await admin
+    .from('profiles')
+    .select('role, full_name')
+    .eq('id', studentId)
+    .single();
+  if (!target || target.role !== 'student')
+    return { ok: false, message: 'Öğrenci bulunamadı.' };
+
+  const { error } = await admin.auth.admin.deleteUser(studentId);
+  if (error) return { ok: false, message: `Silinemedi: ${error.message}` };
+
+  revalidatePath('/ogretmen', 'layout');
+  return {
+    ok: true,
+    message: `${target.full_name} ve tüm verileri kalıcı olarak silindi.`,
+  };
 }
 
 /** Öğretmen: seviye sınavını sıfırlar (öğrenci yeniden girer). */

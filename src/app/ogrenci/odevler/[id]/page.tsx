@@ -9,6 +9,7 @@ import { cn, formatDateTime, relativeDays, submissionOf } from '@/lib/utils';
 import type { AssignmentWithSubmission } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
+import { HtmlViewer } from '@/components/materials/HtmlViewer';
 import { SkillBadge } from '@/components/ui/DomainBadges';
 import { DownloadButton } from '@/components/ui/DownloadButton';
 import { SubmitForm } from './SubmitForm';
@@ -44,7 +45,7 @@ export default async function AssignmentDetailPage({
     <div>
       <Link
         href="/ogrenci/odevler"
-        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-navy-700 hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700 hover:underline"
       >
         <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
         Ödevlerime dön
@@ -73,6 +74,24 @@ export default async function AssignmentDetailPage({
       </div>
 
       <div className="space-y-6">
+        {/* HTML ödev içeriği */}
+        {assignment.kind === 'html' && assignment.html_content ? (
+          <Card>
+            <CardHeader
+              title="Ödev içeriği"
+              description="Öğretmeninin hazırladığı interaktif ödev"
+            />
+            <CardBody>
+              <HtmlViewer
+                html={assignment.html_content}
+                studentName={profile.full_name}
+                level={profile.cefr_level}
+                title={assignment.title}
+              />
+            </CardBody>
+          </Card>
+        ) : null}
+
         {/* Ödev açıklaması */}
         <Card>
           <CardHeader title="Ödev" description="Öğretmeninin senden istedikleri" />
@@ -83,7 +102,7 @@ export default async function AssignmentDetailPage({
               </p>
             ) : (
               <p className="text-sm text-ink-muted">
-                Ek bir açıklama yok — başlık ve varsa ekli dosya üzerinden ilerle.
+                Ek bir açıklama yok; başlık ve varsa ekli dosya üzerinden ilerle.
               </p>
             )}
             {assignment.attachment_path ? (

@@ -6,32 +6,32 @@ Birebir İngilizce eğitimi için profesyonel öğretmen–öğrenci platformu.
 ## Özellikler
 
 ### Öğrenci paneli
-- **100 soruluk seviye tespit sınavı** — ilk girişte zorunlu; Dil Bilgisi (36),
+- **100 soruluk seviye tespit sınavı**; ilk girişte zorunlu; Dil Bilgisi (36),
   Kelime Bilgisi (28), Günlük İngilizce (16) ve Okuma (20) bölümleri, CEFR
   (Pre-A1 – C2) sonuç raporu, bölüm/seviye bazında döküm. Cevaplar otomatik
   kaydedilir, ara verilip devam edilebilir. Puanlama tamamen sunucu tarafında
   yapılır; cevap anahtarı istemciye asla gönderilmez.
-- **Ders takvimi** — öğretmenle ortak takvim; ders saatleri, durumları,
+- **Ders takvimi**; öğretmenle ortak takvim; ders saatleri, durumları,
   çevrim içi ders bağlantısı, ders özetleri.
-- **Ödevler** — teslim (metin + dosya), not ve geri bildirim görüntüleme.
-- **Materyaller** — öğretmenin yüklediği interaktif HTML içerikler
+- **Ödevler**; teslim (metin + dosya), not ve geri bildirim görüntüleme.
+- **Materyaller**; öğretmenin yüklediği interaktif HTML içerikler
   (sandbox iframe'de güvenle çalışır), bağlantılar, dosyalar ve notlar;
   beceriye göre filtreleme.
-- **İlerleme sayfası** — not gelişim grafiği, beceri ortalamaları, ders
+- **İlerleme sayfası**; not gelişim grafiği, beceri ortalamaları, ders
   istatistikleri, paket durumu.
-- **Mesajlaşma** — öğretmenle birebir.
+- **Mesajlaşma**; öğretmenle birebir.
 
 ### Öğretmen paneli
-- **Genel bakış** — yaklaşan dersler, notlanacak teslimler, sınav durumu,
+- **Genel bakış**; yaklaşan dersler, notlanacak teslimler, sınav durumu,
   okunmamış mesajlar.
-- **Öğrenci yönetimi** — hesap açma (e-posta + geçici şifre), şifre sıfırlama,
+- **Öğrenci yönetimi**; hesap açma (e-posta + geçici şifre), şifre sıfırlama,
   girişi askıya alma/açma, seviye sınavını sıfırlama, bilgi düzenleme.
-- **Öğrenci detayı** — sınav sonucu analizi (yanlış yapılan sorular, açıklamalarıyla),
+- **Öğrenci detayı**; sınav sonucu analizi (yanlış yapılan sorular, açıklamalarıyla),
   ders paketleri (kalan ders takibi), özel notlar.
-- **Takvim** — ders planlama (haftalık tekrar desteği), durum işleme
+- **Takvim**; ders planlama (haftalık tekrar desteği), durum işleme
   (tamamlandı / iptal / gelmedi), ders özeti yazma.
-- **Ödev** — beceri etiketiyle ödev verme (dosya ekli), notlama + geri bildirim.
-- **Materyal stüdyosu** — HTML içerik editörü (canlı önizleme,
+- **Ödev**; beceri etiketiyle ödev verme (dosya ekli), notlama + geri bildirim.
+- **Materyal stüdyosu**; HTML içerik editörü (canlı önizleme,
   `{{ogrenci_adi}}` ve `{{seviye}}` kişiselleştirme değişkenleri), bağlantı,
   dosya ve not türleri; öğrenciye özel veya herkese açık yayınlama.
 
@@ -61,7 +61,7 @@ Dashboard > **Project Settings > API** bölümündeki değerleri girin:
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | Proje URL'si |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `anon` / publishable anahtar |
-| `SUPABASE_SERVICE_ROLE_KEY` | `service_role` anahtarı — **gizli**, yalnızca sunucuda kullanılır |
+| `SUPABASE_SERVICE_ROLE_KEY` | `service_role` anahtarı; **gizli**, yalnızca sunucuda kullanılır |
 
 ### 3) Yerel geliştirme
 
@@ -91,7 +91,7 @@ npm run build      # üretim derlemesi
 
 ## Güvenlik mimarisi
 
-- **RLS her tabloda açık** — öğrenci yalnızca kendi kayıtlarını görür;
+- **RLS her tabloda açık**; öğrenci yalnızca kendi kayıtlarını görür;
   yazma yetkileri politikalarla sınırlandırılmıştır (ör. öğrenci kendi
   sınav denemesine puan yazamaz, profildeki rolünü değiştiremez).
 - **Cevap anahtarı** (`test_questions`) istemciye tamamen kapalıdır;

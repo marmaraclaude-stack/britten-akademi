@@ -64,7 +64,7 @@ export function NewStudentForm() {
       {state.ok ? (
         <Link
           href="/ogretmen/ogrenciler"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-navy-700 hover:underline"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:underline"
         >
           Öğrenci listesine dön
           <ArrowRight className="h-4 w-4" aria-hidden />

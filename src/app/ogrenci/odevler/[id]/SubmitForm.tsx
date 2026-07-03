@@ -44,12 +44,12 @@ export function SubmitForm({
           id="sf-file"
           name="file"
           type="file"
-          className="h-auto py-2 file:mr-3 file:rounded-md file:border-0 file:bg-navy-100 file:px-3 file:py-1.5 file:text-[13px] file:font-medium file:text-navy-800"
+          className="h-auto py-2 file:mr-3 file:rounded-md file:border-0 file:bg-brand-100 file:px-3 file:py-1.5 file:text-[13px] file:font-medium file:text-brand-800"
         />
         {existing?.attachmentName ? (
           <p className="flex items-center gap-1.5 text-[12px] text-ink-muted">
             <Paperclip className="h-3 w-3" aria-hidden />
-            Mevcut ek: {existing.attachmentName} — yeni bir dosya seçersen
+            Mevcut ek: {existing.attachmentName}; yeni bir dosya seçersen
             değiştirilir.
           </p>
         ) : null}

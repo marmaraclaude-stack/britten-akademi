@@ -4,25 +4,25 @@
       "ref": "P1",
       "level": "A2",
       "title": "Notice: Greenhill Sports Centre",
-      "text": "The main hall at Greenhill Sports Centre will be closed on Monday 14 August because workers are repairing its roof. The swimming pool and the café will stay open as usual, from 7 a.m. to 9 p.m. If you have a fitness class on Monday, do not worry — your teacher will move it to Tuesday at the same time. Members do not need to pay again. For more information, please call the front desk or visit our website. We are sorry for any problems this causes."
+      "text": "The main hall at Greenhill Sports Centre will be closed on Monday 14 August because workers are repairing its roof. The swimming pool and the café will stay open as usual, from 7 a.m. to 9 p.m. If you have a fitness class on Monday, do not worry: your teacher will move it to Tuesday at the same time. Members do not need to pay again. For more information, please call the front desk or visit our website. We are sorry for any problems this causes."
     },
     {
       "ref": "P2",
       "level": "B1",
       "title": "Repair Cafés: Fixing More Than Machines",
-      "text": "When Sara's toaster stopped working last year, she almost threw it away. Instead, a neighbour told her about a repair café — a free monthly event where volunteers help people mend broken household items. Sara took her toaster along, and twenty minutes later it was working again.\n\nThe first repair café opened in Amsterdam in 2009, and the idea has since spread to more than thirty countries. Visitors bring anything from lamps and bicycles to torn clothes, and skilled volunteers show them how to fix things themselves rather than doing everything for them. Organisers say the events reduce waste, but many visitors value the social side just as much. 'People stay for coffee and a chat,' says one volunteer. 'Some come every month, even when nothing at home is broken.' Sara now helps at the café herself, teaching others how to do simple repairs."
+      "text": "When Sara's toaster stopped working last year, she almost threw it away. Instead, a neighbour told her about a repair café, a free monthly event where volunteers help people mend broken household items. Sara took her toaster along, and twenty minutes later it was working again.\n\nThe first repair café opened in Amsterdam in 2009, and the idea has since spread to more than thirty countries. Visitors bring anything from lamps and bicycles to torn clothes, and skilled volunteers show them how to fix things themselves rather than doing everything for them. Organisers say the events reduce waste, but many visitors value the social side just as much. 'People stay for coffee and a chat,' says one volunteer. 'Some come every month, even when nothing at home is broken.' Sara now helps at the café herself, teaching others how to do simple repairs."
     },
     {
       "ref": "P3",
       "level": "B2",
       "title": "In Praise of Darkness",
-      "text": "Artificial light has transformed human life so completely that genuine darkness is now, for most city dwellers, little more than a memory. Streets, car parks and office towers blaze through the night, and satellite images show the glow spreading year by year. Convenient as this is, I would argue that we have paid too little attention to what it costs us.\n\nThe consequences for wildlife are well documented: migrating birds are drawn off course by illuminated buildings, and insects, whose numbers are already collapsing, cluster around lamps until they die of exhaustion. Human health suffers too. Our bodies rely on darkness to produce melatonin, the hormone that regulates sleep, and studies repeatedly link night-time light exposure to poor rest.\n\nNone of this means we should switch off every streetlamp; safety matters, and nobody wants unlit roads. But much of our lighting is simply wasteful — empty offices lit until dawn, advertising screens burning at 3 a.m. Cities such as Tucson have dimmed their street lighting with no measurable rise in accidents or crime. Darkness, in short, is not an enemy to be conquered but a resource we should learn to value again."
+      "text": "Artificial light has transformed human life so completely that genuine darkness is now, for most city dwellers, little more than a memory. Streets, car parks and office towers blaze through the night, and satellite images show the glow spreading year by year. Convenient as this is, I would argue that we have paid too little attention to what it costs us.\n\nThe consequences for wildlife are well documented: migrating birds are drawn off course by illuminated buildings, and insects, whose numbers are already collapsing, cluster around lamps until they die of exhaustion. Human health suffers too. Our bodies rely on darkness to produce melatonin, the hormone that regulates sleep, and studies repeatedly link night-time light exposure to poor rest.\n\nNone of this means we should switch off every streetlamp; safety matters, and nobody wants unlit roads. But much of our lighting is simply wasteful: empty offices lit until dawn, advertising screens burning at 3 a.m. Cities such as Tucson have dimmed their street lighting with no measurable rise in accidents or crime. Darkness, in short, is not an enemy to be conquered but a resource we should learn to value again."
     },
     {
       "ref": "P4",
       "level": "C1",
       "title": "The Unexpected Uses of Boredom",
-      "text": "That boredom should need defenders at all is a peculiarly modern development. For most of history, tedium was simply a condition of existence, endured rather than examined; today it is treated as a malfunction, to be eliminated the instant it threatens to arise. The smartphone has proved a remarkably efficient instrument for this purpose, filling every idle interval — the queue, the commute, the minute before a meeting begins — with a stream of frictionless distraction.\n\nYet a growing body of psychological research suggests that this apparent victory may be a hollow one. Boredom, it turns out, is not an absence of mental activity but a signal: an uncomfortable prompt that our current situation lacks meaning and that we might profitably seek something better. Participants in one series of studies who were assigned deliberately monotonous tasks subsequently produced more original ideas than control groups, as though their minds, deprived of stimulation, had begun to generate their own. To anaesthetise boredom the moment it appears may therefore be to silence a messenger bearing useful, if unwelcome, news.\n\nNone of this amounts to a nostalgic plea for dullness. The claim, rather, is that a tolerance for unstimulated time is a capacity — one that atrophies without use, and whose loss we have accepted with scarcely a murmur. A society that cannot bear to be bored is, in the end, a society that cannot bear to be alone with its own thoughts."
+      "text": "That boredom should need defenders at all is a peculiarly modern development. For most of history, tedium was simply a condition of existence, endured rather than examined; today it is treated as a malfunction, to be eliminated the instant it threatens to arise. The smartphone has proved a remarkably efficient instrument for this purpose, filling every idle interval (the queue, the commute, the minute before a meeting begins) with a stream of frictionless distraction.\n\nYet a growing body of psychological research suggests that this apparent victory may be a hollow one. Boredom, it turns out, is not an absence of mental activity but a signal: an uncomfortable prompt that our current situation lacks meaning and that we might profitably seek something better. Participants in one series of studies who were assigned deliberately monotonous tasks subsequently produced more original ideas than control groups, as though their minds, deprived of stimulation, had begun to generate their own. To anaesthetise boredom the moment it appears may therefore be to silence a messenger bearing useful, if unwelcome, news.\n\nNone of this amounts to a nostalgic plea for dullness. The claim, rather, is that a tolerance for unstimulated time is a capacity, one that atrophies without use, and whose loss we have accepted with scarcely a murmur. A society that cannot bear to be bored is, in the end, a society that cannot bear to be alone with its own thoughts."
     }
   ],
   "questions": [
@@ -181,7 +181,7 @@
       "section": "grammar",
       "level": "A2",
       "passage_ref": null,
-      "question": "Look at those dark clouds — it ___ rain.",
+      "question": "Look at those dark clouds; it ___ rain.",
       "options": [
         "will to",
         "goes to",
@@ -316,7 +316,7 @@
       "section": "grammar",
       "level": "B1",
       "passage_ref": null,
-      "question": "You ___ pay to visit the gallery — entry is completely free.",
+      "question": "You ___ pay to visit the gallery; entry is completely free.",
       "options": [
         "mustn't",
         "don't have to",
@@ -406,7 +406,7 @@
       "section": "grammar",
       "level": "B2",
       "passage_ref": null,
-      "question": "Tom ___ have received my email — otherwise he would have replied by now.",
+      "question": "Tom ___ have received my email; otherwise he would have replied by now.",
       "options": [
         "can't",
         "mustn't",
@@ -496,7 +496,7 @@
       "section": "grammar",
       "level": "C1",
       "passage_ref": null,
-      "question": "You ___ prepared so much food — most of the guests didn't come.",
+      "question": "You ___ prepared so much food; most of the guests didn't come.",
       "options": [
         "mustn't have",
         "needn't have",
@@ -796,7 +796,7 @@
       "section": "vocabulary",
       "level": "B1",
       "passage_ref": null,
-      "question": "Don't forget to ___ your phone before the journey — the battery is nearly dead.",
+      "question": "Don't forget to ___ your phone before the journey; the battery is nearly dead.",
       "options": [
         "fill",
         "charge",
@@ -976,7 +976,7 @@
       "section": "vocabulary",
       "level": "C2",
       "passage_ref": null,
-      "question": "Her prose is marked by a deliberate ___ — she never says a word more than is strictly necessary.",
+      "question": "Her prose is marked by a deliberate ___; she never says a word more than is strictly necessary.",
       "options": [
         "verbosity",
         "exuberance",
@@ -1126,7 +1126,7 @@
       "section": "usage",
       "level": "B1",
       "passage_ref": null,
-      "question": "A: I'm afraid Ms Adams is away from her desk at the moment.\nB: No problem — could I ___ a message for her?",
+      "question": "A: I'm afraid Ms Adams is away from her desk at the moment.\nB: No problem; could I ___ a message for her?",
       "options": [
         "say",
         "put",
@@ -1201,7 +1201,7 @@
       "section": "usage",
       "level": "C1",
       "passage_ref": null,
-      "question": "A: ___ you could possibly send me the final figures before Friday?\nB: Of course — I'll email them over first thing tomorrow.",
+      "question": "A: ___ you could possibly send me the final figures before Friday?\nB: Of course; I'll email them over first thing tomorrow.",
       "options": [
         "I was wondered if",
         "I'm wondering that",

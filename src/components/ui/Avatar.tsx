@@ -18,7 +18,7 @@ export function Avatar({
     <div
       aria-hidden
       className={cn(
-        'flex shrink-0 items-center justify-center rounded-full bg-navy-800 font-semibold text-white',
+        'flex shrink-0 items-center justify-center rounded-full bg-brand-800 font-semibold text-white',
         sizes[size],
         className
       )}

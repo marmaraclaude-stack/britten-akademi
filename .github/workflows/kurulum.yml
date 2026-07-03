@@ -1,0 +1,284 @@
+# ============================================================
+# Britten Akademi — otomatik kurulum (Supabase + Vercel)
+#
+# README'deki kurulum adımlarını uçtan uca çalıştırır:
+#   1. Supabase projesini oluşturur (eu-central-1) ve hazır olmasını bekler
+#   2. supabase/kurulum-tek-dosya.sql'i çalıştırır (şema + RLS + soru bankası)
+#   3. Öğretmen hesabını seed eder
+#   4. API anahtarlarını alır
+#   5. Vercel projesini oluşturur, 3 ortam değişkenini ayarlar, deploy eder
+#   6. Canlı URL'ye duman testi yapar ve özeti yazar
+#
+# Gerekli tek secret: SETUP_SECRETS — şu alanları içeren JSON:
+#   {"supabase_token":"sbp_...","vercel_token":"...",
+#    "teacher_email":"...","teacher_password":"..."}
+#
+# Tekrar çalıştırmak güvenlidir (idempotent): mevcut proje/şema/hesap
+# bulunursa o adım atlanır.
+# ============================================================
+name: Kurulum (Supabase + Vercel)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/kurulum-tetik"
+
+concurrency:
+  group: kurulum
+  cancel-in-progress: false
+
+jobs:
+  kurulum:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_API: https://api.supabase.com
+      SB_PROJECT_NAME: Britten Akademi
+      SB_REGION: eu-central-1
+      VERCEL_PROJECT: britten-akademi
+      TEACHER_NAME: Furkan Erdoğmuş
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kimlik bilgilerini çözümle
+        env:
+          SETUP_SECRETS: ${{ secrets.SETUP_SECRETS }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SETUP_SECRETS:-}" ]; then
+            echo "::error::SETUP_SECRETS secret'ı tanımlı değil. Repo Settings > Secrets and variables > Actions altına ekleyin."
+            exit 1
+          fi
+          SB_TOKEN=$(jq -er '.supabase_token' <<<"$SETUP_SECRETS")
+          VC_TOKEN=$(jq -er '.vercel_token' <<<"$SETUP_SECRETS")
+          T_EMAIL=$(jq -er '.teacher_email' <<<"$SETUP_SECRETS")
+          T_PASS=$(jq -er '.teacher_password' <<<"$SETUP_SECRETS")
+          for v in "$SB_TOKEN" "$VC_TOKEN" "$T_EMAIL" "$T_PASS"; do echo "::add-mask::$v"; done
+          {
+            echo "SB_TOKEN=$SB_TOKEN"
+            echo "VC_TOKEN=$VC_TOKEN"
+            echo "T_EMAIL=$T_EMAIL"
+            echo "T_PASS=$T_PASS"
+          } >> "$GITHUB_ENV"
+
+      - name: Supabase projesini oluştur
+        run: |
+          set -euo pipefail
+          REF=$(curl -sS --fail-with-body -H "Authorization: Bearer $SB_TOKEN" "$SUPABASE_API/v1/projects" \
+            | jq -r --arg n "$SB_PROJECT_NAME" '[.[] | select(.name==$n)][0].id // empty')
+          if [ -n "$REF" ]; then
+            echo "Mevcut proje bulundu: $REF"
+          else
+            ORG_ID=$(curl -sS --fail-with-body -H "Authorization: Bearer $SB_TOKEN" "$SUPABASE_API/v1/organizations" | jq -er '.[0].id')
+            DB_PASS=$(openssl rand -hex 18)
+            echo "::add-mask::$DB_PASS"
+            REF=$(jq -n --arg name "$SB_PROJECT_NAME" --arg org "$ORG_ID" --arg region "$SB_REGION" --arg pass "$DB_PASS" \
+                    '{name:$name, organization_id:$org, region:$region, db_pass:$pass}' \
+              | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                  -d @- "$SUPABASE_API/v1/projects" \
+              | jq -er '.id')
+            echo "Proje oluşturuldu: $REF"
+          fi
+          echo "SB_REF=$REF" >> "$GITHUB_ENV"
+
+      - name: Projenin hazır olmasını bekle
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 90); do
+            STATUS=$(curl -sS -H "Authorization: Bearer $SB_TOKEN" "$SUPABASE_API/v1/projects/$SB_REF" | jq -r '.status // "?"')
+            echo "[$i] durum: $STATUS"
+            [ "$STATUS" = "ACTIVE_HEALTHY" ] && exit 0
+            sleep 10
+          done
+          echo "::error::Proje 15 dakika içinde hazır olmadı"
+          exit 1
+
+      - name: Şema + soru bankasını yükle
+        run: |
+          set -euo pipefail
+          q() {
+            jq -n --arg q "$1" '{query:$q}' \
+              | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                  -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query"
+          }
+          for i in $(seq 1 12); do
+            if q 'select 1' >/dev/null 2>&1; then break; fi
+            if [ "$i" = 12 ]; then echo "::error::Sorgu ucu hazır olmadı"; exit 1; fi
+            echo "[$i] sorgu ucu henüz hazır değil, bekleniyor..."
+            sleep 10
+          done
+          COUNT=$(q "select count(*)::int as c from information_schema.tables where table_schema='public' and table_name='profiles'" | jq -r '.[0].c')
+          if [ "$COUNT" = "1" ]; then
+            echo "Şema zaten kurulu, atlanıyor."
+          else
+            jq -Rs '{query:.}' supabase/kurulum-tek-dosya.sql \
+              | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                  -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+            echo "Şema + RLS + storage kovası + soru bankası yüklendi."
+          fi
+          # Ek migrasyonlar (idempotent) her calismada uygulanir
+          for mig in supabase/migrations/0003_odevler_ve_kelimeler.sql supabase/migrations/0004_ogrenci_rengi.sql supabase/migrations/0005_finans.sql; do
+            jq -Rs '{query:.}' "$mig" \
+              | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                  -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+            echo "Uygulandı: $mig"
+          done
+          # Soru bankasini guncel seed ile tazele (delete + insert, idempotent)
+          jq -Rs '{query:.}' supabase/migrations/0002_seed_questions.sql \
+            | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+          echo "Soru bankası tazelendi."
+          QC=$(q 'select count(*)::int as c from public.test_questions' | jq -r '.[0].c')
+          echo "Soru bankası: $QC soru"
+          if [ "$QC" != "100" ]; then echo "::error::Soru bankası eksik ($QC/100)"; exit 1; fi
+
+      - name: Öğretmen hesabını oluştur
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          email = os.environ['T_EMAIL'].strip().lower()
+          password = os.environ['T_PASS']
+          name = os.environ['TEACHER_NAME']
+          def dq(value, tag):
+              if f'${tag}$' in value:
+                  raise SystemExit(f'{tag} etiketi değer içinde geçiyor')
+              return f'${tag}${value}${tag}$'
+          sql = f"""
+          do $seed$
+          declare
+            uid uuid := gen_random_uuid();
+            teacher_email text := {dq(email, 'em')};
+            teacher_password text := {dq(password, 'pw')};
+            teacher_name text := {dq(name, 'nm')};
+          begin
+            if exists (select 1 from auth.users where email = teacher_email) then
+              raise notice 'Öğretmen hesabı zaten var, atlanıyor.';
+            else
+              insert into auth.users (
+                instance_id, id, aud, role, email, encrypted_password,
+                email_confirmed_at, raw_app_meta_data, raw_user_meta_data,
+                created_at, updated_at,
+                confirmation_token, recovery_token, email_change,
+                email_change_token_new, email_change_token_current
+              ) values (
+                '00000000-0000-0000-0000-000000000000', uid, 'authenticated', 'authenticated',
+                teacher_email, extensions.crypt(teacher_password, extensions.gen_salt('bf')),
+                now(),
+                '{{"provider":"email","providers":["email"]}}'::jsonb,
+                jsonb_build_object('role', 'teacher', 'full_name', teacher_name),
+                now(), now(), '', '', '', '', ''
+              );
+              insert into auth.identities (
+                id, user_id, provider_id, provider, identity_data,
+                last_sign_in_at, created_at, updated_at
+              ) values (
+                gen_random_uuid(), uid, uid::text, 'email',
+                jsonb_build_object('sub', uid::text, 'email', teacher_email, 'email_verified', true),
+                now(), now(), now()
+              );
+            end if;
+          end $seed$;
+          """
+          with open('/tmp/teacher_query.json', 'w') as f:
+              json.dump({'query': sql}, f)
+          PY
+          curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+            -d @/tmp/teacher_query.json "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+          rm -f /tmp/teacher_query.json
+          ROLE=$(jq -n --arg q "select p.role from public.profiles p join auth.users u on u.id = p.id where u.email = lower('$T_EMAIL')" '{query:$q}' \
+            | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" | jq -r '.[0].role // empty')
+          if [ "$ROLE" != "teacher" ]; then echo "::error::Öğretmen profili doğrulanamadı (rol: '$ROLE')"; exit 1; fi
+          echo "Öğretmen hesabı hazır (rol: teacher)."
+
+      - name: API anahtarlarını al
+        run: |
+          set -euo pipefail
+          KEYS=$(curl -sS --fail-with-body -H "Authorization: Bearer $SB_TOKEN" "$SUPABASE_API/v1/projects/$SB_REF/api-keys?reveal=true")
+          ANON=$(jq -r '[.[] | select(.name=="anon")][0].api_key // empty' <<<"$KEYS")
+          if [ -z "$ANON" ]; then ANON=$(jq -r '[.[] | select(.type=="publishable")][0].api_key // empty' <<<"$KEYS"); fi
+          SRK=$(jq -r '[.[] | select(.name=="service_role")][0].api_key // empty' <<<"$KEYS")
+          if [ -z "$SRK" ]; then SRK=$(jq -r '[.[] | select(.type=="secret")][0].api_key // empty' <<<"$KEYS"); fi
+          if [ -z "$ANON" ] || [ -z "$SRK" ]; then echo "::error::API anahtarları alınamadı"; exit 1; fi
+          echo "::add-mask::$ANON"
+          echo "::add-mask::$SRK"
+          {
+            echo "SB_URL=https://$SB_REF.supabase.co"
+            echo "SB_ANON=$ANON"
+            echo "SB_SERVICE=$SRK"
+          } >> "$GITHUB_ENV"
+          echo "anon + service_role anahtarları alındı."
+
+      - name: Öğretmen giriş testi
+        run: |
+          set -euo pipefail
+          RESP=$(jq -n --arg e "$T_EMAIL" --arg p "$T_PASS" '{email:($e|ascii_downcase), password:$p}' \
+            | curl -sS -X POST -H "apikey: $SB_ANON" -H 'Content-Type: application/json' \
+                -d @- "$SB_URL/auth/v1/token?grant_type=password")
+          TOKEN=$(jq -r '.access_token // empty' <<<"$RESP")
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Öğretmen girişi BAŞARISIZ: $(jq -r '.error_description // .msg // .error // "bilinmeyen hata"' <<<"$RESP")"
+            exit 1
+          fi
+          echo "::add-mask::$TOKEN"
+          echo "Öğretmen girişi doğrulandı (e-posta + şifre ile access token alındı)."
+
+      - name: Vercel projesi ve ortam değişkenleri
+        run: |
+          set -euo pipefail
+          CODE=$(jq -n --arg n "$VERCEL_PROJECT" '{name:$n, framework:"nextjs"}' \
+            | curl -sS -o /tmp/vp.json -w '%{http_code}' -X POST \
+                -H "Authorization: Bearer $VC_TOKEN" -H 'Content-Type: application/json' \
+                -d @- "https://api.vercel.com/v11/projects")
+          case "$CODE" in
+            200|201) echo "Vercel projesi oluşturuldu: $VERCEL_PROJECT" ;;
+            409)     echo "Vercel projesi zaten var: $VERCEL_PROJECT" ;;
+            *)       echo "::error::Vercel projesi oluşturulamadı (HTTP $CODE)"; cat /tmp/vp.json; exit 1 ;;
+          esac
+          jq -n --arg url "$SB_URL" --arg anon "$SB_ANON" --arg srk "$SB_SERVICE" '
+            [ {key:"NEXT_PUBLIC_SUPABASE_URL",      value:$url,  type:"encrypted", target:["production","preview","development"]},
+              {key:"NEXT_PUBLIC_SUPABASE_ANON_KEY", value:$anon, type:"encrypted", target:["production","preview","development"]},
+              {key:"SUPABASE_SERVICE_ROLE_KEY",     value:$srk,  type:"encrypted", target:["production","preview","development"]} ]' \
+            | curl -sS --fail-with-body -X POST \
+                -H "Authorization: Bearer $VC_TOKEN" -H 'Content-Type: application/json' \
+                -d @- "https://api.vercel.com/v10/projects/$VERCEL_PROJECT/env?upsert=true" >/dev/null
+          echo "3 ortam değişkeni ayarlandı."
+
+      - name: Vercel'e deploy
+        run: |
+          set -euo pipefail
+          npm install -g vercel@latest >/dev/null 2>&1
+          vercel link --yes --project "$VERCEL_PROJECT" --token "$VC_TOKEN" >/dev/null
+          DEPLOY_URL=$(vercel deploy --prod --yes --token "$VC_TOKEN")
+          echo "Deploy tamamlandı: $DEPLOY_URL"
+          echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_ENV"
+
+      - name: Duman testi ve özet
+        run: |
+          set -euo pipefail
+          DOMAIN=$(curl -sS --fail-with-body -H "Authorization: Bearer $VC_TOKEN" \
+              "https://api.vercel.com/v9/projects/$VERCEL_PROJECT/domains" \
+            | jq -r '.domains[].name' | grep -m1 '\.vercel\.app$' || true)
+          LIVE="https://${DOMAIN:-${DEPLOY_URL#https://}}"
+          CODE=0
+          for i in $(seq 1 18); do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/giris" || true)
+            echo "[$i] $LIVE/giris -> HTTP $CODE"
+            [ "$CODE" = "200" ] && break
+            sleep 10
+          done
+          if [ "$CODE" != "200" ]; then echo "::error::Canlı site /giris için 200 dönmedi (son: $CODE)"; exit 1; fi
+          {
+            echo "## Kurulum tamamlandı 🎉"
+            echo ""
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Canlı URL | $LIVE |"
+            echo "| Giriş sayfası | $LIVE/giris |"
+            echo "| Supabase proje ref | \`$SB_REF\` |"
+            echo "| Supabase URL | https://$SB_REF.supabase.co |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "CANLI_URL=$LIVE"
+          echo "SUPABASE_REF=$SB_REF"

@@ -36,10 +36,10 @@ export default async function EditMaterialPage({
   const students = (studentsRes.data ?? []) as { id: string; full_name: string }[];
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-6xl">
       <Link
         href="/ogretmen/materyaller"
-        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-navy-700 hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700 hover:underline"
       >
         <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
         Tüm materyaller

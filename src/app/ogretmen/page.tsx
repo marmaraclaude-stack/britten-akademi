@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {
   ArrowRight,
   BookOpen,
+  Sparkles,
   CalendarDays,
   CalendarPlus,
   ClipboardCheck,
@@ -17,6 +18,7 @@ import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import {
   dayKeyIstanbul,
+  formatDate,
   formatDateShort,
   formatDateTime,
   formatTime,
@@ -28,13 +30,14 @@ import type {
   Profile,
   Submission,
   TestAttempt,
+  VocabProgress,
 } from '@/lib/types';
+import { WORDS_PER_DAY } from '@/lib/vocabulary';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { LevelBadge } from '@/components/ui/DomainBadges';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
 
 export const metadata: Metadata = { title: 'Genel Bakış' };
@@ -84,8 +87,17 @@ export default async function TeacherDashboardPage() {
   const week = currentWeekRange();
   const nowIso = new Date().toISOString();
 
-  const [studentsRes, weekRes, upcomingRes, pendingSubsRes, attemptsRes, unreadRes] =
-    await Promise.all([
+  const todayKey = dayKeyIstanbul(new Date());
+  const [
+    studentsRes,
+    weekRes,
+    upcomingRes,
+    pendingSubsRes,
+    attemptsRes,
+    unreadRes,
+    vocabRes,
+    todayLessonsRes,
+  ] = await Promise.all([
       supabase.from('profiles').select('*').eq('role', 'student').order('full_name'),
       supabase
         .from('lessons')
@@ -116,6 +128,18 @@ export default async function TeacherDashboardPage() {
         .select('id', { count: 'exact', head: true })
         .eq('recipient_id', profile.id)
         .is('read_at', null),
+      supabase.from('vocab_progress').select('*').eq('day', todayKey),
+      supabase
+        .from('lessons')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'scheduled')
+        .gte('starts_at', new Date(`${todayKey}T00:00:00+03:00`).toISOString())
+        .lt(
+          'starts_at',
+          new Date(
+            new Date(`${todayKey}T00:00:00+03:00`).getTime() + 86400000
+          ).toISOString()
+        ),
     ]);
 
   const students = (studentsRes.data ?? []) as Profile[];
@@ -137,15 +161,65 @@ export default async function TeacherDashboardPage() {
   const activeStudents = students.filter((s) => s.is_active);
   const waitingPlacement = activeStudents.filter((s) => !s.placement_completed);
 
+  const vocabToday = (vocabRes.data ?? []) as VocabProgress[];
+  const vocabByStudent = new Map(vocabToday.map((v) => [v.student_id, v]));
+  const vocabStudents = activeStudents.filter((s) => s.placement_completed);
+  const vocabDoneCount = vocabStudents.filter(
+    (s) => vocabByStudent.get(s.id)?.completed_at
+  ).length;
+
+  const todayLessonCount = todayLessonsRes.count ?? 0;
+  const firstName = profile.full_name.trim().split(/\s+/)[0] ?? profile.full_name;
+
   return (
     <div>
-      <PageHeader
-        title="Genel Bakış"
-        description={`Hoş geldiniz, ${profile.full_name}. İşte bugünün özeti.`}
-      />
+      {/* Karşılama kahramanı */}
+      <div className="relative overflow-hidden rounded-card border border-brand-200 bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 p-6 text-white shadow-raised sm:p-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-600/30 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-28 right-48 h-64 w-64 rounded-full bg-accent-600/20 blur-3xl"
+        />
+        <div className="relative flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[12px] font-medium text-brand-100">
+              <CalendarDays className="h-3.5 w-3.5" aria-hidden />
+              {formatWeekday(new Date())}, {formatDate(new Date())}
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+              Hoş geldin {firstName}
+            </h1>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-brand-100">
+              {todayLessonCount > 0
+                ? `Bugün ${todayLessonCount} dersiniz var. `
+                : 'Bugün planlı dersiniz yok. '}
+              {pendingSubs.length > 0
+                ? `${pendingSubs.length} teslim notlanmayı bekliyor.`
+                : 'Notlanmayı bekleyen teslim yok.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-white/10 px-5 py-4 text-center backdrop-blur">
+              <p className="text-3xl font-semibold tabular-nums">
+                {todayLessonCount}
+              </p>
+              <p className="mt-0.5 text-[12px] text-brand-200">bugünkü ders</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-5 py-4 text-center backdrop-blur">
+              <p className="text-3xl font-semibold tabular-nums">
+                {pendingSubs.length}
+              </p>
+              <p className="mt-0.5 text-[12px] text-brand-200">notlanacak</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* İstatistikler */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat
           label="Aktif öğrenci"
           value={activeStudents.length}
@@ -155,25 +229,28 @@ export default async function TeacherDashboardPage() {
               : 'Tüm hesaplar aktif'
           }
           icon={Users}
+          tone="brand"
         />
         <Stat
           label="Bu hafta planlanan ders"
           value={weekRes.count ?? 0}
-          sub="Pazartesi–Pazar arası"
+          sub="Pazartesi-Pazar arası"
           icon={CalendarDays}
+          tone="green"
         />
         <Stat
           label="Notlanmayı bekleyen teslim"
           value={pendingSubs.length}
           sub={pendingSubs.length > 0 ? 'İnceleme bekliyor' : 'Hepsi notlandı'}
           icon={ClipboardCheck}
+          tone="accent"
         />
         <Stat
           label="Okunmamış mesaj"
           value={unreadRes.count ?? 0}
           sub={
             (unreadRes.count ?? 0) > 0 ? (
-              <Link href="/ogretmen/mesajlar" className="text-navy-700 hover:underline">
+              <Link href="/ogretmen/mesajlar" className="text-brand-700 hover:underline">
                 Mesajlara git →
               </Link>
             ) : (
@@ -181,11 +258,12 @@ export default async function TeacherDashboardPage() {
             )
           }
           icon={Inbox}
+          tone="amber"
         />
       </div>
 
       {/* Hızlı işlemler */}
-      <p className="mb-3 mt-8 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+      <p className="mb-3 mt-8 text-[13px] font-semibold text-ink-secondary">
         Hızlı işlemler
       </p>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -193,9 +271,9 @@ export default async function TeacherDashboardPage() {
           <Link
             key={a.href}
             href={a.href}
-            className="group flex items-center gap-3 rounded-card border border-hairline bg-surface p-4 shadow-card transition-colors hover:border-navy-300 hover:bg-navy-50/50"
+            className="group flex items-center gap-3 rounded-card border border-hairline bg-surface p-4 shadow-card transition-colors hover:border-brand-300 hover:bg-brand-50/50"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-100 text-navy-700 transition-colors group-hover:bg-navy-800 group-hover:text-white">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-700 transition-colors group-hover:bg-brand-800 group-hover:text-white">
               <a.icon className="h-5 w-5" aria-hidden />
             </span>
             <span>
@@ -215,7 +293,7 @@ export default async function TeacherDashboardPage() {
             action={
               <Link
                 href="/ogretmen/takvim"
-                className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
               >
                 Takvime git
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -253,7 +331,7 @@ export default async function TeacherDashboardPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Ders bağlantısını aç"
-                        className="rounded-lg p-2 text-navy-600 transition-colors hover:bg-navy-100"
+                        className="rounded-lg p-2 text-brand-600 transition-colors hover:bg-brand-100"
                       >
                         <ExternalLink className="h-4 w-4" aria-hidden />
                       </a>
@@ -273,7 +351,7 @@ export default async function TeacherDashboardPage() {
             action={
               <Link
                 href="/ogretmen/odevler"
-                className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
               >
                 Tüm ödevler
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -318,6 +396,64 @@ export default async function TeacherDashboardPage() {
           )}
         </Card>
 
+        {/* Günlük kelime çalışması */}
+        <Card className="lg:col-span-2">
+          <CardHeader
+            title="Günlük kelime çalışması"
+            description={`Bugün ${vocabDoneCount}/${vocabStudents.length} öğrenci günün ${WORDS_PER_DAY} kelimesini tamamladı`}
+          />
+          <CardBody>
+            {vocabStudents.length === 0 ? (
+              <p className="rounded-lg bg-plane px-4 py-3 text-[13px] text-ink-secondary">
+                Seviye sınavını tamamlamış aktif öğrenciniz olduğunda günlük
+                kelime takibi burada görünür.
+              </p>
+            ) : (
+              <ul className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+                {vocabStudents.map((s) => {
+                  const v = vocabByStudent.get(s.id);
+                  const done = Boolean(v?.completed_at);
+                  const learned = v?.learned_words.length ?? 0;
+                  return (
+                    <li key={s.id}>
+                      <Link
+                        href={`/ogretmen/ogrenciler/${s.id}`}
+                        className="flex items-center gap-3 rounded-lg border border-hairline px-3 py-2 transition-colors hover:bg-plane"
+                      >
+                        <Avatar name={s.full_name} size="sm" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-medium text-ink">
+                            {s.full_name}
+                          </span>
+                          <span className="block text-[12px] text-ink-muted">
+                            {done
+                              ? v?.quiz_total
+                                ? `Quiz ${v.quiz_correct}/${v.quiz_total}`
+                                : 'Tamamlandı'
+                              : learned > 0
+                                ? `${learned}/${WORDS_PER_DAY} kelime`
+                                : 'Başlamadı'}
+                          </span>
+                        </span>
+                        {done ? (
+                          <Badge tone="green">
+                            <Sparkles className="h-3 w-3" aria-hidden />
+                            Tamam
+                          </Badge>
+                        ) : learned > 0 ? (
+                          <Badge tone="brand">Devam ediyor</Badge>
+                        ) : (
+                          <Badge tone="gray">Bekliyor</Badge>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </CardBody>
+        </Card>
+
         {/* Seviye sınavı */}
         <Card className="lg:col-span-2">
           <CardHeader
@@ -326,7 +462,7 @@ export default async function TeacherDashboardPage() {
           />
           <CardBody className="grid gap-6 md:grid-cols-2">
             <div>
-              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-2 text-[13px] font-semibold text-ink-secondary">
                 Sınavı bekleyenler
               </p>
               {waitingPlacement.length === 0 ? (
@@ -353,7 +489,7 @@ export default async function TeacherDashboardPage() {
               )}
             </div>
             <div>
-              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+              <p className="mb-2 text-[13px] font-semibold text-ink-secondary">
                 Son tamamlanan sınavlar
               </p>
               {attempts.length === 0 ? (
@@ -371,7 +507,7 @@ export default async function TeacherDashboardPage() {
                           className="flex items-center gap-3 rounded-lg border border-hairline px-3 py-2 transition-colors hover:bg-plane"
                         >
                           <GraduationCap
-                            className="h-4 w-4 shrink-0 text-navy-400"
+                            className="h-4 w-4 shrink-0 text-brand-400"
                             aria-hidden
                           />
                           <span className="min-w-0 flex-1 truncate text-sm font-medium text-ink">

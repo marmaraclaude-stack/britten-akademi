@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
 export type BadgeTone =
-  | 'navy'
-  | 'gold'
+  | 'brand'
+  | 'accent'
   | 'green'
   | 'red'
   | 'gray'
@@ -11,8 +11,8 @@ export type BadgeTone =
   | 'amber';
 
 const tones: Record<BadgeTone, string> = {
-  navy: 'bg-navy-100 text-navy-800 border-navy-200',
-  gold: 'bg-gold-100 text-gold-800 border-gold-200',
+  brand: 'bg-brand-100 text-brand-800 border-brand-200',
+  accent: 'bg-accent-100 text-accent-800 border-accent-200',
   green: 'bg-emerald-50 text-emerald-800 border-emerald-200',
   red: 'bg-red-50 text-red-800 border-red-200',
   gray: 'bg-plane text-ink-secondary border-hairline',

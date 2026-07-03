@@ -37,6 +37,37 @@ export async function createPackage(formData: FormData): Promise<ActionResult> {
   return { ok: true, message: 'Ders paketi tanımlandı.' };
 }
 
+/** Öğretmen: paketi ödendi/ödenmedi olarak işaretler. */
+export async function setPackagePaid(
+  packageId: string,
+  paid: boolean,
+  paidDate?: string
+): Promise<ActionResult> {
+  const teacher = await actionProfile('teacher');
+  if (!teacher) return { ok: false, message: 'Bu işlem için yetkiniz yok.' };
+
+  let paidAt: string | null = null;
+  if (paid) {
+    const d = paidDate ? new Date(`${paidDate}T12:00:00+03:00`) : new Date();
+    if (Number.isNaN(d.getTime()))
+      return { ok: false, message: 'Geçerli bir ödeme tarihi girin.' };
+    paidAt = d.toISOString();
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('packages')
+    .update({ paid_at: paidAt })
+    .eq('id', packageId);
+
+  if (error) return { ok: false, message: `Güncellenemedi: ${error.message}` };
+  revalidatePath('/', 'layout');
+  return {
+    ok: true,
+    message: paid ? 'Ödeme kaydedildi.' : 'Ödeme kaydı geri alındı.',
+  };
+}
+
 export async function deletePackage(packageId: string): Promise<ActionResult> {
   const teacher = await actionProfile('teacher');
   if (!teacher) return { ok: false, message: 'Bu işlem için yetkiniz yok.' };

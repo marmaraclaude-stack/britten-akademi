@@ -29,7 +29,7 @@ export default async function MaterialsPage() {
   const newButton = (
     <Link
       href="/ogretmen/materyaller/yeni"
-      className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy-800 px-4 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+      className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-800 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-900"
     >
       <Plus className="h-4 w-4" aria-hidden />
       Yeni Materyal
@@ -40,7 +40,7 @@ export default async function MaterialsPage() {
     <div>
       <PageHeader
         title="Materyaller"
-        description="Öğrencilerinizle paylaştığınız içerikler — interaktif sayfalar, bağlantılar, dosyalar ve notlar."
+        description="Öğrencilerinizle paylaştığınız içerikler; interaktif sayfalar, bağlantılar, dosyalar ve notlar."
         action={newButton}
       />
 
@@ -70,7 +70,7 @@ export default async function MaterialsPage() {
                       {formatDate(m.created_at)}
                     </p>
                   </div>
-                  <Badge tone={m.kind === 'html' ? 'gold' : 'gray'}>
+                  <Badge tone={m.kind === 'html' ? 'accent' : 'gray'}>
                     {MATERIAL_KIND_LABELS[m.kind]}
                   </Badge>
                   <SkillBadge skill={m.skill} />

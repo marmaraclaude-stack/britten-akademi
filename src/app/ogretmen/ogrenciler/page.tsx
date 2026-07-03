@@ -34,7 +34,7 @@ export default async function StudentsPage() {
         action={
           <Link
             href="/ogretmen/ogrenciler/yeni"
-            className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy-800 px-4 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+            className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-800 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-900"
           >
             <UserPlus className="h-4 w-4" aria-hidden />
             Yeni Öğrenci
@@ -50,7 +50,7 @@ export default async function StudentsPage() {
           action={
             <Link
               href="/ogretmen/ogrenciler/yeni"
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy-800 px-4 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-800 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-900"
             >
               <UserPlus className="h-4 w-4" aria-hidden />
               Yeni Öğrenci

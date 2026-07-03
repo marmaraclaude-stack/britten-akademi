@@ -2,10 +2,15 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import {
+  AlarmClock,
+  ArrowRight,
   CheckCircle2,
   ChevronRight,
   ClipboardList,
+  Code2,
   Hourglass,
+  Sun,
+  Trophy,
 } from 'lucide-react';
 import { requireStudent } from '@/lib/auth';
 import { ensurePlacementDone } from '@/lib/placement-gate';
@@ -14,10 +19,11 @@ import {
   cn,
   formatDateShort,
   formatDateTime,
+  formatTime,
   relativeDays,
+  submissionOf,
   truncate,
 } from '@/lib/utils';
-import { submissionOf } from '@/lib/utils';
 import type { AssignmentWithSubmission } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -27,14 +33,70 @@ import { PageHeader } from '@/components/ui/PageHeader';
 
 export const metadata: Metadata = { title: 'Ödevlerim' };
 
-function GroupHeading({ title, count }: { title: string; count: number }) {
+function KindBadge({ kind }: { kind: 'text' | 'html' }) {
+  if (kind !== 'html') return null;
+  return (
+    <Badge tone="brand">
+      <Code2 className="h-3 w-3" aria-hidden />
+      İnteraktif
+    </Badge>
+  );
+}
+
+function GroupHeading({
+  title,
+  count,
+  tone = 'gray',
+}: {
+  title: string;
+  count: number;
+  tone?: 'gray' | 'accent' | 'brand';
+}) {
   return (
     <h2 className="mb-3 flex items-center gap-2 text-[15px] font-semibold text-ink">
       {title}
-      <span className="rounded-full bg-plane px-2 py-0.5 text-[12px] font-medium text-ink-secondary">
+      <span
+        className={cn(
+          'rounded-full px-2 py-0.5 text-[12px] font-medium',
+          tone === 'accent'
+            ? 'bg-accent-100 text-accent-800'
+            : tone === 'brand'
+              ? 'bg-brand-100 text-brand-800'
+              : 'bg-plane text-ink-secondary'
+        )}
+      >
         {count}
       </span>
     </h2>
+  );
+}
+
+function SummaryTile({
+  icon: Icon,
+  value,
+  label,
+  toneClass,
+}: {
+  icon: typeof Sun;
+  value: ReactNode;
+  label: string;
+  toneClass: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-card border border-hairline bg-surface p-4 shadow-card">
+      <span
+        className={cn(
+          'flex h-10 w-10 items-center justify-center rounded-lg',
+          toneClass
+        )}
+      >
+        <Icon className="h-5 w-5" aria-hidden />
+      </span>
+      <div>
+        <p className="text-xl font-semibold tabular-nums text-ink">{value}</p>
+        <p className="text-[12px] text-ink-muted">{label}</p>
+      </div>
+    </div>
   );
 }
 
@@ -59,6 +121,7 @@ function AssignmentList({
                 <div className="mt-1">{meta(a)}</div>
               </div>
               <div className="flex shrink-0 items-center gap-2">
+                <KindBadge kind={a.kind} />
                 <SkillBadge skill={a.skill} />
                 <ChevronRight className="h-4 w-4 text-ink-muted" aria-hidden />
               </div>
@@ -84,14 +147,27 @@ export default async function StudentAssignmentsPage() {
   const assignments = (data ?? []) as AssignmentWithSubmission[];
   const now = Date.now();
 
-  const todo = assignments
-    .filter((a) => !submissionOf(a))
-    .sort((a, b) => {
-      if (!a.due_at && !b.due_at) return 0;
-      if (!a.due_at) return 1;
-      if (!b.due_at) return -1;
-      return a.due_at.localeCompare(b.due_at);
-    });
+  const byDue = (a: AssignmentWithSubmission, b: AssignmentWithSubmission) => {
+    if (!a.due_at && !b.due_at) return 0;
+    if (!a.due_at) return 1;
+    if (!b.due_at) return -1;
+    return a.due_at.localeCompare(b.due_at);
+  };
+
+  const open = assignments.filter((a) => !submissionOf(a)).sort(byDue);
+  const overdue = open.filter(
+    (a) => a.due_at && new Date(a.due_at).getTime() < now
+  );
+  const dueToday = open.filter(
+    (a) =>
+      a.due_at &&
+      relativeDays(a.due_at) === 'bugün' &&
+      new Date(a.due_at).getTime() >= now
+  );
+  const upcoming = open.filter(
+    (a) => !dueToday.includes(a) && !overdue.includes(a)
+  );
+
   const submitted = assignments
     .filter((a) => {
       const s = submissionOf(a);
@@ -110,52 +186,137 @@ export default async function StudentAssignmentsPage() {
       )
     );
 
+  const grades = graded
+    .map((a) => submissionOf(a)?.grade)
+    .filter((g): g is number => g !== null && g !== undefined);
+  const avgGrade =
+    grades.length > 0
+      ? Math.round(grades.reduce((s, g) => s + g, 0) / grades.length)
+      : null;
+
   return (
     <div>
       <PageHeader
         title="Ödevlerim"
-        description="Öğretmeninin verdiği ödevler — teslim et, notunu ve geri bildirimini gör"
+        description="Günün ödevlerini teslim et; notlarını ve geri bildirimlerini takip et."
       />
 
       {assignments.length === 0 ? (
         <EmptyState
           icon={ClipboardList}
           title="Henüz ödevin yok"
-          description="Öğretmenin sana ödev verdiğinde burada görünecek. O zamana kadar materyallerine göz atabilirsin."
+          description="Öğretmenin sana ödev verdiğinde burada görünecek. O zamana kadar günlük kelimelerine ve materyallerine göz atabilirsin."
         />
       ) : (
         <div className="space-y-8">
-          {/* Yapılacaklar */}
-          <section>
-            <GroupHeading title="Yapılacaklar" count={todo.length} />
-            {todo.length > 0 ? (
+          {/* Özet şeridi */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <SummaryTile
+              icon={Sun}
+              value={dueToday.length}
+              label="Bugün teslim"
+              toneClass="bg-brand-50 text-brand-700"
+            />
+            <SummaryTile
+              icon={AlarmClock}
+              value={overdue.length}
+              label="Geciken"
+              toneClass="bg-accent-50 text-accent-700"
+            />
+            <SummaryTile
+              icon={Hourglass}
+              value={submitted.length}
+              label="Değerlendirmede"
+              toneClass="bg-amber-50 text-amber-700"
+            />
+            <SummaryTile
+              icon={Trophy}
+              value={avgGrade ?? '-'}
+              label="Ortalama not"
+              toneClass="bg-emerald-50 text-emerald-700"
+            />
+          </div>
+
+          {/* Bugünün ödevleri */}
+          {dueToday.length > 0 ? (
+            <section>
+              <GroupHeading
+                title="Bugün teslim"
+                count={dueToday.length}
+                tone="brand"
+              />
+              <div className="grid gap-3 lg:grid-cols-2">
+                {dueToday.map((a) => (
+                  <Link
+                    key={a.id}
+                    href={`/ogrenci/odevler/${a.id}`}
+                    className="group rounded-card border border-brand-200 bg-gradient-to-br from-brand-50 to-surface p-5 shadow-card transition-shadow hover:shadow-raised"
+                  >
+                    <div className="flex items-center gap-2">
+                      <KindBadge kind={a.kind} />
+                      <SkillBadge skill={a.skill} />
+                    </div>
+                    <p className="mt-3 text-[15px] font-semibold text-ink">
+                      {a.title}
+                    </p>
+                    {a.description ? (
+                      <p className="mt-1 text-[13px] leading-5 text-ink-secondary">
+                        {truncate(a.description, 110)}
+                      </p>
+                    ) : null}
+                    <p className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700">
+                      Bugün {a.due_at ? formatTime(a.due_at) : ''} itibarıyla teslim edilmeli
+                      <ArrowRight
+                        className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden
+                      />
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {/* Gecikenler */}
+          {overdue.length > 0 ? (
+            <section>
+              <GroupHeading title="Geciken" count={overdue.length} tone="accent" />
               <AssignmentList
-                items={todo}
-                meta={(a) => {
-                  const overdue = a.due_at
-                    ? new Date(a.due_at).getTime() < now
-                    : false;
-                  return (
-                    <span className="flex flex-wrap items-center gap-2">
-                      <span
-                        className={cn(
-                          'text-[13px]',
-                          overdue ? 'text-status-critical' : 'text-ink-muted'
-                        )}
-                      >
-                        {a.due_at
-                          ? `Teslim: ${formatDateTime(a.due_at)} · ${relativeDays(a.due_at)}`
-                          : 'Teslim tarihi belirtilmedi'}
-                      </span>
-                      {overdue ? <Badge tone="red">Gecikti</Badge> : null}
+                items={overdue}
+                meta={(a) => (
+                  <span className="flex flex-wrap items-center gap-2">
+                    <span className="text-[13px] font-medium text-accent-700">
+                      Teslim tarihi {formatDateTime(a.due_at!)} idi (
+                      {relativeDays(a.due_at!)})
                     </span>
-                  );
-                }}
+                    <Badge tone="red">Gecikti</Badge>
+                  </span>
+                )}
+              />
+              <p className="mt-2 text-[13px] text-ink-muted">
+                Geciken ödevini yine de teslim edebilirsin; öğretmenin durumu görür.
+              </p>
+            </section>
+          ) : null}
+
+          {/* Yaklaşanlar */}
+          <section>
+            <GroupHeading title="Yaklaşan" count={upcoming.length} />
+            {upcoming.length > 0 ? (
+              <AssignmentList
+                items={upcoming}
+                meta={(a) => (
+                  <span className="text-[13px] text-ink-muted">
+                    {a.due_at
+                      ? `Teslim: ${formatDateTime(a.due_at)} (${relativeDays(a.due_at)})`
+                      : 'Teslim tarihi belirtilmedi'}
+                  </span>
+                )}
               />
             ) : (
               <div className="flex items-center gap-2 rounded-card border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-900">
                 <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden />
-                Bekleyen ödevin yok — hepsini teslim ettin, harikasın!
+                Bekleyen başka ödevin yok; hepsini teslim ettin, harikasın!
               </div>
             )}
           </section>
@@ -171,9 +332,7 @@ export default async function StudentAssignmentsPage() {
                   return (
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="text-[13px] text-ink-muted">
-                        {s
-                          ? `Teslim edildi: ${formatDateShort(s.submitted_at)}`
-                          : ''}
+                        {s ? `Teslim edildi: ${formatDateShort(s.submitted_at)}` : ''}
                       </span>
                       <Badge tone="amber">
                         <Hourglass className="h-3 w-3" aria-hidden />

@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Code2, Eye, FileText, FileUp, Link2, Pencil } from 'lucide-react';
+import { Code2, Eye, FileText, FileUp, Link2 } from 'lucide-react';
 import { createMaterial, updateMaterial } from '@/lib/actions/materials';
 import { cn, MATERIAL_KIND_LABELS, SKILL_LABELS } from '@/lib/utils';
 import type { Material, MaterialKind, Skill } from '@/lib/types';
-import { Button } from '@/components/ui/Button';
 import { FieldGroup, Input, Label, Select, Textarea } from '@/components/ui/Field';
 import { FormMessage } from '@/components/ui/FormMessage';
 import { SubmitButton } from '@/components/ui/SubmitButton';
@@ -26,7 +25,7 @@ const KIND_HINTS: Record<MaterialKind, string> = {
 };
 
 /**
- * Materyal oluşturma/düzenleme formu — öğretmen tarafında paylaşılan tek form.
+ * Materyal oluşturma/düzenleme formu; öğretmen tarafında paylaşılan tek form.
  * kind=html içeriği sandbox iframe ile canlı önizlenir.
  */
 export function MaterialForm({
@@ -41,7 +40,6 @@ export function MaterialForm({
   const router = useRouter();
   const [kind, setKind] = useState<MaterialKind>(material?.kind ?? 'html');
   const [html, setHtml] = useState(material?.html_content ?? '');
-  const [preview, setPreview] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const submit = async (formData: FormData) => {
@@ -121,8 +119,8 @@ export function MaterialForm({
             name="is_published"
             defaultValue={material ? String(material.is_published) : 'true'}
           >
-            <option value="true">Yayımda — öğrenci görebilir</option>
-            <option value="false">Taslak — yalnızca siz görürsünüz</option>
+            <option value="true">Yayımda (öğrenci görebilir)</option>
+            <option value="false">Taslak (yalnızca siz görürsünüz)</option>
           </Select>
         </FieldGroup>
       </div>
@@ -140,19 +138,16 @@ export function MaterialForm({
                 type="button"
                 role="radio"
                 aria-checked={active}
-                onClick={() => {
-                  setKind(k);
-                  setPreview(false);
-                }}
+                onClick={() => setKind(k)}
                 className={cn(
                   'rounded-xl border p-3 text-left transition-colors',
                   active
-                    ? 'border-navy-500 bg-navy-50 ring-1 ring-navy-500'
-                    : 'border-hairline bg-white hover:border-navy-300 hover:bg-navy-50/40'
+                    ? 'border-brand-500 bg-brand-50 ring-1 ring-brand-500'
+                    : 'border-hairline bg-white hover:border-brand-300 hover:bg-brand-50/40'
                 )}
               >
                 <Icon
-                  className={cn('h-4 w-4', active ? 'text-navy-700' : 'text-ink-muted')}
+                  className={cn('h-4 w-4', active ? 'text-brand-700' : 'text-ink-muted')}
                   aria-hidden
                 />
                 <span className="mt-1.5 block text-[13px] font-medium text-ink">
@@ -169,63 +164,40 @@ export function MaterialForm({
 
       {/* Türe göre içerik alanı */}
       {kind === 'html' ? (
-        <div className="space-y-3">
-          <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-[13px] leading-5 text-sky-900">
-            <p className="font-medium">Kişiselleştirme değişkenleri</p>
-            <p className="mt-0.5">
-              <code className="rounded bg-sky-100 px-1 py-0.5 font-mono text-[12px]">
-                {'{{ogrenci_adi}}'}
-              </code>{' '}
-              ve{' '}
-              <code className="rounded bg-sky-100 px-1 py-0.5 font-mono text-[12px]">
-                {'{{seviye}}'}
-              </code>{' '}
-              — materyal açıldığında öğrencinin adıyla ve seviyesiyle otomatik
-              değiştirilir.
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <Label htmlFor="mf-html">HTML içerik</Label>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => setPreview((p) => !p)}
-              disabled={!html.trim() && !preview}
-            >
-              {preview ? (
-                <>
-                  <Pencil className="h-3.5 w-3.5" aria-hidden />
-                  Düzenle
-                </>
-              ) : (
-                <>
-                  <Eye className="h-3.5 w-3.5" aria-hidden />
-                  Önizleme
-                </>
-              )}
-            </Button>
-          </div>
-
-          <Textarea
-            id="mf-html"
-            name="html_content"
-            rows={16}
-            value={html}
-            onChange={(e) => setHtml(e.target.value)}
-            placeholder={'<h1>Merhaba {{ogrenci_adi}}!</h1>\n<p>Bugünkü konumuz…</p>'}
-            spellCheck={false}
-            className={cn('font-mono text-xs leading-5', preview && 'hidden')}
-          />
-          {preview ? (
-            <iframe
-              srcDoc={html}
-              title="Materyal önizlemesi"
-              sandbox="allow-scripts"
-              className="h-96 w-full rounded border"
+        <FieldGroup>
+          <Label
+            htmlFor="mf-html"
+            hint="({{ogrenci_adi}} ve {{seviye}} öğrencinin adıyla ve seviyesiyle otomatik değiştirilir)"
+          >
+            HTML içerik
+          </Label>
+          <div className="grid gap-3 xl:grid-cols-2">
+            <Textarea
+              id="mf-html"
+              name="html_content"
+              rows={18}
+              value={html}
+              onChange={(e) => setHtml(e.target.value)}
+              placeholder={'<h1>Merhaba {{ogrenci_adi}}!</h1>\n<p>Bugünkü konumuz...</p>'}
+              spellCheck={false}
+              className="text-[13px] leading-6"
             />
-          ) : null}
-        </div>
+            <div className="hidden overflow-hidden rounded-lg border border-hairline xl:block">
+              <p className="flex items-center gap-1.5 border-b border-hairline bg-plane px-3 py-1.5 text-[12px] font-medium text-ink-secondary">
+                <Eye className="h-3.5 w-3.5" aria-hidden />
+                Canlı önizleme
+              </p>
+              <iframe
+                srcDoc={html
+                  .replace(/\{\{\s*(ogrenci_adi|student_name)\s*\}\}/gi, 'Öğrenci')
+                  .replace(/\{\{\s*(seviye|level)\s*\}\}/gi, 'B1')}
+                title="Materyal önizlemesi"
+                sandbox="allow-scripts"
+                className="h-[380px] w-full bg-white"
+              />
+            </div>
+          </div>
+        </FieldGroup>
       ) : null}
 
       {kind === 'link' ? (
@@ -249,7 +221,7 @@ export function MaterialForm({
           </Label>
           {material?.file_name ? (
             <p className="mb-1 text-[13px] text-ink-secondary">
-              Mevcut dosya: <span className="font-medium">{material.file_name}</span> —
+              Mevcut dosya: <span className="font-medium">{material.file_name}</span>;
               yeni bir dosya seçerseniz değiştirilir.
             </p>
           ) : null}
@@ -258,7 +230,7 @@ export function MaterialForm({
             name="file"
             type="file"
             required={onSubmitAction === 'create' || !material?.file_path}
-            className="block w-full text-sm text-ink-secondary file:mr-3 file:rounded-lg file:border-0 file:bg-navy-100 file:px-3 file:py-2 file:text-[13px] file:font-medium file:text-navy-800 hover:file:bg-navy-200"
+            className="block w-full text-sm text-ink-secondary file:mr-3 file:rounded-lg file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-[13px] file:font-medium file:text-brand-800 hover:file:bg-brand-200"
           />
         </FieldGroup>
       ) : null}

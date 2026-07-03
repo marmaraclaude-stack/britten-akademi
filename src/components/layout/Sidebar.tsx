@@ -11,7 +11,10 @@ import {
   LayoutDashboard,
   Menu,
   MessageSquare,
+  Sparkles,
   TrendingUp,
+  Wallet,
+  UserCircle2,
   Users,
   X,
   type LucideIcon,
@@ -28,6 +31,9 @@ const ICONS: Record<string, LucideIcon> = {
   messages: MessageSquare,
   progress: TrendingUp,
   exam: GraduationCap,
+  words: Sparkles,
+  profile: UserCircle2,
+  finance: Wallet,
 };
 
 export interface NavItem {
@@ -61,20 +67,20 @@ function NavLinks({
             className={cn(
               'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
               active
-                ? 'bg-navy-800 text-white'
-                : 'text-navy-200 hover:bg-navy-800/60 hover:text-white'
+                ? 'bg-brand-800 text-white'
+                : 'text-brand-200 hover:bg-brand-800/60 hover:text-white'
             )}
           >
             {active ? (
               <span
                 aria-hidden
-                className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-gold-400"
+                className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-accent-400"
               />
             ) : null}
             <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden />
             <span className="flex-1">{item.label}</span>
             {item.badge ? (
-              <span className="rounded-full bg-gold-500 px-2 py-0.5 text-[11px] font-semibold text-navy-950">
+              <span className="rounded-full bg-accent-600 px-2 py-0.5 text-[11px] font-semibold text-white">
                 {item.badge}
               </span>
             ) : null}
@@ -107,14 +113,14 @@ export function AppShell({
         <Brand onDark />
       </div>
       <NavLinks items={items} onNavigate={() => setOpen(false)} />
-      <div className="mt-auto border-t border-navy-800 p-4">{footer}</div>
+      <div className="mt-auto border-t border-brand-800 p-4">{footer}</div>
     </>
   );
 
   return (
     <div className="min-h-screen">
       {/* Masaüstü kenar çubuğu */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-navy-950 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-brand-950 lg:flex">
         {sidebarInner}
       </aside>
 
@@ -135,16 +141,16 @@ export function AppShell({
       {open ? (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true">
           <div
-            className="absolute inset-0 bg-navy-950/50"
+            className="absolute inset-0 bg-brand-950/50"
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="absolute inset-y-0 left-0 flex w-72 flex-col bg-navy-950 shadow-raised">
+          <div className="absolute inset-y-0 left-0 flex w-72 flex-col bg-brand-950 shadow-raised">
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Menüyü kapat"
-              className="absolute right-3 top-5 rounded-lg p-1.5 text-navy-300 hover:text-white"
+              className="absolute right-3 top-5 rounded-lg p-1.5 text-brand-300 hover:text-white"
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
@@ -153,8 +159,8 @@ export function AppShell({
         </div>
       ) : null}
 
-      <main className="px-4 py-6 sm:px-6 lg:ml-64 lg:px-10 lg:py-8">
-        <div className="mx-auto w-full max-w-6xl">{children}</div>
+      <main className="px-4 py-6 sm:px-6 lg:ml-64 lg:px-8 lg:py-8 xl:px-10">
+        <div className="w-full">{children}</div>
       </main>
     </div>
   );

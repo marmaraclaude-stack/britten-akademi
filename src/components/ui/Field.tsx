@@ -24,7 +24,7 @@ export function Label({
 }
 
 const baseField =
-  'w-full rounded-lg border border-hairline bg-white px-3 text-sm text-ink placeholder:text-ink-muted focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200 disabled:bg-plane disabled:text-ink-muted';
+  'w-full rounded-lg border border-hairline bg-white px-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100 disabled:bg-plane disabled:text-ink-muted';
 
 export function Input({
   className,

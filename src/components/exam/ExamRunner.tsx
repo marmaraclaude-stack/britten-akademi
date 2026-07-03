@@ -160,7 +160,7 @@ export function ExamRunner({
       >
         <legend className="sr-only">{`Soru ${q.id}`}</legend>
         <p className="text-sm font-medium leading-6 text-ink">
-          <span className="mr-2 inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-navy-100 px-1 text-[12px] font-semibold text-navy-800">
+          <span className="mr-2 inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-brand-100 px-1 text-[12px] font-semibold text-brand-800">
             {q.id}
           </span>
           <span className="whitespace-pre-wrap">{q.question}</span>
@@ -177,14 +177,14 @@ export function ExamRunner({
                 className={cn(
                   'flex items-start gap-2.5 rounded-lg border px-3 py-2.5 text-left text-sm leading-5 transition-colors',
                   active
-                    ? 'border-navy-700 bg-navy-800 text-white'
-                    : 'border-hairline bg-white text-ink hover:border-navy-300 hover:bg-navy-50'
+                    ? 'border-brand-700 bg-brand-800 text-white'
+                    : 'border-hairline bg-white text-ink hover:border-brand-300 hover:bg-brand-50'
                 )}
               >
                 <span
                   className={cn(
                     'flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold',
-                    active ? 'bg-gold-400 text-navy-950' : 'bg-navy-100 text-navy-700'
+                    active ? 'bg-accent-400 text-brand-950' : 'bg-brand-100 text-brand-700'
                   )}
                 >
                   {LETTERS[i]}
@@ -200,7 +200,11 @@ export function ExamRunner({
 
   const sectionContent = () => {
     if (current.key !== 'reading') {
-      return <div className="space-y-4">{current.questions.map(renderQuestion)}</div>;
+      return (
+        <div className="grid gap-4 xl:grid-cols-2">
+          {current.questions.map(renderQuestion)}
+        </div>
+      );
     }
     // Okuma: pasaj + soruları
     return (
@@ -209,9 +213,12 @@ export function ExamRunner({
           const pqs = current.questions.filter((q) => q.passage_ref === p.ref);
           if (pqs.length === 0) return null;
           return (
-            <div key={p.ref}>
-              <article className="rounded-card border border-navy-200 bg-navy-50/60 p-5">
-                <p className="text-[12px] font-semibold uppercase tracking-wide text-navy-500">
+            <div
+              key={p.ref}
+              className="grid items-start gap-4 xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] xl:gap-6"
+            >
+              <article className="rounded-card border border-brand-200 bg-brand-50/60 p-5 xl:sticky xl:top-32">
+                <p className="text-[13px] font-semibold text-brand-600">
                   Okuma Parçası
                 </p>
                 <h3 className="mt-1 text-[15px] font-semibold text-ink">{p.title}</h3>
@@ -219,7 +226,7 @@ export function ExamRunner({
                   {p.body}
                 </p>
               </article>
-              <div className="mt-4 space-y-4">{pqs.map(renderQuestion)}</div>
+              <div className="mt-4 space-y-4 xl:mt-0">{pqs.map(renderQuestion)}</div>
             </div>
           );
         })}
@@ -231,9 +238,9 @@ export function ExamRunner({
 
   return (
     <div>
-      {/* Üst bilgi çubuğu — mobilde uygulama başlığının (≈61px) altına oturur */}
+      {/* Üst bilgi çubuğu; mobilde uygulama başlığının (≈61px) altına oturur */}
       <div className="sticky top-[61px] z-20 -mx-4 mb-6 border-b border-hairline bg-plane/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:top-0 lg:-mx-10 lg:px-10">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 text-[13px] tabular-nums text-ink-secondary">
               <TimerIcon className="h-4 w-4 text-ink-muted" aria-hidden />
@@ -259,15 +266,15 @@ export function ExamRunner({
             {answeredCount}/{total} yanıtlandı
           </p>
         </div>
-        <div className="mx-auto mt-2 h-1.5 max-w-3xl overflow-hidden rounded-full bg-navy-100">
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-brand-100">
           <div
-            className="h-full rounded-full bg-navy-700 transition-[width]"
+            className="h-full rounded-full bg-brand-700 transition-[width]"
             style={{ width: `${total > 0 ? (answeredCount / total) * 100 : 0}%` }}
           />
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl">
+      <div className="w-full">
         {/* Bölüm sekmeleri */}
         <div className="mb-5 flex flex-wrap gap-2">
           {sections.map((s, i) => {
@@ -280,15 +287,15 @@ export function ExamRunner({
                 className={cn(
                   'inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors',
                   i === sectionIdx
-                    ? 'border-navy-800 bg-navy-800 text-white'
-                    : 'border-hairline bg-white text-ink-secondary hover:border-navy-300'
+                    ? 'border-brand-800 bg-brand-800 text-white'
+                    : 'border-hairline bg-white text-ink-secondary hover:border-brand-300'
                 )}
               >
                 {done ? (
                   <CheckCircle2
                     className={cn(
                       'h-3.5 w-3.5',
-                      i === sectionIdx ? 'text-gold-300' : 'text-status-goodtext'
+                      i === sectionIdx ? 'text-accent-300' : 'text-status-goodtext'
                     )}
                     aria-hidden
                   />
@@ -313,7 +320,7 @@ export function ExamRunner({
             Önceki Bölüm
           </Button>
           {isLast ? (
-            <Button variant="gold" size="lg" onClick={() => { persist(); setConfirmOpen(true); }}>
+            <Button variant="accent" size="lg" onClick={() => { persist(); setConfirmOpen(true); }}>
               Sınavı Bitir
             </Button>
           ) : (
@@ -356,7 +363,7 @@ export function ExamRunner({
             >
               Sınava Dön
             </Button>
-            <Button variant="gold" disabled={submitting} onClick={finish}>
+            <Button variant="accent" disabled={submitting} onClick={finish}>
               {submitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

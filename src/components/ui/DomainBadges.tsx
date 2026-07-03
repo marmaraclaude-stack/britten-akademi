@@ -10,10 +10,10 @@ const levelTones: Record<CefrLevel, BadgeTone> = {
   PreA1: 'gray',
   A1: 'blue',
   A2: 'blue',
-  B1: 'navy',
-  B2: 'navy',
-  C1: 'gold',
-  C2: 'gold',
+  B1: 'brand',
+  B2: 'brand',
+  C1: 'accent',
+  C2: 'accent',
 };
 
 export function LevelBadge({ level }: { level: CefrLevel | null }) {
@@ -26,7 +26,7 @@ export function LevelBadge({ level }: { level: CefrLevel | null }) {
 }
 
 export function SkillBadge({ skill }: { skill: Skill }) {
-  return <Badge tone="navy">{SKILL_LABELS[skill]}</Badge>;
+  return <Badge tone="brand">{SKILL_LABELS[skill]}</Badge>;
 }
 
 const statusTones: Record<LessonStatus, BadgeTone> = {

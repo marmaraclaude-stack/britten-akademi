@@ -1,5 +1,5 @@
 /**
- * Yatay çubuk dökümü — seviye/bölüm doğruluk oranları.
+ * Yatay çubuk dökümü; seviye/bölüm doğruluk oranları.
  * dataviz kurallarına uygun: ince çubuklar, 4px yuvarlak uç, doğrudan etiket,
  * tek sekans mavisi (#2a78d6), metin her zaman metin renginde.
  */
@@ -22,7 +22,7 @@ export function BarBreakdown({
               </span>
             </div>
             <div
-              className="h-2 w-full rounded-full bg-navy-100/70"
+              className="h-2 w-full rounded-full bg-brand-100/70"
               role="img"
               aria-label={`${r.label}: ${r.total} soruda ${r.correct} doğru (%${pct})`}
             >

@@ -102,7 +102,7 @@ export default async function StudentDetailPage({
 
   const attempt = attempts[0] ?? null;
 
-  // Cevap anahtarı yalnızca sunucuda açılır — öğretmen analizi için güvenli.
+  // Cevap anahtarı yalnızca sunucuda açılır; öğretmen analizi için güvenli.
   let questions: TestQuestion[] = [];
   if (attempt) {
     questions = await getExamQuestionsWithAnswers();
@@ -205,16 +205,16 @@ export default async function StudentDetailPage({
               ) : (
                 <div className="space-y-6">
                   {/* Puan kahramanı */}
-                  <div className="flex flex-wrap items-center gap-5 rounded-xl bg-gradient-to-br from-navy-900 to-navy-800 p-5 text-white">
+                  <div className="flex flex-wrap items-center gap-5 rounded-xl bg-gradient-to-br from-brand-900 to-brand-800 p-5 text-white">
                     <div className="rounded-xl bg-white/10 px-5 py-3 text-center">
                       <p className="text-3xl font-semibold tabular-nums">
                         {attempt.score}
                       </p>
-                      <p className="text-[12px] text-navy-200">/ 100 doğru</p>
+                      <p className="text-[12px] text-brand-200">/ 100 doğru</p>
                     </div>
                     <div className="min-w-0 flex-1">
                       <LevelBadge level={attempt.cefr_result} />
-                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-navy-200">
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-brand-200">
                         <span className="inline-flex items-center gap-1.5">
                           <Award className="h-3.5 w-3.5" aria-hidden />
                           {formatDateTime(attempt.completed_at!)}
@@ -233,7 +233,7 @@ export default async function StudentDetailPage({
                   <div className="grid gap-6 md:grid-cols-2">
                     {sectionRows.length > 0 ? (
                       <div>
-                        <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                        <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                           Bölümlere göre
                         </p>
                         <BarBreakdown rows={sectionRows} />
@@ -241,7 +241,7 @@ export default async function StudentDetailPage({
                     ) : null}
                     {levelRows.length > 0 ? (
                       <div>
-                        <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                        <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                           Zorluk seviyesine göre
                         </p>
                         <BarBreakdown rows={levelRows} />
@@ -272,7 +272,7 @@ export default async function StudentDetailPage({
                                   Soru {q.id}
                                 </span>
                                 <Badge tone="gray">{SECTION_LABELS[q.section]}</Badge>
-                                <Badge tone="navy">{q.level}</Badge>
+                                <Badge tone="brand">{q.level}</Badge>
                               </div>
                               <p className="text-sm font-medium leading-6 text-ink">
                                 {q.question}
@@ -342,14 +342,14 @@ export default async function StudentDetailPage({
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge tone={remaining > 0 ? 'navy' : 'gray'}>
+                            <Badge tone={remaining > 0 ? 'brand' : 'gray'}>
                               {remaining} ders kaldı
                             </Badge>
                             <DeletePackageButton packageId={p.id} packageName={p.name} />
                           </div>
                         </div>
                         <div
-                          className="mt-3 h-2 w-full rounded-full bg-navy-100/70"
+                          className="mt-3 h-2 w-full rounded-full bg-brand-100/70"
                           role="img"
                           aria-label={`${p.name}: ${p.total_lessons} dersten ${used} tanesi tamamlandı`}
                         >
@@ -374,7 +374,7 @@ export default async function StudentDetailPage({
               )}
 
               <div className="border-t border-hairline pt-4">
-                <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                <p className="mb-3 text-[13px] font-semibold text-ink-secondary">
                   Yeni paket tanımla
                 </p>
                 <AddPackageForm studentId={student.id} />
@@ -390,7 +390,7 @@ export default async function StudentDetailPage({
               action={
                 <Link
                   href="/ogretmen/odevler"
-                  className="text-[13px] font-medium text-navy-700 hover:underline"
+                  className="text-[13px] font-medium text-brand-700 hover:underline"
                 >
                   Tüm ödevler →
                 </Link>
@@ -405,7 +405,7 @@ export default async function StudentDetailPage({
                   action={
                     <Link
                       href="/ogretmen/odevler/yeni"
-                      className="inline-flex h-9 items-center gap-2 rounded-lg bg-navy-800 px-3.5 text-[13px] font-medium text-white transition-colors hover:bg-navy-900"
+                      className="inline-flex h-9 items-center gap-2 rounded-lg bg-brand-800 px-3.5 text-[13px] font-medium text-white transition-colors hover:bg-brand-900"
                     >
                       Yeni Ödev
                     </Link>
@@ -475,6 +475,7 @@ export default async function StudentDetailPage({
                   full_name: student.full_name,
                   phone: student.phone,
                   cefr_level: student.cefr_level,
+                  color: student.color,
                 }}
               />
             </CardBody>

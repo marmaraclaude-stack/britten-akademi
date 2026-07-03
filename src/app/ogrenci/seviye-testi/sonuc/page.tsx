@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ArrowRight, Award, Clock, ListChecks } from 'lucide-react';
 import { requireStudent } from '@/lib/auth';
+import { getExamQuestionsWithAnswers } from '@/lib/placement';
 import { createClient } from '@/lib/supabase/server';
 import {
   CEFR_DESCRIPTIONS,
@@ -12,6 +13,7 @@ import {
 } from '@/lib/utils';
 import type { AttemptBreakdown, TestAttempt, TestSection } from '@/lib/types';
 import { BarBreakdown } from '@/components/charts/BarBreakdown';
+import { MistakeReview } from '@/components/exam/MistakeReview';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { LevelBadge } from '@/components/ui/DomainBadges';
 import { PageHeader } from '@/components/ui/PageHeader';
@@ -60,6 +62,14 @@ export default async function PlacementResultPage() {
     ? Math.max(1, Math.round(attempt.duration_seconds / 60))
     : null;
 
+  // Cevap anahtari yalnizca sunucuda acilir; sayfaya sadece bu denemenin
+  // yanlislari islenmis olarak gonderilir.
+  const questions = await getExamQuestionsWithAnswers();
+  const answers = (attempt.answers ?? {}) as Record<string, number>;
+  const wrongCount = questions.filter(
+    (q) => answers[String(q.id)] !== q.answer_index
+  ).length;
+
   return (
     <div>
       <PageHeader
@@ -68,23 +78,23 @@ export default async function PlacementResultPage() {
       />
 
       {/* Sonuç kahramanı */}
-      <div className="rounded-card border border-navy-200 bg-gradient-to-br from-navy-900 to-navy-800 p-8 text-white shadow-raised">
+      <div className="rounded-card border border-brand-200 bg-gradient-to-br from-brand-900 to-brand-800 p-8 text-white shadow-raised">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
-            <p className="text-sm font-medium text-navy-200">İngilizce seviyen</p>
+            <p className="text-sm font-medium text-brand-200">İngilizce seviyen</p>
             <p className="mt-1 text-5xl font-semibold tracking-tight">
               {level === 'PreA1' ? 'Pre-A1' : level}
-              <span className="ml-3 text-2xl font-normal text-gold-300">
+              <span className="ml-3 text-2xl font-normal text-accent-300">
                 {CEFR_LABELS[level]}
               </span>
             </p>
-            <p className="mt-3 max-w-xl text-sm leading-6 text-navy-100">
+            <p className="mt-3 max-w-xl text-sm leading-6 text-brand-100">
               {CEFR_DESCRIPTIONS[level]}
             </p>
           </div>
           <div className="rounded-2xl bg-white/10 px-6 py-4 text-center backdrop-blur">
             <p className="text-4xl font-semibold tabular-nums">{attempt.score}</p>
-            <p className="mt-0.5 text-[13px] text-navy-200">/ 100 doğru</p>
+            <p className="mt-0.5 text-[13px] text-brand-200">/ 100 doğru</p>
           </div>
         </div>
       </div>
@@ -97,7 +107,7 @@ export default async function PlacementResultPage() {
         />
         <Stat
           label="Toplam süre"
-          value={minutes ? `${minutes} dk` : '—'}
+          value={minutes ? `${minutes} dk` : '-'}
           sub="İlk başlangıçtan bitirmeye kadar"
           icon={Clock}
         />
@@ -133,15 +143,32 @@ export default async function PlacementResultPage() {
         ) : null}
       </div>
 
-      <div className="mt-8 rounded-card border border-gold-200 bg-gold-50 p-6">
-        <p className="text-sm leading-6 text-gold-900">
+      {/* Yanlis incelemesi */}
+      <section className="mt-8">
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-ink">
+              Yanlışlarını incele
+            </h2>
+            <p className="mt-0.5 text-sm text-ink-muted">
+              {wrongCount > 0
+                ? `${wrongCount} soruda doğru cevabı ve açıklamasını gör; bir dahaki sefere hazır ol.`
+                : 'Harika bir sonuç!'}
+            </p>
+          </div>
+        </div>
+        <MistakeReview questions={questions} answers={answers} />
+      </section>
+
+      <div className="mt-8 rounded-card border border-brand-100 bg-brand-50 p-6">
+        <p className="text-sm leading-6 text-brand-900">
           <strong>Sırada ne var?</strong> Öğretmenin sonucunu inceleyip ders
           programını ve materyallerini seviyene göre hazırlayacak. Ders
           takvimini panelinden takip edebilirsin.
         </p>
         <Link
           href="/ogrenci"
-          className="mt-4 inline-flex items-center gap-2 rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+          className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-900"
         >
           Panelime Git
           <ArrowRight className="h-4 w-4" aria-hidden />

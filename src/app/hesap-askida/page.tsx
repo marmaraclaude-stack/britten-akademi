@@ -35,7 +35,7 @@ export default async function SuspendedPage() {
       <form action={signOut}>
         <button
           type="submit"
-          className="rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+          className="rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-900"
         >
           Çıkış Yap
         </button>

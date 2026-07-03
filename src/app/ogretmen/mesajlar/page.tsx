@@ -47,7 +47,7 @@ export default async function TeacherMessagesPage({
           action={
             <Link
               href="/ogretmen/ogrenciler/yeni"
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy-800 px-4 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-800 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-900"
             >
               <UserPlus className="h-4 w-4" aria-hidden />
               Yeni Öğrenci
@@ -104,7 +104,7 @@ export default async function TeacherMessagesPage({
                     aria-current={active ? 'true' : undefined}
                     className={cn(
                       'flex items-center gap-3 px-4 py-3 transition-colors',
-                      active ? 'bg-navy-50' : 'hover:bg-plane'
+                      active ? 'bg-brand-50' : 'hover:bg-plane'
                     )}
                   >
                     <Avatar name={student.full_name} size="sm" />
@@ -136,7 +136,7 @@ export default async function TeacherMessagesPage({
                       </p>
                     </div>
                     {unread > 0 ? (
-                      <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-navy-800 px-1.5 text-[11px] font-semibold text-white">
+                      <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-brand-800 px-1.5 text-[11px] font-semibold text-white">
                         {unread}
                       </span>
                     ) : null}

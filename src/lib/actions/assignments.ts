@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { actionProfile } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { uploadFile } from '@/lib/storage';
-import type { ActionResult, Skill } from '@/lib/types';
+import type { ActionResult, AssignmentKind, Skill } from '@/lib/types';
 
 const SKILL_VALUES: Skill[] = [
   'grammar', 'vocabulary', 'reading', 'writing', 'listening', 'speaking', 'general',
@@ -19,13 +19,32 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   const title = String(formData.get('title') ?? '').trim();
   const description = String(formData.get('description') ?? '').trim();
   const skill = String(formData.get('skill') ?? 'general') as Skill;
+  const kind = String(formData.get('kind') ?? 'text') as AssignmentKind;
+  const htmlContent = String(formData.get('html_content') ?? '').trim();
   const dueDate = String(formData.get('due_date') ?? ''); // YYYY-MM-DD
   const dueTime = String(formData.get('due_time') ?? '23:59');
   const file = formData.get('file');
 
   if (!studentId) return { ok: false, message: 'Öğrenci seçin.' };
+  const supabase = await createClient();
+
+  let studentIds: string[] = [studentId];
+  if (studentId === '__all__') {
+    const { data: activeStudents } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('role', 'student')
+      .eq('is_active', true);
+    studentIds = (activeStudents ?? []).map((r) => r.id as string);
+    if (studentIds.length === 0)
+      return { ok: false, message: 'Aktif öğrenci bulunamadı.' };
+  }
   if (!title) return { ok: false, message: 'Ödev başlığı zorunludur.' };
   if (!SKILL_VALUES.includes(skill)) return { ok: false, message: 'Geçersiz beceri.' };
+  if (kind !== 'text' && kind !== 'html')
+    return { ok: false, message: 'Geçersiz ödev türü.' };
+  if (kind === 'html' && !htmlContent)
+    return { ok: false, message: 'HTML ödev için içerik ekleyin.' };
 
   let dueAt: string | null = null;
   if (dueDate) {
@@ -38,26 +57,33 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   let attachmentPath: string | null = null;
   let attachmentName: string | null = null;
   if (file instanceof File && file.size > 0) {
-    const uploaded = await uploadFile(`odevler/${studentId}`, file);
+    const folder = studentId === '__all__' ? 'odevler/ortak' : `odevler/${studentId}`;
+    const uploaded = await uploadFile(folder, file);
     if ('error' in uploaded) return { ok: false, message: uploaded.error };
     attachmentPath = uploaded.path;
     attachmentName = uploaded.name;
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.from('assignments').insert({
-    student_id: studentId,
+  const rows = studentIds.map((sid) => ({
+    student_id: sid,
     title,
     description: description || null,
     skill,
+    kind,
+    html_content: kind === 'html' ? htmlContent : null,
     due_at: dueAt,
     attachment_path: attachmentPath,
     attachment_name: attachmentName,
-  });
+  }));
+  const { error } = await supabase.from('assignments').insert(rows);
 
   if (error) return { ok: false, message: `Ödev oluşturulamadı: ${error.message}` };
   revalidatePath('/', 'layout');
-  return { ok: true, message: 'Ödev verildi.' };
+  return {
+    ok: true,
+    message:
+      rows.length > 1 ? `${rows.length} öğrenciye ödev verildi.` : 'Ödev verildi.',
+  };
 }
 
 /** Öğretmen: ödevi siler. */

@@ -34,7 +34,7 @@ export function DownloadButton({
             }
           })
         }
-        className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-white px-2.5 py-1.5 text-[13px] font-medium text-navy-700 transition-colors hover:bg-navy-50 disabled:opacity-60"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-white px-2.5 py-1.5 text-[13px] font-medium text-brand-700 transition-colors hover:bg-brand-50 disabled:opacity-60"
       >
         {pending ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
