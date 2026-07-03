@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Sparkles,
   TrendingUp,
+  Wallet,
   UserCircle2,
   Users,
   X,
@@ -32,6 +33,7 @@ const ICONS: Record<string, LucideIcon> = {
   exam: GraduationCap,
   words: Sparkles,
   profile: UserCircle2,
+  finance: Wallet,
 };
 
 export interface NavItem {

@@ -118,7 +118,7 @@ jobs:
             echo "Şema + RLS + storage kovası + soru bankası yüklendi."
           fi
           # Ek migrasyonlar (idempotent) her calismada uygulanir
-          for mig in supabase/migrations/0003_odevler_ve_kelimeler.sql supabase/migrations/0004_ogrenci_rengi.sql; do
+          for mig in supabase/migrations/0003_odevler_ve_kelimeler.sql supabase/migrations/0004_ogrenci_rengi.sql supabase/migrations/0005_finans.sql; do
             jq -Rs '{query:.}' "$mig" \
               | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
                   -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null

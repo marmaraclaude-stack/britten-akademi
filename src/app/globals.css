@@ -15,6 +15,28 @@ code, kbd, pre, samp {
   font-family: inherit;
 }
 
+/* Tiklanabilir ogelerde imlec */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+select:not(:disabled),
+summary,
+label[for],
+a {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+input[type='file'] {
+  cursor: pointer;
+}
+input[type='file']::file-selector-button {
+  cursor: pointer;
+}
+dialog::backdrop {
+  cursor: default;
+}
+
 /* İnce, göze batmayan kaydırma çubukları */
 * {
   scrollbar-width: thin;

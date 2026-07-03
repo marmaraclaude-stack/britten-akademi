@@ -45,6 +45,8 @@ export interface Package {
   currency: string;
   starts_on: string;
   notes: string | null;
+  /** Odeme alindiysa tarihi; null = odenmedi */
+  paid_at: string | null;
   created_at: string;
 }
 

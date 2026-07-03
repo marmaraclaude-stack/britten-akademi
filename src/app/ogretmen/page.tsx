@@ -190,7 +190,7 @@ export default async function TeacherDashboardPage() {
               {formatWeekday(new Date())}, {formatDate(new Date())}
             </p>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-              Hoş geldiniz, {firstName}
+              Hoş geldin {firstName}
             </h1>
             <p className="mt-2 max-w-xl text-sm leading-6 text-brand-100">
               {todayLessonCount > 0

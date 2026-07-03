@@ -2,7 +2,7 @@
 -- BRİTTEN AKADEMİ; TEK DOSYA KURULUM
 -- Yeni Supabase projenizde SQL Editor'e bu dosyanın TAMAMINI
 -- yapıştırıp bir kez çalıştırın (şema + RLS + 100 soruluk sınav
--- + HTML ödev, günlük kelime ve öğrenci rengi desteği).
+-- + HTML ödev, günlük kelime, öğrenci rengi ve finans desteği).
 -- Ardından öğretmen hesabınız için supabase/seed_teacher.sql.example
 -- dosyasını düzenleyip çalıştırın.
 -- ============================================================
@@ -599,3 +599,11 @@ create policy "vocab_student_update" on public.vocab_progress for update to auth
 
 alter table public.profiles
   add column if not exists color text;
+
+-- ============================================================
+-- 0005: Finans; paket odemeleri takibi
+-- Idempotenttir; mevcut kurulumlara guvenle uygulanabilir.
+-- ============================================================
+
+alter table public.packages
+  add column if not exists paid_at timestamptz;

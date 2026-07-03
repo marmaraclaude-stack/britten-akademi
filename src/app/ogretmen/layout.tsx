@@ -24,6 +24,7 @@ export default async function TeacherLayout({
     { href: '/ogretmen/takvim', label: 'Takvim', icon: 'calendar' },
     { href: '/ogretmen/odevler', label: 'Ödevler', icon: 'homework' },
     { href: '/ogretmen/materyaller', label: 'Materyaller', icon: 'materials' },
+    { href: '/ogretmen/finans', label: 'Finans', icon: 'finance' },
     {
       href: '/ogretmen/mesajlar',
       label: 'Mesajlar',

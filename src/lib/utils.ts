@@ -91,6 +91,19 @@ export function relativeDays(iso: string): string {
   return `${Math.abs(diffDays)} gün önce`;
 }
 
+/** Para bicimlendirme (TRY varsayilan) */
+export function formatMoney(value: number, currency = 'TRY') {
+  try {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: value % 1 === 0 ? 0 : 2,
+    }).format(value);
+  } catch {
+    return `${value} ${currency}`;
+  }
+}
+
 // ---- Öğrenci takvim renkleri (öğretmen atar) ----
 
 export const STUDENT_COLORS: Array<{ value: string; label: string }> = [
