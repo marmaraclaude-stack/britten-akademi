@@ -40,9 +40,11 @@ Birebir İngilizce eğitimi için profesyonel öğretmen–öğrenci platformu.
 ### 1) Supabase projesi
 
 1. [supabase.com](https://supabase.com) üzerinde yeni bir proje oluşturun.
-2. **SQL Editor**'de sırasıyla şu dosyaları çalıştırın:
-   - `supabase/migrations/0001_schema.sql` — tablolar, RLS politikaları, storage kovası
-   - `supabase/migrations/0002_seed_questions.sql` — 100 soruluk sınav bankası
+2. **SQL Editor**'de `supabase/kurulum-tek-dosya.sql` dosyasının tamamını
+   yapıştırıp bir kez çalıştırın (şema + RLS politikaları + storage kovası +
+   100 soruluk sınav bankası). Dilerseniz aynı işi
+   `supabase/migrations/0001_schema.sql` ve `0002_seed_questions.sql`
+   dosyalarını sırasıyla çalıştırarak da yapabilirsiniz.
 3. Öğretmen hesabınızı oluşturun: `supabase/seed_teacher.sql.example`
    dosyasını açın, e-posta/şifre/ad alanlarını değiştirin ve SQL Editor'de
    çalıştırın.
