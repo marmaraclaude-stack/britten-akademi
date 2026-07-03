@@ -51,8 +51,10 @@ function dayIndexOf(dayKey: string): number {
 export interface DailyVocab {
   level: CefrLevel;
   words: VocabWord[];
-  /** Quiz celdiricileri: gunun kelimeleri disindaki anlamlar */
+  /** Quiz celdiricileri: gunun kelimeleri disindaki Turkce anlamlar */
   distractors: string[];
+  /** Ingilizce celdiriciler: gunun kelimeleri disindaki kelimeler */
+  enDistractors: string[];
 }
 
 export function dailyWords(
@@ -73,11 +75,11 @@ export function dailyWords(
 
   const todaySet = new Set(words.map((w) => w.word));
   const rest = shuffled.filter((w) => !todaySet.has(w.word));
-  const distractors = seededShuffle(rest, hashString(`celdirici-${dayKey}-${effLevel}`))
-    .slice(0, 15)
-    .map((w) => w.tr);
+  const mixed = seededShuffle(rest, hashString(`celdirici-${dayKey}-${effLevel}`));
+  const distractors = mixed.slice(0, 15).map((w) => w.tr);
+  const enDistractors = mixed.slice(0, 15).map((w) => w.word);
 
-  return { level: effLevel, words, distractors };
+  return { level: effLevel, words, distractors, enDistractors };
 }
 
 /**

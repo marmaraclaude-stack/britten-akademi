@@ -36,7 +36,10 @@ export default async function DailyWordsPage() {
   ensurePlacementDone(profile);
 
   const todayKey = dayKeyIstanbul(new Date());
-  const { level, words, distractors } = dailyWords(profile.cefr_level, todayKey);
+  const { level, words, distractors, enDistractors } = dailyWords(
+    profile.cefr_level,
+    todayKey
+  );
 
   const supabase = await createClient();
   const { data } = await supabase
@@ -132,6 +135,7 @@ export default async function DailyWordsPage() {
         <WordTrainer
           words={words}
           distractors={distractors}
+          enDistractors={enDistractors}
           initialLearned={today?.learned_words ?? []}
           alreadyCompleted={completed}
           initialQuiz={
