@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { SkillBadge } from '@/components/ui/DomainBadges';
 import { DownloadButton } from '@/components/ui/DownloadButton';
+import { HtmlViewer } from '@/components/materials/HtmlViewer';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { DeleteAssignmentButton } from './DeleteAssignmentButton';
@@ -49,7 +50,7 @@ export default async function AssignmentDetailPage({
     <div className="mx-auto max-w-3xl">
       <Link
         href="/ogretmen/odevler"
-        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-navy-700 hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700 hover:underline"
       >
         <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
         Tüm ödevler
@@ -102,6 +103,20 @@ export default async function AssignmentDetailPage({
             <p className="whitespace-pre-wrap rounded-lg bg-plane px-4 py-3 text-sm leading-6 text-ink-secondary">
               {assignment.description}
             </p>
+          ) : null}
+
+          {assignment.kind === 'html' && assignment.html_content ? (
+            <div>
+              <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                HTML ödev önizlemesi
+              </p>
+              <HtmlViewer
+                html={assignment.html_content}
+                studentName={student?.full_name ?? 'Öğrenci'}
+                level={student?.cefr_level ?? null}
+                title={assignment.title}
+              />
+            </div>
           ) : null}
 
           {assignment.attachment_path && assignment.attachment_name ? (

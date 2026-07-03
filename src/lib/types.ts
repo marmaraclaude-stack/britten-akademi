@@ -1,4 +1,4 @@
-// Veritabanı satır tipleri — supabase/migrations/0001_schema.sql ile eşleşir
+// Veritabanı satır tipleri; supabase/migrations/0001_schema.sql ile eşleşir
 
 export type Role = 'teacher' | 'student';
 
@@ -16,6 +16,8 @@ export type Skill =
 export type LessonStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show';
 
 export type MaterialKind = 'html' | 'link' | 'file' | 'text';
+
+export type AssignmentKind = 'text' | 'html';
 
 export type TestSection = 'grammar' | 'vocabulary' | 'usage' | 'reading';
 
@@ -66,6 +68,8 @@ export interface Assignment {
   title: string;
   description: string | null;
   skill: Skill;
+  kind: AssignmentKind;
+  html_content: string | null;
   due_at: string | null;
   attachment_path: string | null;
   attachment_name: string | null;
@@ -131,7 +135,7 @@ export interface TestQuestion {
   explanation: string | null;
 }
 
-/** Öğrenciye servis edilen soru — cevap anahtarı YOK */
+/** Öğrenciye servis edilen soru; cevap anahtarı YOK */
 export type PublicTestQuestion = Omit<TestQuestion, 'answer_index' | 'explanation'>;
 
 export interface SectionBreakdown {
@@ -154,6 +158,20 @@ export interface TestAttempt {
   cefr_result: CefrLevel | null;
   breakdown: AttemptBreakdown | null;
   duration_seconds: number | null;
+}
+
+export interface VocabProgress {
+  id: string;
+  student_id: string;
+  /** YYYY-MM-DD (Istanbul) */
+  day: string;
+  level: CefrLevel;
+  learned_words: string[];
+  quiz_correct: number | null;
+  quiz_total: number | null;
+  completed_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Message {

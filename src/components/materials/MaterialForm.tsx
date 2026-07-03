@@ -26,7 +26,7 @@ const KIND_HINTS: Record<MaterialKind, string> = {
 };
 
 /**
- * Materyal oluşturma/düzenleme formu — öğretmen tarafında paylaşılan tek form.
+ * Materyal oluşturma/düzenleme formu; öğretmen tarafında paylaşılan tek form.
  * kind=html içeriği sandbox iframe ile canlı önizlenir.
  */
 export function MaterialForm({
@@ -121,8 +121,8 @@ export function MaterialForm({
             name="is_published"
             defaultValue={material ? String(material.is_published) : 'true'}
           >
-            <option value="true">Yayımda — öğrenci görebilir</option>
-            <option value="false">Taslak — yalnızca siz görürsünüz</option>
+            <option value="true">Yayımda (öğrenci görebilir)</option>
+            <option value="false">Taslak (yalnızca siz görürsünüz)</option>
           </Select>
         </FieldGroup>
       </div>
@@ -147,12 +147,12 @@ export function MaterialForm({
                 className={cn(
                   'rounded-xl border p-3 text-left transition-colors',
                   active
-                    ? 'border-navy-500 bg-navy-50 ring-1 ring-navy-500'
-                    : 'border-hairline bg-white hover:border-navy-300 hover:bg-navy-50/40'
+                    ? 'border-brand-500 bg-brand-50 ring-1 ring-brand-500'
+                    : 'border-hairline bg-white hover:border-brand-300 hover:bg-brand-50/40'
                 )}
               >
                 <Icon
-                  className={cn('h-4 w-4', active ? 'text-navy-700' : 'text-ink-muted')}
+                  className={cn('h-4 w-4', active ? 'text-brand-700' : 'text-ink-muted')}
                   aria-hidden
                 />
                 <span className="mt-1.5 block text-[13px] font-medium text-ink">
@@ -180,7 +180,7 @@ export function MaterialForm({
               <code className="rounded bg-sky-100 px-1 py-0.5 font-mono text-[12px]">
                 {'{{seviye}}'}
               </code>{' '}
-              — materyal açıldığında öğrencinin adıyla ve seviyesiyle otomatik
+             ; materyal açıldığında öğrencinin adıyla ve seviyesiyle otomatik
               değiştirilir.
             </p>
           </div>
@@ -249,7 +249,7 @@ export function MaterialForm({
           </Label>
           {material?.file_name ? (
             <p className="mb-1 text-[13px] text-ink-secondary">
-              Mevcut dosya: <span className="font-medium">{material.file_name}</span> —
+              Mevcut dosya: <span className="font-medium">{material.file_name}</span>;
               yeni bir dosya seçerseniz değiştirilir.
             </p>
           ) : null}
@@ -258,7 +258,7 @@ export function MaterialForm({
             name="file"
             type="file"
             required={onSubmitAction === 'create' || !material?.file_path}
-            className="block w-full text-sm text-ink-secondary file:mr-3 file:rounded-lg file:border-0 file:bg-navy-100 file:px-3 file:py-2 file:text-[13px] file:font-medium file:text-navy-800 hover:file:bg-navy-200"
+            className="block w-full text-sm text-ink-secondary file:mr-3 file:rounded-lg file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-[13px] file:font-medium file:text-brand-800 hover:file:bg-brand-200"
           />
         </FieldGroup>
       ) : null}

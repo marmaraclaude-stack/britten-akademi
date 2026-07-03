@@ -25,7 +25,7 @@ export default async function StudentCalendarPage() {
     <div>
       <PageHeader
         title="Ders Takvimim"
-        description="Öğretmeninle ortak takviminiz — dersler, saatler ve durumları"
+        description="Öğretmeninle ortak takviminiz; dersler, saatler ve durumları"
       />
       <MonthCalendar lessons={lessons} canEdit={false} />
     </div>

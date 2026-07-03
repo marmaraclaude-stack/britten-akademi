@@ -115,7 +115,7 @@ export default async function StudentProgressPage() {
               attempt ? (
                 <Link
                   href="/ogrenci/seviye-testi/sonuc"
-                  className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                  className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
                 >
                   Sınav sonucun
                   <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -240,7 +240,7 @@ export default async function StudentProgressPage() {
                         </span>
                       </div>
                       <div
-                        className="h-2 w-full rounded-full bg-navy-100/70"
+                        className="h-2 w-full rounded-full bg-brand-100/70"
                         role="img"
                         aria-label={`${p.name}: ${p.total_lessons} dersin ${used} tanesi kullanıldı`}
                       >

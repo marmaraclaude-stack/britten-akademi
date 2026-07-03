@@ -6,8 +6,8 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-plane px-6 text-center">
       <Brand />
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-100">
-        <Compass className="h-7 w-7 text-navy-600" aria-hidden />
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-100">
+        <Compass className="h-7 w-7 text-brand-600" aria-hidden />
       </div>
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-ink">
@@ -19,7 +19,7 @@ export default function NotFound() {
       </div>
       <Link
         href="/"
-        className="rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+        className="rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-900"
       >
         Ana Sayfaya Dön
       </Link>

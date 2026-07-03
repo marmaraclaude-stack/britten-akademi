@@ -4,6 +4,8 @@ import type { LucideIcon } from 'lucide-react';
 import {
   ArrowRight,
   BookOpen,
+  Flame,
+  Sparkles,
   CalendarCheck,
   CalendarX,
   ClipboardList,
@@ -21,6 +23,7 @@ import { ensurePlacementDone } from '@/lib/placement-gate';
 import { createClient } from '@/lib/supabase/server';
 import {
   cn,
+  dayKeyIstanbul,
   formatDate,
   formatDateShort,
   formatTime,
@@ -29,12 +32,14 @@ import {
   submissionOf,
   truncate,
 } from '@/lib/utils';
+import { computeStreak, WORDS_PER_DAY } from '@/lib/vocabulary';
 import type {
   AssignmentWithSubmission,
   Lesson,
   Material,
   MaterialKind,
   Package,
+  VocabProgress,
 } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
@@ -56,7 +61,7 @@ export default async function StudentDashboardPage() {
   ensurePlacementDone(profile);
 
   const supabase = await createClient();
-  const [lessonsRes, assignmentsRes, packagesRes, materialsRes] = await Promise.all([
+  const [lessonsRes, assignmentsRes, packagesRes, materialsRes, vocabRes] = await Promise.all([
     supabase
       .from('lessons')
       .select('*')
@@ -72,12 +77,28 @@ export default async function StudentDashboardPage() {
       .select('*')
       .order('created_at', { ascending: false })
       .limit(4),
+    supabase
+      .from('vocab_progress')
+      .select('*')
+      .eq('student_id', profile.id)
+      .order('day', { ascending: false })
+      .limit(60),
   ]);
 
   const lessons = (lessonsRes.data ?? []) as Lesson[];
   const assignments = (assignmentsRes.data ?? []) as AssignmentWithSubmission[];
   const packages = (packagesRes.data ?? []) as Package[];
   const materials = (materialsRes.data ?? []) as Material[];
+  const vocabRows = (vocabRes.data ?? []) as VocabProgress[];
+
+  const todayKey = dayKeyIstanbul(new Date());
+  const vocabToday = vocabRows.find((r) => r.day === todayKey) ?? null;
+  const vocabDone = Boolean(vocabToday?.completed_at);
+  const vocabLearned = vocabToday?.learned_words.length ?? 0;
+  const vocabStreak = computeStreak(
+    vocabRows.filter((r) => r.completed_at).map((r) => r.day),
+    todayKey
+  );
 
   const now = Date.now();
   const completedLessons = lessons.filter((l) => l.status === 'completed');
@@ -122,16 +143,16 @@ export default async function StudentDashboardPage() {
   const nextRel = nextLesson ? relativeDays(nextLesson.starts_at) : null;
   const heroLine = nextLesson
     ? nextRel === 'bugün'
-      ? `Bugün saat ${formatTime(nextLesson.starts_at)} — dersin var, görüşmek üzere!`
+      ? `Bugün saat ${formatTime(nextLesson.starts_at)} dersin var, görüşmek üzere!`
       : nextRel === 'yarın'
-        ? `Yarın saat ${formatTime(nextLesson.starts_at)} — dersin var. Hazırlıklı gel!`
+        ? `Yarın saat ${formatTime(nextLesson.starts_at)} dersin var. Hazırlıklı gel!`
         : `Sıradaki dersin ${formatDate(nextLesson.starts_at)}, saat ${formatTime(nextLesson.starts_at)}.`
     : 'İngilizce yolculuğunda her adım değerli. Bugün de bir şeyler öğrenmeye ne dersin?';
 
   return (
     <div>
       {/* Karşılama kahramanı */}
-      <div className="rounded-card border border-navy-200 bg-gradient-to-br from-navy-900 to-navy-800 p-8 text-white shadow-raised">
+      <div className="rounded-card border border-brand-200 bg-gradient-to-br from-brand-900 to-brand-800 p-8 text-white shadow-raised">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight">
@@ -140,14 +161,14 @@ export default async function StudentDashboardPage() {
             <div className="mt-3">
               <LevelBadge level={profile.cefr_level} />
             </div>
-            <p className="mt-3 max-w-xl text-sm leading-6 text-navy-100">{heroLine}</p>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-brand-100">{heroLine}</p>
           </div>
           {nextLesson && nextLesson.meeting_url ? (
             <a
               href={nextLesson.meeting_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-gold-500 px-5 py-3 text-sm font-semibold text-navy-950 transition-colors hover:bg-gold-400"
+              className="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-3 text-sm font-semibold text-brand-950 transition-colors hover:bg-accent-400"
             >
               <ExternalLink className="h-4 w-4" aria-hidden />
               Derse Katıl
@@ -155,6 +176,50 @@ export default async function StudentDashboardPage() {
           ) : null}
         </div>
       </div>
+
+      {/* Günlük kelimeler bandı */}
+      <Link
+        href="/ogrenci/kelimeler"
+        className={cn(
+          'group mt-6 flex flex-wrap items-center gap-4 rounded-card border p-5 shadow-card transition-shadow hover:shadow-raised',
+          vocabDone
+            ? 'border-emerald-200 bg-emerald-50/70'
+            : 'border-accent-200 bg-gradient-to-r from-accent-50 to-surface'
+        )}
+      >
+        <span
+          className={cn(
+            'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
+            vocabDone ? 'bg-emerald-600 text-white' : 'bg-accent-600 text-white'
+          )}
+        >
+          <Sparkles className="h-5 w-5" aria-hidden />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[15px] font-semibold text-ink">
+            {vocabDone
+              ? 'Bugünün 10 kelimesi tamamlandı!'
+              : 'Bugünün 10 kelimesi seni bekliyor'}
+          </p>
+          <p className="mt-0.5 text-[13px] text-ink-secondary">
+            {vocabDone
+              ? 'Yarın yeni kelimelerle devam. İstersen bugünkü kelimeleri tekrar edebilirsin.'
+              : vocabLearned > 0
+                ? `${vocabLearned}/${WORDS_PER_DAY} kelime öğrenildi; kaldığın yerden devam et.`
+                : 'Seviyene özel kelimeleri kart kart öğren, mini quizle pekiştir.'}
+          </p>
+        </div>
+        {vocabStreak > 0 ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[13px] font-semibold text-accent-700 shadow-card">
+            <Flame className="h-4 w-4" aria-hidden />
+            {vocabStreak} gün
+          </span>
+        ) : null}
+        <ArrowRight
+          className="h-5 w-5 shrink-0 text-ink-muted transition-transform group-hover:translate-x-1"
+          aria-hidden
+        />
+      </Link>
 
       {/* İstatistikler */}
       <div
@@ -171,7 +236,7 @@ export default async function StudentDashboardPage() {
         <Stat label="Bekleyen ödev" value={openAssignments.length} icon={ClipboardList} />
         <Stat
           label="Ortalama ödev notu"
-          value={avgGrade !== null ? avgGrade : '—'}
+          value={avgGrade !== null ? avgGrade : '-'}
           sub={avgGrade !== null ? '100 üzerinden' : 'Henüz notlanan ödev yok'}
           icon={Trophy}
         />
@@ -194,7 +259,7 @@ export default async function StudentDashboardPage() {
             action={
               <Link
                 href="/ogrenci/takvim"
-                className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
               >
                 Takvim
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -225,7 +290,7 @@ export default async function StudentDashboardPage() {
                       href={nextLesson.meeting_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-navy-800 px-3 py-2 text-[13px] font-medium text-white transition-colors hover:bg-navy-900"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-brand-800 px-3 py-2 text-[13px] font-medium text-white transition-colors hover:bg-brand-900"
                     >
                       <ExternalLink className="h-3.5 w-3.5" aria-hidden />
                       Derse Katıl
@@ -257,7 +322,7 @@ export default async function StudentDashboardPage() {
             action={
               <Link
                 href="/ogrenci/odevler"
-                className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
               >
                 Tümü
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -308,7 +373,7 @@ export default async function StudentDashboardPage() {
                   title="Bekleyen ödevin yok"
                   description={
                     assignments.length > 0
-                      ? 'Tüm ödevlerin teslim edilmiş durumda — harikasın! Yeni ödevler burada görünecek.'
+                      ? 'Tüm ödevlerin teslim edilmiş durumda; harikasın! Yeni ödevler burada görünecek.'
                       : 'Öğretmenin ödev verdiğinde burada görünecek.'
                   }
                 />
@@ -327,7 +392,7 @@ export default async function StudentDashboardPage() {
             action={
               <Link
                 href="/ogrenci/materyaller"
-                className="inline-flex items-center gap-1 text-[13px] font-medium text-navy-700 hover:underline"
+                className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-700 hover:underline"
               >
                 Tümü
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -343,12 +408,12 @@ export default async function StudentDashboardPage() {
                     <Link
                       key={m.id}
                       href={`/ogrenci/materyaller/${m.id}`}
-                      className="group rounded-xl border border-hairline bg-white p-4 transition-colors hover:border-navy-300 hover:bg-navy-50/40"
+                      className="group rounded-xl border border-hairline bg-white p-4 transition-colors hover:border-brand-300 hover:bg-brand-50/40"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-50">
-                        <Icon className="h-[18px] w-[18px] text-navy-600" aria-hidden />
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50">
+                        <Icon className="h-[18px] w-[18px] text-brand-600" aria-hidden />
                       </span>
-                      <p className="mt-3 text-sm font-medium leading-5 text-ink group-hover:text-navy-900">
+                      <p className="mt-3 text-sm font-medium leading-5 text-ink group-hover:text-brand-900">
                         {m.title}
                       </p>
                       {m.description ? (

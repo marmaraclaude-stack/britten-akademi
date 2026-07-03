@@ -5,48 +5,49 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Britten Akademi marka paleti — koyu lacivert + altın vurgu
-        navy: {
-          50: '#f2f6fb',
-          100: '#e2ebf6',
-          200: '#c7d8ee',
-          300: '#9dbce0',
-          400: '#6d99cd',
-          500: '#4a7bb9',
-          600: '#38629e',
-          700: '#2f4f80',
-          800: '#2a436a',
-          900: '#1c2f4d',
-          950: '#131f36',
+        // Britten Akademi marka paleti: mavi + kirmizi vurgu, beyaz zemin, siyah metin
+        brand: {
+          50: '#eef4ff',
+          100: '#dde9fe',
+          200: '#c2d8fd',
+          300: '#97bcfa',
+          400: '#6497f5',
+          500: '#3f75ee',
+          600: '#2456dd',
+          700: '#1c43c0',
+          800: '#1c399b',
+          900: '#1d327a',
+          950: '#0c1636',
         },
-        gold: {
-          50: '#fbf8eb',
-          100: '#f6eecb',
-          200: '#eeda99',
-          300: '#e4c15e',
-          400: '#dcab35',
-          500: '#c9a227',
-          600: '#ab791f',
-          700: '#89581c',
-          800: '#72471e',
-          900: '#623c1f',
+        accent: {
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+          950: '#450a0a',
         },
-        surface: '#fcfcfb',
-        plane: '#f7f7f4',
+        surface: '#ffffff',
+        plane: '#f4f6fb',
         ink: {
-          DEFAULT: '#0b0b0b',
-          secondary: '#52514e',
-          muted: '#898781',
+          DEFAULT: '#0a0c12',
+          secondary: '#494e5c',
+          muted: '#7d8494',
         },
-        hairline: '#e1e0d9',
-        // Grafik serileri (dataviz paleti — doğrulanmış)
+        hairline: '#e2e6ef',
+        // Grafik serileri (dataviz paleti)
         chart: {
-          blue: '#2a78d6',
+          blue: '#2456dd',
           aqua: '#1baf7a',
           yellow: '#eda100',
           green: '#008300',
           violet: '#4a3aa7',
-          red: '#e34948',
+          red: '#dc2626',
         },
         status: {
           good: '#0ca30c',
@@ -60,8 +61,8 @@ const config: Config = {
         sans: ['var(--font-inter)', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(19, 31, 54, 0.05), 0 1px 3px rgba(19, 31, 54, 0.08)',
-        raised: '0 4px 12px rgba(19, 31, 54, 0.10), 0 2px 4px rgba(19, 31, 54, 0.06)',
+        card: '0 1px 2px rgba(12, 22, 54, 0.05), 0 1px 3px rgba(12, 22, 54, 0.08)',
+        raised: '0 4px 12px rgba(12, 22, 54, 0.10), 0 2px 4px rgba(12, 22, 54, 0.06)',
       },
       borderRadius: {
         card: '0.75rem',

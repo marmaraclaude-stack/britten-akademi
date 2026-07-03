@@ -30,6 +30,7 @@ export default async function TeacherLayout({
       icon: 'messages',
       badge: unread ?? 0,
     },
+    { href: '/ogretmen/profil', label: 'Profilim', icon: 'profile' },
   ];
 
   return (

@@ -1,5 +1,5 @@
 -- ============================================================
--- Britten Akademi — Veritabanı Şeması
+-- Britten Akademi; Veritabanı Şeması
 -- Birebir İngilizce eğitim platformu: öğretmen + öğrenci
 -- ============================================================
 
@@ -244,7 +244,7 @@ create trigger student_notes_updated_at before update on public.student_notes
   for each row execute function public.set_updated_at();
 
 -- ============================================================
--- RLS — Satır Düzeyi Güvenlik
+-- RLS: Satır Düzeyi Güvenlik
 -- ============================================================
 alter table public.profiles enable row level security;
 alter table public.packages enable row level security;

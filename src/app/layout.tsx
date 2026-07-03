@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | Britten Akademi',
   },
   description:
-    'Britten Akademi — birebir İngilizce eğitimi için öğretmen ve öğrenci paneli.',
+    'Britten Akademi; birebir İngilizce eğitimi için öğretmen ve öğrenci paneli.',
 };
 
 export default function RootLayout({

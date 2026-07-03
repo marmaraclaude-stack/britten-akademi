@@ -45,7 +45,7 @@ export default async function TeacherCalendarPage() {
     <div>
       <PageHeader
         title="Takvim"
-        description="Tüm dersleriniz tek takvimde — güne tıklayarak yeni ders planlayın."
+        description="Tüm dersleriniz tek takvimde; güne tıklayarak yeni ders planlayın."
       />
       <MonthCalendar
         lessons={calendarLessons}

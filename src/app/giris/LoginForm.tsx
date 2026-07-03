@@ -20,7 +20,7 @@ export function LoginForm({
   );
 
   return (
-    <form action={formAction} className="mt-8 space-y-5">
+    <form action={formAction} className="space-y-5">
       {next ? <input type="hidden" name="next" value={next} /> : null}
       <FieldGroup>
         <Label htmlFor="email">E-posta</Label>

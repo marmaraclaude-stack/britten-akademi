@@ -33,8 +33,8 @@ function chipClass(active: boolean) {
   return cn(
     'rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors',
     active
-      ? 'border-navy-800 bg-navy-800 text-white'
-      : 'border-hairline bg-white text-ink-secondary hover:bg-navy-50 hover:text-navy-800'
+      ? 'border-brand-800 bg-brand-800 text-white'
+      : 'border-hairline bg-white text-ink-secondary hover:bg-brand-50 hover:text-brand-800'
   );
 }
 
@@ -64,7 +64,7 @@ export default async function StudentMaterialsPage({
     <div>
       <PageHeader
         title="Materyaller"
-        description="Öğretmeninin senin için hazırladığı içerikler — alıştırmalar, notlar ve kaynaklar"
+        description="Öğretmeninin senin için hazırladığı içerikler; alıştırmalar, notlar ve kaynaklar"
       />
 
       {/* Beceri filtreleri */}
@@ -105,17 +105,17 @@ export default async function StudentMaterialsPage({
               <Link
                 key={m.id}
                 href={`/ogrenci/materyaller/${m.id}`}
-                className="group flex flex-col rounded-card border border-hairline bg-surface p-5 shadow-card transition-colors hover:border-navy-300 hover:bg-navy-50/40"
+                className="group flex flex-col rounded-card border border-hairline bg-surface p-5 shadow-card transition-colors hover:border-brand-300 hover:bg-brand-50/40"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50">
-                    <Icon className="h-5 w-5 text-navy-600" aria-hidden />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50">
+                    <Icon className="h-5 w-5 text-brand-600" aria-hidden />
                   </span>
                   <span className="text-[12px] text-ink-muted">
                     {formatDateShort(m.created_at)}
                   </span>
                 </div>
-                <p className="mt-3 text-[15px] font-semibold leading-6 text-ink group-hover:text-navy-900">
+                <p className="mt-3 text-[15px] font-semibold leading-6 text-ink group-hover:text-brand-900">
                   {m.title}
                 </p>
                 {m.description ? (

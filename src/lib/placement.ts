@@ -32,7 +32,7 @@ export async function getExamQuestions(): Promise<{
   };
 }
 
-/** Cevap anahtarı DAHİL tüm soruları getirir — yalnızca puanlama ve öğretmen analizi için. */
+/** Cevap anahtarı DAHİL tüm soruları getirir; yalnızca puanlama ve öğretmen analizi için. */
 export async function getExamQuestionsWithAnswers(): Promise<TestQuestion[]> {
   const admin = createAdminClient();
   const { data, error } = await admin.from('test_questions').select('*').order('id');

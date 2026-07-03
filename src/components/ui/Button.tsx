@@ -1,18 +1,19 @@
 import { cn } from '@/lib/utils';
 import type { ButtonHTMLAttributes } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'gold';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'accent';
 type Size = 'sm' | 'md' | 'lg';
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-navy-800 text-white hover:bg-navy-900 focus-visible:outline-navy-800 disabled:bg-navy-300',
+    'bg-brand-700 text-white hover:bg-brand-800 focus-visible:outline-brand-700 disabled:bg-brand-300',
   secondary:
-    'bg-white text-navy-800 border border-navy-200 hover:bg-navy-50 focus-visible:outline-navy-800',
-  ghost: 'text-navy-700 hover:bg-navy-100/60 focus-visible:outline-navy-800',
+    'bg-white text-brand-800 border border-brand-200 hover:bg-brand-50 focus-visible:outline-brand-800',
+  ghost: 'text-brand-700 hover:bg-brand-100/60 focus-visible:outline-brand-800',
   danger:
     'bg-white text-status-critical border border-status-critical/30 hover:bg-red-50 focus-visible:outline-status-critical',
-  gold: 'bg-gold-500 text-navy-950 hover:bg-gold-400 focus-visible:outline-gold-600 disabled:bg-gold-200',
+  accent:
+    'bg-accent-600 text-white hover:bg-accent-700 focus-visible:outline-accent-600 disabled:bg-accent-300',
 };
 
 const sizes: Record<Size, string> = {

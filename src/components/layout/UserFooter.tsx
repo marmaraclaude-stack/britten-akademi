@@ -7,12 +7,12 @@ import type { Profile } from '@/lib/types';
 export function UserFooter({ profile }: { profile: Profile }) {
   return (
     <div className="flex items-center gap-3">
-      <Avatar name={profile.full_name} size="sm" className="bg-navy-700" />
+      <Avatar name={profile.full_name} size="sm" className="bg-brand-700" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-medium text-white">
           {profile.full_name}
         </p>
-        <p className="truncate text-[11px] text-navy-300">
+        <p className="truncate text-[11px] text-brand-300">
           {profile.role === 'teacher' ? 'Öğretmen' : 'Öğrenci'}
         </p>
       </div>
@@ -21,7 +21,7 @@ export function UserFooter({ profile }: { profile: Profile }) {
           type="submit"
           aria-label="Çıkış yap"
           title="Çıkış yap"
-          className="rounded-lg p-2 text-navy-300 transition-colors hover:bg-navy-800 hover:text-white"
+          className="rounded-lg p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
         >
           <LogOut className="h-4 w-4" aria-hidden />
         </button>

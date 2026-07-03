@@ -25,6 +25,7 @@ export default async function StudentLayout({
         { href: '/ogrenci', label: 'Panelim', icon: 'dashboard' },
         { href: '/ogrenci/takvim', label: 'Takvim', icon: 'calendar' },
         { href: '/ogrenci/odevler', label: 'Ödevlerim', icon: 'homework' },
+        { href: '/ogrenci/kelimeler', label: 'Günlük Kelimeler', icon: 'words' },
         { href: '/ogrenci/materyaller', label: 'Materyaller', icon: 'materials' },
         { href: '/ogrenci/ilerleme', label: 'İlerlemem', icon: 'progress' },
         {

@@ -3,7 +3,7 @@
 import { X } from 'lucide-react';
 import { useEffect, useRef, type ReactNode } from 'react';
 
-/** Erişilebilir modal — native <dialog> üzerine kurulu. */
+/** Erişilebilir modal; native <dialog> üzerine kurulu. */
 export function Modal({
   open,
   onClose,
@@ -40,7 +40,7 @@ export function Modal({
         // Dış alana tıklayınca kapat
         if (e.target === ref.current) onClose();
       }}
-      className={`w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} rounded-2xl border border-hairline bg-surface p-0 shadow-raised backdrop:bg-navy-950/40 backdrop:backdrop-blur-[2px]`}
+      className={`w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} rounded-2xl border border-hairline bg-surface p-0 shadow-raised backdrop:bg-brand-950/40 backdrop:backdrop-blur-[2px]`}
     >
       <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
         <h2 className="text-[15px] font-semibold text-ink">{title}</h2>

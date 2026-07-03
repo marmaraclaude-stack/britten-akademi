@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { actionProfile } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { uploadFile } from '@/lib/storage';
-import type { ActionResult, Skill } from '@/lib/types';
+import type { ActionResult, AssignmentKind, Skill } from '@/lib/types';
 
 const SKILL_VALUES: Skill[] = [
   'grammar', 'vocabulary', 'reading', 'writing', 'listening', 'speaking', 'general',
@@ -19,6 +19,8 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   const title = String(formData.get('title') ?? '').trim();
   const description = String(formData.get('description') ?? '').trim();
   const skill = String(formData.get('skill') ?? 'general') as Skill;
+  const kind = String(formData.get('kind') ?? 'text') as AssignmentKind;
+  const htmlContent = String(formData.get('html_content') ?? '').trim();
   const dueDate = String(formData.get('due_date') ?? ''); // YYYY-MM-DD
   const dueTime = String(formData.get('due_time') ?? '23:59');
   const file = formData.get('file');
@@ -26,6 +28,10 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   if (!studentId) return { ok: false, message: 'Öğrenci seçin.' };
   if (!title) return { ok: false, message: 'Ödev başlığı zorunludur.' };
   if (!SKILL_VALUES.includes(skill)) return { ok: false, message: 'Geçersiz beceri.' };
+  if (kind !== 'text' && kind !== 'html')
+    return { ok: false, message: 'Geçersiz ödev türü.' };
+  if (kind === 'html' && !htmlContent)
+    return { ok: false, message: 'HTML ödev için içerik ekleyin.' };
 
   let dueAt: string | null = null;
   if (dueDate) {
@@ -50,6 +56,8 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
     title,
     description: description || null,
     skill,
+    kind,
+    html_content: kind === 'html' ? htmlContent : null,
     due_at: dueAt,
     attachment_path: attachmentPath,
     attachment_name: attachmentName,

@@ -13,7 +13,7 @@ body {
 /* İnce, göze batmayan kaydırma çubukları */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #c3c2b7 transparent;
+  scrollbar-color: #c0c7d6 transparent;
 }
 
 /* Öğrencinin gördüğü zengin metin içeriği (materyal notları) */
@@ -30,5 +30,5 @@ body {
 .prose-brit p { @apply my-3; }
 .prose-brit ul { @apply list-disc pl-6 my-3; }
 .prose-brit ol { @apply list-decimal pl-6 my-3; }
-.prose-brit a { @apply text-navy-600 underline; }
+.prose-brit a { @apply text-brand-600 underline; }
 .prose-brit strong { @apply text-ink font-semibold; }

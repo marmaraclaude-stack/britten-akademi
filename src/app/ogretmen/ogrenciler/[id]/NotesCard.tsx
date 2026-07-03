@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Textarea } from '@/components/ui/Field';
 
-/** Öğretmene özel notlar — öğrenci bu notları hiçbir zaman görmez. */
+/** Öğretmene özel notlar; öğrenci bu notları hiçbir zaman görmez. */
 export function NotesCard({
   studentId,
   notes,
@@ -70,7 +70,7 @@ export function NotesCard({
 
         {notes.length === 0 ? (
           <div className="flex items-center gap-2 rounded-lg bg-plane px-4 py-3 text-[13px] text-ink-secondary">
-            <StickyNote className="h-4 w-4 shrink-0 text-navy-400" aria-hidden />
+            <StickyNote className="h-4 w-4 shrink-0 text-brand-400" aria-hidden />
             Henüz not eklemediniz.
           </div>
         ) : (

@@ -21,7 +21,7 @@ export default async function NewAssignmentPage() {
   const students = (data ?? []) as { id: string; full_name: string }[];
 
   return (
-    <div className="mx-auto max-w-xl">
+    <div className="mx-auto max-w-4xl">
       <PageHeader
         title="Yeni Ödev"
         description="Öğrencinize ödev verin; teslim edildiğinde bildirim listenizde görünür."

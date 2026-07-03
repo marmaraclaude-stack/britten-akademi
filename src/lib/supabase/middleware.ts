@@ -33,7 +33,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // getUser() token'ı Supabase Auth sunucusunda doğrular — getSession kullanma.
+  // getUser() token'ı Supabase Auth sunucusunda doğrular; getSession kullanma.
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -345,7 +345,7 @@ function LessonDetail({
             href={lesson.meeting_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-navy-800 px-3 py-2 text-[13px] font-medium text-white hover:bg-navy-900"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-brand-800 px-3 py-2 text-[13px] font-medium text-white hover:bg-brand-900"
           >
             <ExternalLink className="h-3.5 w-3.5" aria-hidden />
             Derse Katıl
@@ -490,7 +490,7 @@ export function MonthCalendar({
             type="button"
             onClick={() => nav(-1)}
             aria-label="Önceki ay"
-            className="rounded-lg p-2 text-ink-secondary hover:bg-navy-100/60"
+            className="rounded-lg p-2 text-ink-secondary hover:bg-brand-100/60"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden />
           </button>
@@ -501,7 +501,7 @@ export function MonthCalendar({
             type="button"
             onClick={() => nav(1)}
             aria-label="Sonraki ay"
-            className="rounded-lg p-2 text-ink-secondary hover:bg-navy-100/60"
+            className="rounded-lg p-2 text-ink-secondary hover:bg-brand-100/60"
           >
             <ChevronRight className="h-4 w-4" aria-hidden />
           </button>
@@ -553,7 +553,7 @@ export function MonthCalendar({
                       className={cn(
                         'flex h-6 w-6 items-center justify-center rounded-full text-[12px]',
                         isToday
-                          ? 'bg-navy-800 font-semibold text-white'
+                          ? 'bg-brand-800 font-semibold text-white'
                           : cell.inMonth
                             ? 'text-ink-secondary'
                             : 'text-ink-muted/60'
@@ -566,7 +566,7 @@ export function MonthCalendar({
                         type="button"
                         onClick={() => setCreateDate(cell.key)}
                         aria-label={`${cell.key} tarihine ders ekle`}
-                        className="rounded p-0.5 text-ink-muted/0 transition-colors hover:bg-navy-100 hover:text-navy-700 [div:hover>div>&]:text-ink-muted"
+                        className="rounded p-0.5 text-ink-muted/0 transition-colors hover:bg-brand-100 hover:text-brand-700 [div:hover>div>&]:text-ink-muted"
                       >
                         <CalendarPlus className="h-3.5 w-3.5" aria-hidden />
                       </button>
@@ -582,7 +582,7 @@ export function MonthCalendar({
                           'flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-[11.5px] font-medium transition-colors',
                           l.status === 'cancelled'
                             ? 'bg-plane text-ink-muted line-through'
-                            : 'bg-navy-100/80 text-navy-900 hover:bg-navy-200'
+                            : 'bg-brand-100/80 text-brand-900 hover:bg-brand-200'
                         )}
                       >
                         <span

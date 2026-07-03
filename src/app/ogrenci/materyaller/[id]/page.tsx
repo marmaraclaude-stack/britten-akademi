@@ -38,7 +38,7 @@ export default async function MaterialDetailPage({
     <div>
       <Link
         href="/ogrenci/materyaller"
-        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-navy-700 hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700 hover:underline"
       >
         <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
         Materyallere dön
@@ -83,7 +83,7 @@ export default async function MaterialDetailPage({
                 href={material.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-navy-800 px-4 text-sm font-medium text-white transition-colors hover:bg-navy-900"
+                className="mt-4 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-brand-800 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-900"
               >
                 <ExternalLink className="h-4 w-4" aria-hidden />
                 Bağlantıyı Aç

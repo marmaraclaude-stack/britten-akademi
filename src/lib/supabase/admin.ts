@@ -2,7 +2,7 @@ import 'server-only';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 /**
- * Service-role istemcisi — RLS'i BYPASS eder.
+ * Service-role istemcisi; RLS'i BYPASS eder.
  * Yalnızca sunucu tarafında, uygulama katmanı yetki kontrolünden
  * (requireTeacher / requireUser) SONRA kullanılır.
  * Kullanım alanları: öğrenci hesabı açma/şifre sıfırlama, sınav puanlama,

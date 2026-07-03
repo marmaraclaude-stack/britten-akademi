@@ -22,7 +22,7 @@ export async function getDownloadUrl(
   let allowed = me.role === 'teacher';
 
   if (!allowed) {
-    // Kullanıcı istemcisiyle sorgula — RLS görünürlüğü otomatik uygular
+    // Kullanıcı istemcisiyle sorgula; RLS görünürlüğü otomatik uygular
     const supabase = await createClient();
     const [a, s, m] = await Promise.all([
       supabase.from('assignments').select('id').eq('attachment_path', path).limit(1),

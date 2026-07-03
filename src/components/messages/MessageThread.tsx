@@ -31,7 +31,7 @@ export function MessageThread({
     return () => clearInterval(t);
   }, [router]);
 
-  // Gelen okunmamışları okundu yap — konuşma açıkken gelenler dâhil
+  // Gelen okunmamışları okundu yap; konuşma açıkken gelenler dâhil
   // (son okunmamış gelen mesajın id'si değiştikçe yeniden tetiklenir)
   const lastIncomingUnreadId =
     [...messages].reverse().find((m) => m.sender_id === otherId && !m.read_at)?.id ??
@@ -75,7 +75,7 @@ export function MessageThread({
                   className={cn(
                     'max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-6 shadow-card',
                     mine
-                      ? 'rounded-br-md bg-navy-800 text-white'
+                      ? 'rounded-br-md bg-brand-800 text-white'
                       : 'rounded-bl-md border border-hairline bg-white text-ink'
                   )}
                 >
@@ -83,7 +83,7 @@ export function MessageThread({
                   <p
                     className={cn(
                       'mt-1 text-[11px]',
-                      mine ? 'text-navy-300' : 'text-ink-muted'
+                      mine ? 'text-brand-300' : 'text-ink-muted'
                     )}
                   >
                     {formatDateTime(m.created_at)}
@@ -111,14 +111,14 @@ export function MessageThread({
             rows={2}
             aria-label={`${otherName} adlı kişiye mesaj`}
             placeholder={`${otherName} adlı kişiye mesaj yaz…`}
-            className="w-full resize-none rounded-xl border border-hairline bg-white px-3 py-2.5 text-sm focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200"
+            className="w-full resize-none rounded-xl border border-hairline bg-white px-3 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
           />
           <button
             type="button"
             onClick={submit}
             disabled={pending || !body.trim()}
             aria-label="Gönder"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-800 text-white transition-colors hover:bg-navy-900 disabled:opacity-50"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-800 text-white transition-colors hover:bg-brand-900 disabled:opacity-50"
           >
             <Send className="h-4 w-4" aria-hidden />
           </button>

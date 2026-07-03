@@ -117,6 +117,18 @@ jobs:
                   -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
             echo "Şema + RLS + storage kovası + soru bankası yüklendi."
           fi
+          # Ek migrasyonlar (idempotent) her calismada uygulanir
+          for mig in supabase/migrations/0003_odevler_ve_kelimeler.sql; do
+            jq -Rs '{query:.}' "$mig" \
+              | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                  -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+            echo "Uygulandı: $mig"
+          done
+          # Soru bankasini guncel seed ile tazele (delete + insert, idempotent)
+          jq -Rs '{query:.}' supabase/migrations/0002_seed_questions.sql \
+            | curl -sS --fail-with-body -X POST -H "Authorization: Bearer $SB_TOKEN" -H 'Content-Type: application/json' \
+                -d @- "$SUPABASE_API/v1/projects/$SB_REF/database/query" >/dev/null
+          echo "Soru bankası tazelendi."
           QC=$(q 'select count(*)::int as c from public.test_questions' | jq -r '.[0].c')
           echo "Soru bankası: $QC soru"
           if [ "$QC" != "100" ]; then echo "::error::Soru bankası eksik ($QC/100)"; exit 1; fi
