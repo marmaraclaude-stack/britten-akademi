@@ -13,7 +13,15 @@ import {
 } from 'lucide-react';
 import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
-import { cn, formatDateTime, relativeDays, submissionOf } from '@/lib/utils';
+import {
+  cn,
+  dayKeyIstanbul,
+  formatDateTime,
+  relativeDays,
+  SKILL_LABELS,
+  submissionOf,
+} from '@/lib/utils';
+import type { Skill } from '@/lib/types';
 import type { AssignmentWithSubmission, Profile } from '@/lib/types';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
@@ -128,11 +136,18 @@ export default async function AssignmentsPage() {
       .from('assignments')
       .select('*, submissions(*)')
       .order('created_at', { ascending: false }),
-    supabase.from('profiles').select('id, full_name').eq('role', 'student'),
+    supabase
+      .from('profiles')
+      .select('id, full_name, is_active')
+      .eq('role', 'student')
+      .order('full_name'),
   ]);
 
   const assignments = (assignmentsRes.data ?? []) as AssignmentWithSubmission[];
-  const students = (studentsRes.data ?? []) as Pick<Profile, 'id' | 'full_name'>[];
+  const students = (studentsRes.data ?? []) as Pick<
+    Profile,
+    'id' | 'full_name' | 'is_active'
+  >[];
   const nameById = new Map(students.map((s) => [s.id, s.full_name]));
   const now = Date.now();
 
@@ -172,6 +187,19 @@ export default async function AssignmentsPage() {
     return s && s.graded_at !== null;
   });
 
+  // Bugunun odev kapsami: aktif ogrenci x beceri matrisi (teslimi bugune olanlar)
+  const todayKey = dayKeyIstanbul(new Date());
+  const activeStudents = students.filter((st) => st.is_active);
+  const SKILLS = Object.keys(SKILL_LABELS) as Skill[];
+  const todayBy = new Map<string, Set<Skill>>();
+  for (const a of assignments) {
+    if (a.due_at && dayKeyIstanbul(a.due_at) === todayKey) {
+      const set = todayBy.get(a.student_id) ?? new Set<Skill>();
+      set.add(a.skill);
+      todayBy.set(a.student_id, set);
+    }
+  }
+
   const newButton = (
     <Link
       href="/ogretmen/odevler/yeni"
@@ -199,6 +227,73 @@ export default async function AssignmentsPage() {
         />
       ) : (
         <div className="space-y-8">
+          {/* Bugünün ödev kapsamı */}
+          {activeStudents.length > 0 ? (
+            <Card>
+              <CardHeader
+                title="Bugünün ödev kapsamı"
+                description="Her öğrenci için bugün teslim tarihli ödevlerin beceri dağılımı; eksik becerilere tıklayıp ödev verin."
+              />
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[720px] text-sm">
+                  <thead>
+                    <tr className="border-b border-hairline bg-plane/60 text-left">
+                      <th className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">
+                        Öğrenci
+                      </th>
+                      {SKILLS.map((sk) => (
+                        <th
+                          key={sk}
+                          className="px-2 py-2.5 text-center text-[12px] font-semibold uppercase tracking-wider text-ink-muted"
+                        >
+                          {SKILL_LABELS[sk]}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-hairline">
+                    {activeStudents.map((st) => {
+                      const set = todayBy.get(st.id) ?? new Set<Skill>();
+                      return (
+                        <tr key={st.id} className="hover:bg-plane/50">
+                          <td className="px-5 py-2.5">
+                            <Link
+                              href={`/ogretmen/ogrenciler/${st.id}`}
+                              className="flex items-center gap-2.5 font-medium text-ink hover:underline"
+                            >
+                              <Avatar name={st.full_name} size="sm" />
+                              <span className="truncate">{st.full_name}</span>
+                            </Link>
+                          </td>
+                          {SKILLS.map((sk) => (
+                            <td key={sk} className="px-2 py-2.5 text-center">
+                              {set.has(sk) ? (
+                                <span
+                                  title={`${SKILL_LABELS[sk]}: bugün ödev var`}
+                                  className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-[12px] font-bold text-white"
+                                >
+                                  ✓
+                                </span>
+                              ) : (
+                                <Link
+                                  href="/ogretmen/odevler/yeni"
+                                  title={`${SKILL_LABELS[sk]}: bugün ödev yok, ödev ver`}
+                                  className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-hairline text-[13px] text-ink-muted transition-colors hover:border-brand-400 hover:text-brand-600"
+                                >
+                                  +
+                                </Link>
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          ) : null}
+
           {/* Özet şeridi */}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <SummaryTile

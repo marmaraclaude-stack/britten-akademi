@@ -26,6 +26,19 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   const file = formData.get('file');
 
   if (!studentId) return { ok: false, message: 'Öğrenci seçin.' };
+  const supabase = await createClient();
+
+  let studentIds: string[] = [studentId];
+  if (studentId === '__all__') {
+    const { data: activeStudents } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('role', 'student')
+      .eq('is_active', true);
+    studentIds = (activeStudents ?? []).map((r) => r.id as string);
+    if (studentIds.length === 0)
+      return { ok: false, message: 'Aktif öğrenci bulunamadı.' };
+  }
   if (!title) return { ok: false, message: 'Ödev başlığı zorunludur.' };
   if (!SKILL_VALUES.includes(skill)) return { ok: false, message: 'Geçersiz beceri.' };
   if (kind !== 'text' && kind !== 'html')
@@ -44,15 +57,15 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
   let attachmentPath: string | null = null;
   let attachmentName: string | null = null;
   if (file instanceof File && file.size > 0) {
-    const uploaded = await uploadFile(`odevler/${studentId}`, file);
+    const folder = studentId === '__all__' ? 'odevler/ortak' : `odevler/${studentId}`;
+    const uploaded = await uploadFile(folder, file);
     if ('error' in uploaded) return { ok: false, message: uploaded.error };
     attachmentPath = uploaded.path;
     attachmentName = uploaded.name;
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.from('assignments').insert({
-    student_id: studentId,
+  const rows = studentIds.map((sid) => ({
+    student_id: sid,
     title,
     description: description || null,
     skill,
@@ -61,11 +74,16 @@ export async function createAssignment(formData: FormData): Promise<ActionResult
     due_at: dueAt,
     attachment_path: attachmentPath,
     attachment_name: attachmentName,
-  });
+  }));
+  const { error } = await supabase.from('assignments').insert(rows);
 
   if (error) return { ok: false, message: `Ödev oluşturulamadı: ${error.message}` };
   revalidatePath('/', 'layout');
-  return { ok: true, message: 'Ödev verildi.' };
+  return {
+    ok: true,
+    message:
+      rows.length > 1 ? `${rows.length} öğrenciye ödev verildi.` : 'Ödev verildi.',
+  };
 }
 
 /** Öğretmen: ödevi siler. */

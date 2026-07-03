@@ -14,7 +14,7 @@ export default async function TeacherProfilePage() {
   const profile = await requireTeacher();
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader
         title="Profilim"
         description="Hesap bilgilerinizi ve şifrenizi buradan yönetin."
@@ -42,8 +42,9 @@ export default async function TeacherProfilePage() {
         </CardBody>
       </Card>
 
+      <div className="mt-6 grid items-start gap-6 xl:grid-cols-2">
       {/* Kişisel bilgiler */}
-      <Card className="mt-6">
+      <Card>
         <CardHeader
           title="Kişisel bilgiler"
           description="Adınız panelde ve öğrenci tarafında görünür."
@@ -58,7 +59,7 @@ export default async function TeacherProfilePage() {
       </Card>
 
       {/* Şifre */}
-      <Card className="mt-6">
+      <Card>
         <CardHeader
           title="Şifre değiştir"
           description="Güçlü bir şifre seçin; değişiklik hemen geçerli olur."
@@ -67,6 +68,7 @@ export default async function TeacherProfilePage() {
           <PasswordForm />
         </CardBody>
       </Card>
+      </div>
     </div>
   );
 }

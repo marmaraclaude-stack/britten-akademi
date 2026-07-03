@@ -20,24 +20,14 @@ export function Brand({
       >
         BA
       </span>
-      <span className="leading-tight">
-        <span
-          className={cn(
-            'block font-semibold tracking-tight',
-            size === 'lg' ? 'text-lg' : 'text-[15px]',
-            onDark ? 'text-white' : 'text-ink'
-          )}
-        >
-          Britten Akademi
-        </span>
-        <span
-          className={cn(
-            'block text-[11px] font-medium uppercase tracking-[0.14em]',
-            onDark ? 'text-brand-300' : 'text-ink-muted'
-          )}
-        >
-          Birebir İngilizce
-        </span>
+      <span
+        className={cn(
+          'font-semibold tracking-tight',
+          size === 'lg' ? 'text-lg' : 'text-[15px]',
+          onDark ? 'text-white' : 'text-ink'
+        )}
+      >
+        Britten Akademi
       </span>
     </span>
   );

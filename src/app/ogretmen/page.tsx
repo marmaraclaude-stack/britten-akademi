@@ -18,6 +18,7 @@ import { requireTeacher } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import {
   dayKeyIstanbul,
+  formatDate,
   formatDateShort,
   formatDateTime,
   formatTime,
@@ -37,7 +38,6 @@ import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { LevelBadge } from '@/components/ui/DomainBadges';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
 
 export const metadata: Metadata = { title: 'Genel Bakış' };
@@ -96,6 +96,7 @@ export default async function TeacherDashboardPage() {
     attemptsRes,
     unreadRes,
     vocabRes,
+    todayLessonsRes,
   ] = await Promise.all([
       supabase.from('profiles').select('*').eq('role', 'student').order('full_name'),
       supabase
@@ -128,6 +129,17 @@ export default async function TeacherDashboardPage() {
         .eq('recipient_id', profile.id)
         .is('read_at', null),
       supabase.from('vocab_progress').select('*').eq('day', todayKey),
+      supabase
+        .from('lessons')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'scheduled')
+        .gte('starts_at', new Date(`${todayKey}T00:00:00+03:00`).toISOString())
+        .lt(
+          'starts_at',
+          new Date(
+            new Date(`${todayKey}T00:00:00+03:00`).getTime() + 86400000
+          ).toISOString()
+        ),
     ]);
 
   const students = (studentsRes.data ?? []) as Profile[];
@@ -156,15 +168,58 @@ export default async function TeacherDashboardPage() {
     (s) => vocabByStudent.get(s.id)?.completed_at
   ).length;
 
+  const todayLessonCount = todayLessonsRes.count ?? 0;
+  const firstName = profile.full_name.trim().split(/\s+/)[0] ?? profile.full_name;
+
   return (
     <div>
-      <PageHeader
-        title="Genel Bakış"
-        description={`Hoş geldiniz, ${profile.full_name}. İşte bugünün özeti.`}
-      />
+      {/* Karşılama kahramanı */}
+      <div className="relative overflow-hidden rounded-card border border-brand-200 bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 p-6 text-white shadow-raised sm:p-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-600/30 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-28 right-48 h-64 w-64 rounded-full bg-accent-600/20 blur-3xl"
+        />
+        <div className="relative flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[12px] font-medium text-brand-100">
+              <CalendarDays className="h-3.5 w-3.5" aria-hidden />
+              {formatWeekday(new Date())}, {formatDate(new Date())}
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+              Hoş geldiniz, {firstName}
+            </h1>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-brand-100">
+              {todayLessonCount > 0
+                ? `Bugün ${todayLessonCount} dersiniz var. `
+                : 'Bugün planlı dersiniz yok. '}
+              {pendingSubs.length > 0
+                ? `${pendingSubs.length} teslim notlanmayı bekliyor.`
+                : 'Notlanmayı bekleyen teslim yok.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-white/10 px-5 py-4 text-center backdrop-blur">
+              <p className="text-3xl font-semibold tabular-nums">
+                {todayLessonCount}
+              </p>
+              <p className="mt-0.5 text-[12px] text-brand-200">bugünkü ders</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-5 py-4 text-center backdrop-blur">
+              <p className="text-3xl font-semibold tabular-nums">
+                {pendingSubs.length}
+              </p>
+              <p className="mt-0.5 text-[12px] text-brand-200">notlanacak</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* İstatistikler */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat
           label="Aktif öğrenci"
           value={activeStudents.length}

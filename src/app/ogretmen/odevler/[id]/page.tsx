@@ -47,7 +47,7 @@ export default async function AssignmentDetailPage({
   const student = studentData as Profile | null;
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <Link
         href="/ogretmen/odevler"
         className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-700 hover:underline"
@@ -65,6 +65,7 @@ export default async function AssignmentDetailPage({
         }
       />
 
+      <div className="grid items-start gap-6 xl:grid-cols-2">
       {/* Ödev bilgileri */}
       <Card>
         <CardHeader
@@ -134,7 +135,7 @@ export default async function AssignmentDetailPage({
       </Card>
 
       {/* Teslim */}
-      <Card className="mt-6">
+      <Card className="xl:mt-0 mt-6">
         <CardHeader
           title="Öğrencinin teslimi"
           description={
@@ -192,6 +193,8 @@ export default async function AssignmentDetailPage({
           )}
         </CardBody>
       </Card>
+
+      </div>
 
       {/* Tehlikeli bölge */}
       <Card className="mt-6 border-status-critical/20">

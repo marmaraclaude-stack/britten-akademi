@@ -122,6 +122,7 @@ export function NewAssignmentForm({
                 {s.full_name}
               </option>
             ))}
+            <option value="__all__">Tüm aktif öğrenciler</option>
           </Select>
         </FieldGroup>
         <FieldGroup>
@@ -201,7 +202,14 @@ export function NewAssignmentForm({
           <Label htmlFor="na-date" hint="(isteğe bağlı)">
             Son teslim tarihi
           </Label>
-          <Input id="na-date" name="due_date" type="date" />
+          <Input
+            id="na-date"
+            name="due_date"
+            type="date"
+            defaultValue={new Date().toLocaleDateString('en-CA', {
+              timeZone: 'Europe/Istanbul',
+            })}
+          />
         </FieldGroup>
         <FieldGroup>
           <Label htmlFor="na-time">Saat</Label>

@@ -21,7 +21,7 @@ export default async function NewMaterialPage() {
   const students = (data ?? []) as { id: string; full_name: string }[];
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-5xl">
       <PageHeader
         title="Yeni Materyal"
         description="İnteraktif HTML sayfası, bağlantı, dosya veya not paylaşın."
