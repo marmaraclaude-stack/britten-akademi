@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   BadgeCheck,
+  BellRing,
   CalendarDays,
   CircleAlert,
   TrendingUp,
@@ -16,7 +17,7 @@ import {
   formatDateShort,
   formatMoney,
 } from '@/lib/utils';
-import type { Package, Profile } from '@/lib/types';
+import type { Lesson, Package, Profile } from '@/lib/types';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardHeader } from '@/components/ui/Card';
@@ -42,48 +43,89 @@ function sumByCurrency(packages: Package[]): string {
     .join(' + ');
 }
 
+export interface PackageUsage {
+  completed: number;
+  scheduled: number;
+}
+
 function PackageRow({
   pkg,
   student,
+  usage,
 }: {
   pkg: Package;
   student: StudentLite | undefined;
+  usage: PackageUsage;
 }) {
   const paid = Boolean(pkg.paid_at);
+  const used = Math.min(pkg.total_lessons, usage.completed);
+  const remaining = Math.max(0, pkg.total_lessons - usage.completed);
+  const pct = Math.min(100, Math.round((used / pkg.total_lessons) * 100));
   return (
-    <li className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5">
-      <Link
-        href={`/ogretmen/ogrenciler/${pkg.student_id}`}
-        className="flex min-w-0 items-center gap-2.5 hover:underline"
-      >
-        <Avatar name={student?.full_name ?? '?'} size="sm" />
-        <span className="truncate text-sm font-medium text-ink">
-          {student?.full_name ?? 'Öğrenci'}
+    <li className="px-5 py-3.5">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <Link
+          href={`/ogretmen/ogrenciler/${pkg.student_id}`}
+          className="flex min-w-0 items-center gap-2.5 hover:underline"
+        >
+          <Avatar name={student?.full_name ?? '?'} size="sm" />
+          <span className="truncate text-sm font-medium text-ink">
+            {student?.full_name ?? 'Öğrenci'}
+          </span>
+        </Link>
+        <span className="text-[13px] text-ink-secondary">{pkg.name}</span>
+        <span className="text-[13px] text-ink-muted">
+          Başlangıç: {formatDateShort(pkg.starts_on)}
         </span>
-      </Link>
-      <span className="text-[13px] text-ink-secondary">
-        {pkg.name} · {pkg.total_lessons} ders
-      </span>
-      <span className="text-[13px] text-ink-muted">
-        Başlangıç: {formatDateShort(pkg.starts_on)}
-      </span>
-      <span className="ml-auto text-sm font-semibold tabular-nums text-ink">
-        {pkg.price !== null ? formatMoney(Number(pkg.price), pkg.currency) : 'Ücret girilmedi'}
-      </span>
-      {paid ? (
-        <Badge tone="green">
-          <BadgeCheck className="h-3 w-3" aria-hidden />
-          Ödendi · {formatDateShort(pkg.paid_at!)}
-        </Badge>
-      ) : (
-        <Badge tone="red">Ödenmedi</Badge>
-      )}
-      <PaymentControls
-        packageId={pkg.id}
-        packageName={pkg.name}
-        studentName={student?.full_name ?? 'Öğrenci'}
-        paid={paid}
-      />
+        <span className="ml-auto text-sm font-semibold tabular-nums text-ink">
+          {pkg.price !== null
+            ? formatMoney(Number(pkg.price), pkg.currency)
+            : 'Ücret girilmedi'}
+        </span>
+        {paid ? (
+          <Badge tone="green">
+            <BadgeCheck className="h-3 w-3" aria-hidden />
+            Ödendi · {formatDateShort(pkg.paid_at!)}
+          </Badge>
+        ) : (
+          <Badge tone="red">Ödenmedi</Badge>
+        )}
+        <PaymentControls
+          packageId={pkg.id}
+          packageName={pkg.name}
+          studentName={student?.full_name ?? 'Öğrenci'}
+          paid={paid}
+        />
+      </div>
+      {/* Ders tuketimi */}
+      <div className="mt-2.5 flex flex-wrap items-center gap-3">
+        <div className="h-2 w-full max-w-56 overflow-hidden rounded-full bg-plane">
+          <div
+            className={cn(
+              'h-full rounded-full transition-all',
+              remaining === 0
+                ? 'bg-accent-500'
+                : remaining <= 2
+                  ? 'bg-amber-500'
+                  : 'bg-brand-600'
+            )}
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+        <span className="text-[12px] tabular-nums text-ink-secondary">
+          {used}/{pkg.total_lessons} ders yapıldı · {remaining} kaldı
+        </span>
+        {usage.scheduled > 0 ? (
+          <span className="text-[12px] text-ink-muted">
+            +{usage.scheduled} planlı ders
+          </span>
+        ) : null}
+        {remaining === 0 ? (
+          <Badge tone="accent">Paket bitti</Badge>
+        ) : remaining <= 2 ? (
+          <Badge tone="amber">Bitmek üzere</Badge>
+        ) : null}
+      </div>
     </li>
   );
 }
@@ -92,7 +134,7 @@ export default async function FinancePage() {
   await requireTeacher();
   const supabase = await createClient();
 
-  const [packagesRes, studentsRes] = await Promise.all([
+  const [packagesRes, studentsRes, lessonsRes] = await Promise.all([
     supabase
       .from('packages')
       .select('*')
@@ -102,11 +144,38 @@ export default async function FinancePage() {
       .select('id, full_name, is_active')
       .eq('role', 'student')
       .order('full_name'),
+    supabase
+      .from('lessons')
+      .select('id, package_id, status')
+      .not('package_id', 'is', null),
   ]);
 
   const packages = (packagesRes.data ?? []) as Package[];
   const students = (studentsRes.data ?? []) as StudentLite[];
   const studentById = new Map(students.map((s) => [s.id, s]));
+
+  // Paket basina ders tuketimi: tamamlanan dusulur, planlanan bilgi olarak gosterilir
+  const lessons = (lessonsRes.data ?? []) as Pick<
+    Lesson,
+    'id' | 'package_id' | 'status'
+  >[];
+  const usageByPackage = new Map<string, PackageUsage>();
+  for (const l of lessons) {
+    if (!l.package_id) continue;
+    const u = usageByPackage.get(l.package_id) ?? { completed: 0, scheduled: 0 };
+    if (l.status === 'completed') u.completed += 1;
+    if (l.status === 'scheduled') u.scheduled += 1;
+    usageByPackage.set(l.package_id, u);
+  }
+  const usageOf = (id: string): PackageUsage =>
+    usageByPackage.get(id) ?? { completed: 0, scheduled: 0 };
+
+  // Yenileme adaylari: aktif ogrencide kalan ders 2 ve alti
+  const renewals = packages.filter((p) => {
+    const st = studentById.get(p.student_id);
+    if (!st?.is_active) return false;
+    return p.total_lessons - usageOf(p.id).completed <= 2;
+  });
 
   const priced = packages.filter((p) => p.price !== null);
   const paidPkgs = packages.filter((p) => p.paid_at);
@@ -172,6 +241,32 @@ export default async function FinancePage() {
             />
           </div>
 
+          {/* Yenileme zamanı gelen paketler */}
+          {renewals.length > 0 ? (
+            <Card className="border-amber-300">
+              <CardHeader
+                title="Yenileme zamanı"
+                description="Dersleri biten veya bitmek üzere olan paketler; öğrencinizle yeni paket konuşmanın tam sırası."
+                action={
+                  <Badge tone="amber">
+                    <BellRing className="h-3 w-3" aria-hidden />
+                    {renewals.length}
+                  </Badge>
+                }
+              />
+              <ul className="divide-y divide-hairline">
+                {renewals.map((p) => (
+                  <PackageRow
+                    key={p.id}
+                    pkg={p}
+                    student={studentById.get(p.student_id)}
+                    usage={usageOf(p.id)}
+                  />
+                ))}
+              </ul>
+            </Card>
+          ) : null}
+
           {/* Bekleyen ödemeler */}
           <Card className={unpaidPkgs.length > 0 ? 'border-accent-200' : undefined}>
             <CardHeader
@@ -198,6 +293,7 @@ export default async function FinancePage() {
                     key={p.id}
                     pkg={p}
                     student={studentById.get(p.student_id)}
+                    usage={usageOf(p.id)}
                   />
                 ))}
               </ul>
@@ -223,6 +319,7 @@ export default async function FinancePage() {
                       key={p.id}
                       pkg={p}
                       student={studentById.get(p.student_id)}
+                      usage={usageOf(p.id)}
                     />
                   ))}
               </ul>
@@ -251,8 +348,11 @@ export default async function FinancePage() {
                     <th className="px-3 py-2.5 text-right text-[13px] font-semibold text-ink-secondary">
                       Ödenen
                     </th>
+                    <th className="px-3 py-2.5 text-right text-[13px] font-semibold text-ink-secondary">
+                      Kalan tutar
+                    </th>
                     <th className="px-5 py-2.5 text-right text-[13px] font-semibold text-ink-secondary">
-                      Kalan
+                      Kalan ders
                     </th>
                   </tr>
                 </thead>
@@ -288,13 +388,44 @@ export default async function FinancePage() {
                           </td>
                           <td
                             className={cn(
-                              'px-5 py-2.5 text-right font-medium tabular-nums',
+                              'px-3 py-2.5 text-right font-medium tabular-nums',
                               unpaid.some((p) => p.price !== null)
                                 ? 'text-accent-700'
                                 : 'text-ink-muted'
                             )}
                           >
                             {sumByCurrency(unpaid)}
+                          </td>
+                          <td className="px-5 py-2.5 text-right tabular-nums">
+                            {(() => {
+                              const left = pkgs.reduce(
+                                (sum, p) =>
+                                  sum +
+                                  Math.max(
+                                    0,
+                                    p.total_lessons - usageOf(p.id).completed
+                                  ),
+                                0
+                              );
+                              const total = pkgs.reduce(
+                                (sum, p) => sum + p.total_lessons,
+                                0
+                              );
+                              return (
+                                <span
+                                  className={cn(
+                                    'font-medium',
+                                    left === 0
+                                      ? 'text-accent-700'
+                                      : left <= 2
+                                        ? 'text-amber-700'
+                                        : 'text-ink'
+                                  )}
+                                >
+                                  {left}/{total}
+                                </span>
+                              );
+                            })()}
                           </td>
                         </tr>
                       );
