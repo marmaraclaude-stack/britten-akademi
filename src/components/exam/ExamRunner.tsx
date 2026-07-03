@@ -200,7 +200,11 @@ export function ExamRunner({
 
   const sectionContent = () => {
     if (current.key !== 'reading') {
-      return <div className="space-y-4">{current.questions.map(renderQuestion)}</div>;
+      return (
+        <div className="grid gap-4 xl:grid-cols-2">
+          {current.questions.map(renderQuestion)}
+        </div>
+      );
     }
     // Okuma: pasaj + soruları
     return (
@@ -209,8 +213,11 @@ export function ExamRunner({
           const pqs = current.questions.filter((q) => q.passage_ref === p.ref);
           if (pqs.length === 0) return null;
           return (
-            <div key={p.ref}>
-              <article className="rounded-card border border-brand-200 bg-brand-50/60 p-5">
+            <div
+              key={p.ref}
+              className="grid items-start gap-4 xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] xl:gap-6"
+            >
+              <article className="rounded-card border border-brand-200 bg-brand-50/60 p-5 xl:sticky xl:top-32">
                 <p className="text-[13px] font-semibold text-brand-600">
                   Okuma Parçası
                 </p>
@@ -219,7 +226,7 @@ export function ExamRunner({
                   {p.body}
                 </p>
               </article>
-              <div className="mt-4 space-y-4">{pqs.map(renderQuestion)}</div>
+              <div className="mt-4 space-y-4 xl:mt-0">{pqs.map(renderQuestion)}</div>
             </div>
           );
         })}
@@ -233,7 +240,7 @@ export function ExamRunner({
     <div>
       {/* Üst bilgi çubuğu; mobilde uygulama başlığının (≈61px) altına oturur */}
       <div className="sticky top-[61px] z-20 -mx-4 mb-6 border-b border-hairline bg-plane/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:top-0 lg:-mx-10 lg:px-10">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 text-[13px] tabular-nums text-ink-secondary">
               <TimerIcon className="h-4 w-4 text-ink-muted" aria-hidden />
@@ -259,7 +266,7 @@ export function ExamRunner({
             {answeredCount}/{total} yanıtlandı
           </p>
         </div>
-        <div className="mx-auto mt-2 h-1.5 max-w-3xl overflow-hidden rounded-full bg-brand-100">
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-brand-100">
           <div
             className="h-full rounded-full bg-brand-700 transition-[width]"
             style={{ width: `${total > 0 ? (answeredCount / total) * 100 : 0}%` }}
@@ -267,7 +274,7 @@ export function ExamRunner({
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl">
+      <div className="w-full">
         {/* Bölüm sekmeleri */}
         <div className="mb-5 flex flex-wrap gap-2">
           {sections.map((s, i) => {

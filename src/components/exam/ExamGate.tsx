@@ -72,7 +72,7 @@ export function ExamGate({
   const firstName = studentName.split(' ')[0];
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       <div className="rounded-card border border-hairline bg-surface p-8 shadow-card">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900">
           <GraduationCap className="h-6 w-6 text-accent-300" aria-hidden />
